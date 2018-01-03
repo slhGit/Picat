@@ -5,11 +5,15 @@ This must be compiled as Release x64 or it will not compile or run.
 The basics of Python use:
 
 bp.python_init()		Initializes the Python Interpreter, must be run before any Python can be used.
+
 bp.python_exit()		Closes python, Python commands will no longer work. (frees up memory used by python)
+
 bp.python_run_interpreter()	Will switch Picat into a interactive Python Interpreter, all commands entered will have to be Python.
 				You can exit this mode by entering 2 consecutive empty lines in the command prompt.
+
 bp.python_run_file(X)		X must be a string, will call the python script described in X, exclude file extention. 
 				(instead of "pyfile.py", just write "pyfile")
+
 bp.python_get_value(X,Y)	X must be a free Variable, Y must be a string. If possible will convert the Python variable described in Y
 				and store it in X.
                                 
