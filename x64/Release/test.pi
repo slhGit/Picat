@@ -1,0 +1,21 @@
+
+main =>
+	bp.python_init(),
+	bp.python_run_interpreter(),
+	bp.python_get_value(X,"x"),
+	println(X),
+
+	println("\n\n\n"),
+
+	bp.python_run_file("testpy"),
+	bp.python_get_value(Paths,"paths"),
+	println(Paths),
+	println("\n"),
+	bp.python_get_value(F,"f"),
+	println(F),
+
+	bp.python_run_interpreter(),
+	bp.python_get_value(Z,"z"),
+	println(Z),
+
+	bp.python_exit().
