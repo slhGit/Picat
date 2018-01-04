@@ -1084,6 +1084,9 @@ void Cboot() {
 	extern int python_get_value();
 	insert_cpred("python_get_value", 2, python_get_value);
 
+	extern int python_insert_value();
+	insert_cpred("python_insert_value", 2, python_insert_value);
+
 	extern int python_import();
 	insert_cpred("python_import", 1, python_import);
 
