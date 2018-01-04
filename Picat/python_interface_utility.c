@@ -3,7 +3,7 @@
 #include "Python.h"
 #include "picat.h"
 
-#define DEBUG 0
+#define DEBUG 1
 
 PyObject *main_module = NULL;
 PyObject *main_dict = NULL;
@@ -52,7 +52,7 @@ PyObject* PicatToPython(TERM t) {
 		return PyUnicode_FromString(picat_get_atom_name(t));
 	}
 	if (picat_is_nil(t)) {
-		return Py_None;
+		return PyList_New(0);
 	}
 	if (picat_is_string(t)) {
 		return PyUnicode_FromString(PicatStringToChar(t));
@@ -77,12 +77,14 @@ PyObject* PicatToPython(TERM t) {
 		}
 		return s;
 	}
+	
 	/*if (picat_is_array(t))
 		dprint("is array\n");
 	if (picat_is_compound(t))
 		dprint("is compound\n");*/
 
 	//SOME KIND OF ERROR SHOULD GO HERE AS NO PICAT VALUE WAS GIVEN.
+	return NULL;
 }
 
 TERM PythonToPicat(PyObject* v) {
@@ -296,30 +298,28 @@ python_init() {
 python_run_interpreter() {
 	int picat_python = 0;
 	char* cmd = calloc(1, 1);
+	char line[512] = { 0 };
 
-	while (picat_python != 2) {
-		printf("Picat_Python> ");
-
-		char line[512];
-
-		if (fgets(line, 512, stdin) != NULL) {
-			if (strcmp(line, "\n") == 0) {
-				if (picat_python == 0) {
-					picat_python = 1;
-				}
-				else {
-					picat_python = 2;
-				}
+	printf("Now running Python interpreter, press Ctrl-C to exit and execute commands.\n");
+	printf("Picat_Python> ");
+	while (fgets(line,512,stdin)) {
+		if (strcmp(line, "\n") == 0) {
+			if (picat_python == 0) {
+				picat_python = 1;
 			}
 			else {
-				cmd = realloc(cmd, strlen(cmd) + 1 + strlen(line));
-				strcat(cmd, line);
+				picat_python = 2;
 			}
 		}
 		else {
-			return PICAT_FALSE;
+			cmd = realloc(cmd, strlen(cmd) + 1 + strlen(line));
+			strcat(cmd, line);
+			picat_python = 0;
 		}
+		printf("Picat_Python> ");
 	}
+	printf("\n");
+
 	PyRun_SimpleString(cmd);
 	if (PyErr_Occurred()) {
 		PyErr_Print();
@@ -328,7 +328,6 @@ python_run_interpreter() {
 
 	return PICAT_TRUE;
 }
-
 python_run_file() {
 	dprint("run file\n");
 	TERM arg = picat_get_call_arg(1, 1);
@@ -338,7 +337,6 @@ python_run_file() {
 
 		FILE* fp = _Py_fopen(f, "r");
 
-		//PyRun_SimpleFile(fp, f);
 		if (main_module) {
 			PyObject* module = PyImport_ImportModule(f);
 			if (module) {
@@ -399,6 +397,41 @@ python_get_value() {
 		return PICAT_FALSE;
 	}
 }
+
+python_insert_value() {
+	TERM arg, name;
+
+	arg = picat_get_call_arg(1, 2);
+
+	if (main_module) {
+		PyObject* py_arg = PicatToPython(arg);
+
+		if (py_arg) {
+			name = picat_get_call_arg(2, 2);
+			if (picat_is_string(name)) {
+				PyDict_SetItem(main_dict, PicatToPython(name), py_arg);
+				return PICAT_TRUE;
+			}
+			else {
+				//name needs to be a string
+				return PICAT_FALSE;
+			}
+		}
+		else {
+			//arg needs to have a value
+			return PICAT_FALSE;
+		}
+	}
+	else {
+		//python not init
+		return PICAT_FALSE;
+	}
+
+	
+
+	
+}
+
 python_exit() {
 	Py_Finalize();
 
