@@ -284,6 +284,7 @@ python_init() {
 	Py_SetProgramName("picat");
 
 	Py_Initialize();
+
 	char** args = calloc(1, sizeof(char*));
 	args[0] = "";
 	PySys_SetArgvEx(1, args, 0);
