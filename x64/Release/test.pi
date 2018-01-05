@@ -4,6 +4,6 @@ main =>
 	X = new_map(),
 	X.put("a",[1,2,3]),
 	X.put("b",10),
-	bp.python_insert_value(X,"x"),
+	bp.python_set_value(X,"x"),
 	bp.python_run_interpreter(),
 	bp.python_exit().

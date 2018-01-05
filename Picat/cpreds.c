@@ -263,6 +263,13 @@ int picat_is_compound(t)
     return (bp_is_list(t) || bp_is_structure(t));
 }
 
+int picat_is_array(t)
+	BPLONG t;
+{
+	return b_IS_ARRAY_c(t);
+}
+
+
 int bp_is_unifiable(t1,t2)
     BPLONG t1,t2;
 {
