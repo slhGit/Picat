@@ -17,7 +17,7 @@ bp.python_run_file(X)		X must be a string, will call the python script described
 bp.python_get_value(X,Y)	X must be a free Variable, Y must be a string. If possible will convert the Python variable described in Y
 				and store it in X.
 
-bp.python_insert_valye(X,Y)		X is a picat value, Y must be a string. Will convert the Picat Value to Python and store it in the
+bp.python_set_value(X,Y)		X is a picat value, Y must be a string. Will convert the Picat Value to Python and store it in the
 				Python environment as Y.
 
 				ex:
@@ -36,7 +36,7 @@ bp.python_insert_valye(X,Y)		X is a picat value, Y must be a string. Will conver
 				main =>
 					bp.python_init(),
 					I = 2.5,
-					bp.python_insert_value(I,"i")
+					bp.python_set_value(I,"i")
 					bp.python_run_file("python_test"),
 					bp.python_get_value(X,"f"),
 					println(X),

@@ -399,7 +399,7 @@ python_get_value() {
 	}
 }
 
-python_insert_value() {
+python_set_value() {
 	TERM arg, name;
 
 	arg = picat_get_call_arg(1, 2);

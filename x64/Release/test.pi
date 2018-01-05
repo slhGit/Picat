@@ -1,21 +1,9 @@
 
 main =>
 	bp.python_init(),
+	X = new_map(),
+	X.put("a",[1,2,3]),
+	X.put("b",10),
+	bp.python_insert_value(X,"x"),
 	bp.python_run_interpreter(),
-	bp.python_get_value(X,"x"),
-	println(X),
-
-	println("\n\n\n"),
-
-	bp.python_run_file("testpy"),
-	bp.python_get_value(Paths,"paths"),
-	println(Paths),
-	println("\n"),
-	bp.python_get_value(F,"f"),
-	println(F),
-
-	bp.python_run_interpreter(),
-	bp.python_get_value(Z,"z"),
-	println(Z),
-
 	bp.python_exit().
