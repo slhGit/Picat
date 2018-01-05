@@ -42,9 +42,9 @@ bp.python_insert_valye(X,Y)		X is a picat value, Y must be a string. Will conver
 					println(X),
 					bp.python_exit().
                                   
-Will print:
-2.5
-120
+                Will print:
+                2.5
+                120
 
 								                                
                                 
