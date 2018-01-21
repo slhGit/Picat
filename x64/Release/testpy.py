@@ -1,12 +1,13 @@
-import sys
-
-paths = sys.path
-
-def fact(n):
-	if n == 1:
-		return 1
-
-	return n * fact(n - 1)
-
-
-f = fact(5)
+y = {}
+y["A"] = 10
+y["B"] = 1.5
+y["C"] = "hello"
+y["D"] = [1,2,3]
+y["E"] = 65
+y["F"] = 1.1234
+y["G"] = {"x":11,"y":12}
+y["H"] = 15
+y["I"] = 9.999
+y["J"] = 21
+y["K"] = "maaap"
+y["L"] = "ok"

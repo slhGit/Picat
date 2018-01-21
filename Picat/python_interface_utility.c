@@ -3,7 +3,7 @@
 #include "Python.h"
 #include "picat.h"
 
-#define DEBUG 1
+#define DEBUG 0
 
 PyObject *main_module = NULL;
 PyObject *main_dict = NULL;
@@ -33,6 +33,8 @@ char* PicatStringToChar(TERM t) {
 
 	return str;
 }
+
+
 PyObject* PicatToPython(TERM t) {
 	/*if (picat_is_var(t))
 		dprint("is var\n");
@@ -52,6 +54,7 @@ PyObject* PicatToPython(TERM t) {
 		return PyUnicode_FromString(picat_get_atom_name(t));
 	}
 	if (picat_is_nil(t)) {
+		dprint("is nil\n");
 		return PyList_New(0);
 	}
 	if (picat_is_string(t)) {
@@ -59,6 +62,7 @@ PyObject* PicatToPython(TERM t) {
 	}
 	if (picat_is_list(t)) {
 		PyObject* list = PyList_New(0);
+
 		TERM tList = t;
 		TERM x = picat_get_car(tList);
 		while (x != picat_build_integer(0)) {
@@ -68,7 +72,27 @@ PyObject* PicatToPython(TERM t) {
 		}
 		return list;
 	}
+	if (b_IS_MAP_c(t)){
+		PyObject* dict = PyDict_New();
+
+		TERM hashtable = picat_get_arg(2, t);
+
+		for (int i = 1; i <= picat_get_struct_arity(hashtable); i++) {
+			PyObject* bucket = PicatToPython(picat_get_arg(i, hashtable));
+			if (bucket) {
+				int num = PyList_Size(bucket);
+				for (int j = 0; j < num; j++) {
+					PyObject* pair = PyList_GetItem(bucket, j);
+					PyObject* key = PyList_GetItem(pair, 0);
+					PyObject* value = PyList_GetItem(pair, 1);
+					PyDict_SetItem(dict, key, value);
+				}
+			}
+		}
+		return dict;
+	}
 	if (picat_is_structure(t)) {
+		dprint("%s\n", picat_get_struct_name(t));
 		int size = picat_get_struct_arity(t);
 		PyObject* s = PyList_New(size);
 		for (int i = 0; i < size; i++) {
@@ -77,15 +101,31 @@ PyObject* PicatToPython(TERM t) {
 		}
 		return s;
 	}
-	
-	/*if (picat_is_array(t))
+	if (picat_is_array(t)) {
 		dprint("is array\n");
-	if (picat_is_compound(t))
-		dprint("is compound\n");*/
+		return NULL;
+	}
+	if (picat_is_compound(t)) {
+		dprint("is compound\n");
+		return NULL;
+	}
 
 	//SOME KIND OF ERROR SHOULD GO HERE AS NO PICAT VALUE WAS GIVEN.
+	dprint("is nothing\n");
 	return NULL;
 }
+
+TERM NewPicatMap(int C) {
+	dprint("new map\n");
+	TERM t = picat_build_structure("$hshtb", 2);
+
+	picat_unify(picat_get_arg(1, t), picat_build_integer(0));
+	picat_unify(picat_get_arg(2, t), picat_build_structure("hashtable", C));
+
+	return t;
+}
+
+
 
 TERM PythonToPicat(PyObject* v) {
 	if (!v) {
@@ -100,14 +140,17 @@ TERM PythonToPicat(PyObject* v) {
 		}
 		else if (strcmp(t,"float") == 0) {
 			dprint("float\n");
+
 			return picat_build_float(PyFloat_AsDouble(v));
 		}
 		else if (strcmp(t,"complex") == 0) {
 			dprint("complex\n");
+
 			return picat_build_nil();
 		}
-		else if (strcmp(t,"list") == 0) {
-			dprint("list\n");
+		else if (strcmp(t,"list") == 0 || strcmp(t, "tuple") == 0) {
+			dprint("list or tuple\n");
+
 			int len = PyList_Size(v);
 			if (len) {
 				TERM t = picat_build_list(), car, cdr;
@@ -131,34 +174,9 @@ TERM PythonToPicat(PyObject* v) {
 				return picat_build_nil();
 			}
 		}
-		else if (strcmp(t,"tuple") == 0) {
-			dprint("tuple\n");
-			int len = PyTuple_Size(v);
-			if (len) {
-				TERM t = picat_build_list(), car, cdr;
-				car = picat_get_car(t);
-				cdr = picat_get_cdr(t);
-
-				for (int i = 0; i < len - 1; i++) {
-					picat_unify(car, PythonToPicat(PyTuple_GetItem(v, i)));
-					TERM temp = picat_build_list();
-					picat_unify(cdr, temp);
-
-					car = picat_get_car(temp);
-					cdr = picat_get_cdr(temp);
-				}
-				picat_unify(car, PythonToPicat(PyTuple_GetItem(v, len - 1)));
-				picat_unify(cdr, picat_build_nil());
-
-				return t;
-			}
-			else {
-				return picat_build_nil();
-			}
-		}
 		else if (strcmp(t,"range") == 0) {
 			dprint("range\n");
-
+			return picat_build_nil();
 		}
 		else if (strcmp(t, "str") == 0) {
 			dprint("string\n");
@@ -181,6 +199,59 @@ TERM PythonToPicat(PyObject* v) {
 			picat_unify(car, picat_build_atom(c));
 			picat_unify(cdr, picat_build_nil());
 
+			return t;
+		}
+		else if (strcmp(t, "dict") == 0) {
+			dprint("dict\n");
+			int C = PyDict_Size(v);
+
+			dprint("dict size\n");
+
+			//size of hash table, min 11, to match picat, else next largest prime number.
+			if (C <= 11) {
+				C = 11;
+			}
+			else {
+				C = bp_prime(picat_build_integer(C));
+			}
+
+			dprint("%d\n", C);
+
+			TERM t = NewPicatMap(C);
+
+			//Get dictionaray keys from python dictionary
+			PyObject* keys = PyDict_Keys(v);
+
+			for (int i = 0; i < PyList_Size(keys); i++) {
+				//Get python dictionary keys and values and convert to picat
+				PyObject* pykey = PyList_GetItem(keys, i);
+				PyObject* pyval = PyDict_GetItem(v, pykey);
+
+				TERM key = PythonToPicat(pykey);
+				TERM value = PythonToPicat(pyval);
+				
+				//Get hash value
+				TERM HashVal = MAKEINT(bp_hashval(key));
+				int Index = picat_get_integer(HashVal) % C + 1;
+
+				//Create pair to add to map
+				TERM Pair = picat_build_structure("=", 2);
+				picat_unify(picat_get_arg(1, Pair), key);
+				picat_unify(picat_get_arg(2, Pair), value);
+
+				//Place pair in a list and that list into the hashtable
+				TERM Bucket = picat_build_list();
+
+				picat_unify(picat_get_car(Bucket), Pair);
+				
+				TERM Hashtable = picat_get_arg(2, t);
+				picat_unify(picat_get_arg(Index, Hashtable), Bucket);
+				
+				//Update count of map
+				TERM Count = picat_get_arg(1, t);
+				TERM newCount = picat_build_integer(picat_get_integer(Count) + 1);
+				picat_unify(Count, newCount);
+			}
 			return t;
 		}
 		else {
@@ -334,23 +405,31 @@ python_run_file() {
 	TERM arg = picat_get_call_arg(1, 1);
 
 	if (picat_is_string(arg)) {
+		dprint("is string\n");
 		char* f = PicatStringToChar(arg);
 
 		FILE* fp = _Py_fopen(f, "r");
 
 		if (main_module) {
+			dprint("is init\n");
 			PyObject* module = PyImport_ImportModule(f);
 			if (module) {
+				dprint("module import\n");
 				PyDict_Merge(main_dict, PyModule_GetDict(module), 1);
 
 				if (PyErr_Occurred()) {
 					PyErr_Print();
 					return PICAT_FALSE;
 				}
+				dprint("all good\n");
 				return PICAT_TRUE;
 			}
 			else {
 				//Trouble importing module
+				dprint("no module import\n");
+				if (PyErr_Occurred()) {
+					PyErr_Print();
+				}
 				return PICAT_FALSE;
 			}
 		}
@@ -367,16 +446,20 @@ python_run_file() {
 }
 
 python_get_value() {
+	dprint("get value\n");
 	TERM ret, value;
 	
 	ret = picat_get_call_arg(1, 2);
 
 	if (picat_is_var(ret)) {
+		dprint("is var\n");
 		value = picat_get_call_arg(2, 2);
 		if (picat_is_string(value)) {
+
 			PyObject* py_val = PyDict_GetItemString(main_dict, PicatStringToChar(value));
 
 			if (py_val) {
+				dprint("got value\n");
 				TERM t = PythonToPicat(py_val);
 				return picat_unify(ret, t);
 			}
@@ -405,11 +488,14 @@ python_set_value() {
 	arg = picat_get_call_arg(1, 2);
 
 	if (main_module) {
+		dprint("main mod\n");
 		PyObject* py_arg = PicatToPython(arg);
 
 		if (py_arg) {
+			dprint("arg\n");
 			name = picat_get_call_arg(2, 2);
 			if (picat_is_string(name)) {
+				dprint("name\n");
 				PyDict_SetItem(main_dict, PicatToPython(name), py_arg);
 				return PICAT_TRUE;
 			}

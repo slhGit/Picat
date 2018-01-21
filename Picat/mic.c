@@ -2596,13 +2596,13 @@ int b_IS_STRING_c(BPLONG term){
 }
 
 int b_IS_MAP_c(BPLONG term){
-    SWITCH_OP_STRUCT(term,lab1,
-                     {return BP_FALSE;}, 
-                     {
-                         SYM_REC_PTR sym = GET_STR_SYM_REC(term);
-                         return (sym == hashtable_psc || sym == ghashtable_psc || thashtable_psc) ? BP_TRUE : BP_FALSE;
-                     }, 
-                     {return BP_FALSE;});
+	SWITCH_OP_STRUCT(term,lab1,
+		{return BP_FALSE;}, 
+		{
+			SYM_REC_PTR sym = GET_STR_SYM_REC(term);
+			return (sym == hashtable_psc || sym == ghashtable_psc || sym == thashtable_psc) ? BP_TRUE : BP_FALSE;
+		}, 
+		{return BP_FALSE;});
     return BP_FALSE;
 }
 
