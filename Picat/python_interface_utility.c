@@ -125,7 +125,104 @@ TERM NewPicatMap(int C) {
 	return t;
 }
 
+TERM PythonListToPicatList(PyObject* v) {
+	int len = PyList_Size(v);
+	if (len) {
+		TERM t = picat_build_list(), car, cdr;
+		car = picat_get_car(t);
+		cdr = picat_get_cdr(t);
 
+		for (int i = 0; i < len - 1; i++) {
+			picat_unify(car, PythonToPicat(PyList_GetItem(v, i)));
+			TERM temp = picat_build_list();
+			picat_unify(cdr, temp);
+
+			car = picat_get_car(temp);
+			cdr = picat_get_cdr(temp);
+		}
+		picat_unify(car, PythonToPicat(PyList_GetItem(v, len - 1)));
+		picat_unify(cdr, picat_build_nil());
+
+		return t;
+	}
+	else {
+		return picat_build_nil();
+	}
+}
+
+TERM PythonStringToPicatString(PyObject* v) {
+	char* str = PyUnicode_AsUTF8(v);
+	TERM t = picat_build_list(), car, cdr;
+	car = picat_get_car(t);
+	cdr = picat_get_cdr(t);
+
+	int len = strlen(str);
+	for (int i = 0; i < len - 1; i++) {
+		char c[] = { str[i],"\0" };
+		picat_unify(car, picat_build_atom(c));
+		TERM temp = picat_build_list();
+		picat_unify(cdr, temp);
+
+		car = picat_get_car(temp);
+		cdr = picat_get_cdr(temp);
+	}
+	char c[] = { str[len - 1],"\0" };
+	picat_unify(car, picat_build_atom(c));
+	picat_unify(cdr, picat_build_nil());
+
+	return t;
+}
+
+TERM PythonDictToPicatMap(PyObject* v) {
+	int C = PyDict_Size(v);
+
+	//size of hash table, min 11, to match picat, else next largest prime number.
+	if (C <= 11) {
+		C = 11;
+	}
+	else {
+		C = bp_prime(picat_build_integer(C));
+	}
+
+	dprint("%d\n", C);
+
+	TERM t = NewPicatMap(C);
+
+	//Get dictionaray keys from python dictionary
+	PyObject* keys = PyDict_Keys(v);
+
+	for (int i = 0; i < PyList_Size(keys); i++) {
+		//Get python dictionary keys and values and convert to picat
+		PyObject* pykey = PyList_GetItem(keys, i);
+		PyObject* pyval = PyDict_GetItem(v, pykey);
+
+		TERM key = PythonToPicat(pykey);
+		TERM value = PythonToPicat(pyval);
+
+		//Get hash value
+		TERM HashVal = MAKEINT(bp_hashval(key));
+		int Index = picat_get_integer(HashVal) % C + 1;
+
+		//Create pair to add to map
+		TERM Pair = picat_build_structure("=", 2);
+		picat_unify(picat_get_arg(1, Pair), key);
+		picat_unify(picat_get_arg(2, Pair), value);
+
+		//Place pair in a list and that list into the hashtable
+		TERM Bucket = picat_build_list();
+
+		picat_unify(picat_get_car(Bucket), Pair);
+
+		TERM Hashtable = picat_get_arg(2, t);
+		picat_unify(picat_get_arg(Index, Hashtable), Bucket);
+
+		//Update count of map
+		TERM Count = picat_get_arg(1, t);
+		TERM newCount = picat_build_integer(picat_get_integer(Count) + 1);
+		picat_unify(Count, newCount);
+	}
+	return t;
+}
 
 TERM PythonToPicat(PyObject* v) {
 	if (!v) {
@@ -140,7 +237,6 @@ TERM PythonToPicat(PyObject* v) {
 		}
 		else if (strcmp(t,"float") == 0) {
 			dprint("float\n");
-
 			return picat_build_float(PyFloat_AsDouble(v));
 		}
 		else if (strcmp(t,"complex") == 0) {
@@ -150,29 +246,7 @@ TERM PythonToPicat(PyObject* v) {
 		}
 		else if (strcmp(t,"list") == 0 || strcmp(t, "tuple") == 0) {
 			dprint("list or tuple\n");
-
-			int len = PyList_Size(v);
-			if (len) {
-				TERM t = picat_build_list(), car, cdr;
-				car = picat_get_car(t);
-				cdr = picat_get_cdr(t);
-
-				for (int i = 0; i < len - 1; i++) {		
-					picat_unify(car, PythonToPicat(PyList_GetItem(v, i)));
-					TERM temp = picat_build_list();
-					picat_unify(cdr, temp);
-
-					car = picat_get_car(temp);
-					cdr = picat_get_cdr(temp);
-				}
-				picat_unify(car, PythonToPicat(PyList_GetItem(v, len - 1)));
-				picat_unify(cdr, picat_build_nil());
-
-				return t;
-			}
-			else {
-				return picat_build_nil();
-			}
+			return PythonListToPicatList(v);
 		}
 		else if (strcmp(t,"range") == 0) {
 			dprint("range\n");
@@ -180,82 +254,13 @@ TERM PythonToPicat(PyObject* v) {
 		}
 		else if (strcmp(t, "str") == 0) {
 			dprint("string\n");
-			char* str = PyUnicode_AsUTF8(v);
-			TERM t = picat_build_list(), car, cdr;
-			car = picat_get_car(t);
-			cdr = picat_get_cdr(t);
-
-			int len = strlen(str);
-			for (int i = 0; i < len - 1; i++) {
-				char c[] = { str[i],"\0" };
-				picat_unify(car, picat_build_atom(c));
-				TERM temp = picat_build_list();
-				picat_unify(cdr, temp);
-
-				car = picat_get_car(temp);
-				cdr = picat_get_cdr(temp);
-			}
-			char c[] = { str[len - 1],"\0" };
-			picat_unify(car, picat_build_atom(c));
-			picat_unify(cdr, picat_build_nil());
-
-			return t;
+			return PythonStringToPicatString(v);
 		}
 		else if (strcmp(t, "dict") == 0) {
 			dprint("dict\n");
-			int C = PyDict_Size(v);
-
-			dprint("dict size\n");
-
-			//size of hash table, min 11, to match picat, else next largest prime number.
-			if (C <= 11) {
-				C = 11;
-			}
-			else {
-				C = bp_prime(picat_build_integer(C));
-			}
-
-			dprint("%d\n", C);
-
-			TERM t = NewPicatMap(C);
-
-			//Get dictionaray keys from python dictionary
-			PyObject* keys = PyDict_Keys(v);
-
-			for (int i = 0; i < PyList_Size(keys); i++) {
-				//Get python dictionary keys and values and convert to picat
-				PyObject* pykey = PyList_GetItem(keys, i);
-				PyObject* pyval = PyDict_GetItem(v, pykey);
-
-				TERM key = PythonToPicat(pykey);
-				TERM value = PythonToPicat(pyval);
-				
-				//Get hash value
-				TERM HashVal = MAKEINT(bp_hashval(key));
-				int Index = picat_get_integer(HashVal) % C + 1;
-
-				//Create pair to add to map
-				TERM Pair = picat_build_structure("=", 2);
-				picat_unify(picat_get_arg(1, Pair), key);
-				picat_unify(picat_get_arg(2, Pair), value);
-
-				//Place pair in a list and that list into the hashtable
-				TERM Bucket = picat_build_list();
-
-				picat_unify(picat_get_car(Bucket), Pair);
-				
-				TERM Hashtable = picat_get_arg(2, t);
-				picat_unify(picat_get_arg(Index, Hashtable), Bucket);
-				
-				//Update count of map
-				TERM Count = picat_get_arg(1, t);
-				TERM newCount = picat_build_integer(picat_get_integer(Count) + 1);
-				picat_unify(Count, newCount);
-			}
-			return t;
+			return PythonDictToPicatMap(v);
 		}
 		else {
-			//Not a type that can be translated
 			dprint("cannot translate\n");
 			return picat_build_nil();
 		}
