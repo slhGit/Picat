@@ -188,13 +188,14 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="mic.c" />
     <ClCompile Include="numbervars.c" />
+    <ClCompile Include="picat_to_python.c" />
     <ClCompile Include="plc_java.c" />
     <ClCompile Include="python_interface_utility.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="python_to_picat.c" />
     <ClCompile Include="qc.c" />
     <ClCompile Include="sapi.c" />
     <ClCompile Include="sat_bp.c">
@@ -237,6 +238,7 @@
     <ClInclude Include="pb_picat_bc.h" />
     <ClInclude Include="picat.h" />
     <ClInclude Include="picat_bc.h" />
+    <ClInclude Include="python_interface_utility.h" />
     <ClInclude Include="sapi.h" />
     <ClInclude Include="term.h" />
     <ClInclude Include="toam.h" />

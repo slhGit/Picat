@@ -1097,8 +1097,10 @@ void Cboot() {
 	extern int python_import();
 	insert_cpred("python_import", 1, python_import);
 
+	/*NOT YET IMPLEMENTED
 	extern int python_call_function();
 	insert_cpred("python_call_function", 4, python_call_function);
+	*/
 
     insert_cpred("c_format_set_dest",1,c_format_set_dest);
     insert_cpred("c_format_get_line_pos",1,c_format_get_line_pos);

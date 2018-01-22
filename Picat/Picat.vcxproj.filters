@@ -13,7 +13,7 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="tensorflow">
+    <Filter Include="python">
       <UniqueIdentifier>{c7ddbe75-f693-45de-b794-f5fde71b0ca4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -163,7 +163,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="python_interface_utility.c">
-      <Filter>tensorflow</Filter>
+      <Filter>python</Filter>
+    </ClCompile>
+    <ClCompile Include="picat_to_python.c">
+      <Filter>python</Filter>
+    </ClCompile>
+    <ClCompile Include="python_to_picat.c">
+      <Filter>python</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="toam.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="python_interface_utility.h">
+      <Filter>python</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

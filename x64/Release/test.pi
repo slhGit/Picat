@@ -6,5 +6,7 @@ main =>
 	bp.python_get_value(Y,"y"),
 
 	println(Y),
-	
+	bp.python_set_value(Y,"x"),
+	bp.python_run_file("testpy1"),
+	%%bp.python_run_interpreter(),
 	bp.python_exit().
