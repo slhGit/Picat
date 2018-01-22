@@ -1,12 +1,11 @@
+import python.
 
 main =>
-	bp.python_init(),
+	py_init(),
 	
-	bp.python_run_file("testpy"),
-	bp.python_get_value(Y,"y"),
+	py_run_file("testpy"),
+	py_get_value(Y,"y"),
 
 	println(Y),
-	bp.python_set_value(Y,"x"),
-	bp.python_run_file("testpy1"),
-	%%bp.python_run_interpreter(),
-	bp.python_exit().
+	
+	py_exit().

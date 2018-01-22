@@ -164,9 +164,7 @@ python_run_file() {
 
 		if (main_module) {
 			dprint("is init\n");
-			printf("hello\n");
 			PyObject* module = PyImport_ImportModule(f);
-			printf("world\n");
 			if (module) {
 				dprint("module import\n");
 				PyDict_Merge(main_dict, PyModule_GetDict(module), 1);

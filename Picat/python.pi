@@ -1,0 +1,13 @@
+module python.
+
+py_init() => bp.python_init().
+
+py_run_interpreter() => bp.python_run_interpreter().
+
+py_get_value(PiVarName,PyVarName) => bp.python_get_value(PiVarName,PyVarName).
+
+py_set_value(PiVarName,PyVarName) => bp.python_set_value(PiVarName,PyVarName).
+
+py_run_file(FileName) => bp.python_run_file(FileName).
+
+py_exit() => bp.python_exit().
