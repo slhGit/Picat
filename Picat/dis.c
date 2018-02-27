@@ -1,6 +1,6 @@
 /********************************************************************
  *   File   : dis.c
- *   Author : Neng-Fa ZHOU Copyright (C) 1994-2017
+ *   Author : Neng-Fa ZHOU Copyright (C) 1994-2018
 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -59,26 +59,26 @@ void dis_data()
 }
 
 /*
-void symbol_table_statistics(int *num_of_empty_buckets, int *len_of_longest_chain){
-    SYM_REC_PTR psc_ptr;
-    int i,count;
+  void symbol_table_statistics(int *num_of_empty_buckets, int *len_of_longest_chain){
+  SYM_REC_PTR psc_ptr;
+  int i,count;
   
-    *num_of_empty_buckets = 0;
-    *len_of_longest_chain = 0;
+  *num_of_empty_buckets = 0;
+  *len_of_longest_chain = 0;
   
-    for (i = 0; i < BUCKET_CHAIN; ++i) {
-        psc_ptr = hash_table[i];
-        count = 0;
-        while (psc_ptr!=NULL) {
-            psc_ptr = GET_NEXT(psc_ptr);
-            count++;
-        }
-        if (count==0)
-            *num_of_empty_buckets = *num_of_empty_buckets+1;
-        if (count > *len_of_longest_chain)    
-            *len_of_longest_chain = count;
-    }
-}
+  for (i = 0; i < BUCKET_CHAIN; ++i) {
+  psc_ptr = hash_table[i];
+  count = 0;
+  while (psc_ptr!=NULL) {
+  psc_ptr = GET_NEXT(psc_ptr);
+  count++;
+  }
+  if (count==0)
+  *num_of_empty_buckets = *num_of_empty_buckets+1;
+  if (count > *len_of_longest_chain)    
+  *len_of_longest_chain = count;
+  }
+  }
 */
 void dis_text()
 {

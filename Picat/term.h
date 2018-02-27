@@ -1,6 +1,6 @@
 /********************************************************************
  *   File   : term.h
- *   Author : Neng-Fa ZHOU Copyright (C) 1994-2017
+ *   Author : Neng-Fa ZHOU Copyright (C) 1994-2018
 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,19 +17,19 @@
 #define MASK_LOW28        0xfffffffL
 
 #ifdef M64BITS
-#define SUSP              0x8000000000000001L
-#define TOP_BIT_MASK      0x8000000000000000L
-#define TOP_BIT           0x8000000000000000L
-#define TAG_MASK          0x8000000000000003L
-#define INT_TAG           0x8000000000000002L
+#define SUSP              0x8000000000000001LL
+#define TOP_BIT_MASK      0x8000000000000000LL
+#define TOP_BIT           0x8000000000000000LL
+#define TAG_MASK          0x8000000000000003LL
+#define INT_TAG           0x8000000000000002LL
 #define INT_TAG32         0x80000002L
-#define VAL_MASK1         0xfffffffffffffffcL
-#define VAL_MASK0         0x7ffffffffffffffcL
-#define FFFF              0xffffffffffffffffL
-#define MASK_FF           0xffffffffffffffffL
-#define MASK_7F           0x7fffffffffffffffL
-#define HASH_BITS         0x000000000fffffffL
-#define MASK_LOW16        0x000000000000ffffL
+#define VAL_MASK1         0xfffffffffffffffcLL
+#define VAL_MASK0         0x7ffffffffffffffcLL
+#define FFFF              0xffffffffffffffffLL
+#define MASK_FF           0xffffffffffffffffLL
+#define MASK_7F           0x7fffffffffffffffLL
+#define HASH_BITS         0x000000000fffffffLL
+#define MASK_LOW16        0x000000000000ffffLL
 #else
 #define SUSP              0x80000001L
 #define TOP_BIT_MASK      0x80000000L

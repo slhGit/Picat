@@ -1,6 +1,6 @@
 /********************************************************************
  *   File   : file.c
- *   Author : Neng-Fa ZHOU Copyright (C) 1994-2017
+ *   Author : Neng-Fa ZHOU Copyright (C) 1994-2018
 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -48,6 +48,12 @@ extern char *string_in;
 #define CHANGE_FILE_SEPARATOR(buf) replace_str_char(buf,'/','\\')
 #else
 #define CHANGE_FILE_SEPARATOR(buf) replace_str_char(buf,'\\','/')
+#endif
+
+#if defined(WIN32) && defined(M64BITS)
+#define sys_access(a,b) _access(a,b)
+#else
+#define sys_access(a,b) access(a,b)
 #endif
 
 #define CAR 1
@@ -809,11 +815,11 @@ int bp_write_int_update_pos(op)
 {
     BPLONG len;
 
-    sprintf(bp_buf,"%ld",op);
+    sprintf(bp_buf,"%lld",op);
     len = strlen(bp_buf);
     line_position += len;
     if (format_output_dest==0){
-        fprintf(curr_out, "%ld", op);
+	  fprintf(curr_out, "%lld", op);
     } else {
         CHECK_CHARS_POOL_OVERFLOW(len);
         strcpy((chars_pool+chars_pool_index),bp_buf);
@@ -987,7 +993,7 @@ int b_WRITENAME_c(op)
                       bp_write_pname(GET_NAME(sym_ptr));
                   } else {
                       op = INTVAL(op);
-                      fprintf(curr_out, "%ld", op);
+                      fprintf(curr_out, "%lld", op);
                   }
               },
               {fprintf(curr_out, ".");},
@@ -1104,7 +1110,7 @@ int b_WRITE_QUICK_c(op)
                       bp_write_pname(GET_NAME(sym_ptr));
                   } else {
                       op = INTVAL(op);
-                      fprintf(curr_out, "%ld", op);
+                      fprintf(curr_out, "%lld", op);
                   }
               },
               {return BP_FALSE;},
@@ -1168,7 +1174,7 @@ int b_WRITEQNAME_c(op)
                       bp_write_qname(GET_NAME(sym_ptr), GET_LENGTH(sym_ptr));
                   } else {
                       op = INTVAL(op);
-                      fprintf(curr_out, "%ld", op);
+                      fprintf(curr_out, "%lld", op);
                   }
               },
               {fprintf(curr_out, ".");},
@@ -1230,7 +1236,7 @@ int b_WRITEQ_QUICK_c(op)
                       bp_write_qname(GET_NAME(sym_ptr),GET_LENGTH(sym_ptr));
                   } else {
                       op = INTVAL(op);
-                      fprintf(curr_out, "%ld", op);
+                      fprintf(curr_out, "%lld", op);
                   }
               },
               {return BP_FALSE;},
@@ -1849,7 +1855,7 @@ int b_OPEN_ccf(fop,sop,Index)
     index = get_file_index(fop, mode);
     if (index < 0 || (index>=3 && file_table[index].mode!=mode)) {                 /* not in table */
         get_file_name(fop);
-        if (mode==READ_MODE && _access(full_file_name, mode)!=0){
+        if (mode==READ_MODE && sys_access(full_file_name, mode)!=0){
             exception = c_existence_error(et_SOURCE_SINK,fop);
             return BP_ERROR;
         }
@@ -2069,7 +2075,7 @@ int b_ACCESS_ccf(op1,op2,op3)
     }                                                                                                                   
     else                                                                                                                        
     {                                                                                                                   
-        r = _access(full_file_name, mode);
+        r = sys_access(full_file_name, mode);
     }                                                                                                                   
     ASSIGN_f_atom(op3,MAKEINT(r));
     return 1;
@@ -2528,7 +2534,7 @@ int write_term(op)
                       sym_ptr = GET_ATM_SYM_REC(op);
                       bp_write_pname(GET_NAME(sym_ptr));
                   }
-                  else fprintf(curr_out,"%ld",INTVAL(op));},
+				else fprintf(curr_out,"%lld",INTVAL(op));},
 
               {if (IsNumberedVar(op)){fprintf(curr_out,"$V(%lx)",INTVAL(op));} else { fprintf(curr_out,"["); write_list(op);}},
 
@@ -2603,7 +2609,7 @@ int write_image(op)
         if (ISATOM(op))
             fprintf(curr_out,"atom     %lx\n",UNTAGGED_ADDR(op));
         else 
-            fprintf(curr_out,"int      %ld\n",INTVAL(op));
+		  fprintf(curr_out,"int      %lld\n",INTVAL(op));
         break;
     case STR:
         fprintf(curr_out,"str      %lx\n",UNTAGGED_ADDR(op));
@@ -2613,7 +2619,7 @@ int write_image(op)
         for (i=1;i<=arity;i++) {
             op1 = *((BPLONG_PTR)op+i);
             DEREF(op1);
-            fprintf(curr_out,"%ld-arg    %lx\n",i,op1);
+            fprintf(curr_out,"%lld-arg    %lx\n",i,op1);
         }
         for (i=1;i<=arity;i++) {
             op1 = *((BPLONG_PTR)op+i);
@@ -2992,7 +2998,7 @@ int c_FORMAT_PRINT_INTEGER(){
         arg = (BPLONG)floatval(arg);
     }
     format[0] = '%';
-    sprintf(&format[1],"%ld%c",number,(int) control);
+    sprintf(&format[1],"%lld%c",number,(int) control);
     sprintf(bp_buf,format,arg);
     len = strlen(bp_buf);
     line_position += len;
@@ -3025,7 +3031,7 @@ int c_FORMAT_PRINT_FLOAT(){
     }
     format[0] = '%';
     format[1] = '.';
-    sprintf(&format[2],"%ld%c",number,(int) control);
+    sprintf(&format[2],"%lld%c",number,(int) control);
     sprintf(bp_buf,format,val);
     len = strlen(bp_buf);
     line_position += len;
@@ -3044,7 +3050,7 @@ char *format_comma_separated_int(BPLONG amt){
     char loc_buf[100];
     int i,j,c;
   
-    sprintf(loc_buf,"%ld",amt);
+    sprintf(loc_buf,"%lld",amt);
     i = strlen(loc_buf)-1;
     j = MAX_STR_LEN-1;
     c = 0;
@@ -3120,7 +3126,7 @@ int print_term_to_buf(BPLONG term){
     if (ISREF(term)){
         sprintf(bp_buf,"_%lx", (BPULONG)term-(BPULONG)stack_low_addr); 
     } else if (ISINT(term)){
-        sprintf(bp_buf,"%ld", INTVAL(term));
+        sprintf(bp_buf,"%lld", INTVAL(term));
     } else if (ISATOM(term)){
         SYM_REC_PTR sym_ptr;
         sym_ptr = (SYM_REC_PTR)GET_ATM_SYM_REC(term);
@@ -3188,9 +3194,9 @@ void picat_str_to_c_str(BPLONG lst, char *buf, BPLONG buf_size){
     CHAR_PTR ch_ptr = buf;
     CHAR_PTR s;
     int j, len, i = 0;
-	BPLONG lst0 = lst;
+    BPLONG lst0 = lst;
 
-	//	printf("=>picat_str_to_c_str "); write_term(lst); printf("\n");
+    //  printf("=>picat_str_to_c_str "); write_term(lst); printf("\n");
 
     while (ISLIST(lst)){ 
         BPLONG_PTR lst_ptr;
@@ -3204,8 +3210,8 @@ void picat_str_to_c_str(BPLONG lst, char *buf, BPLONG buf_size){
         s = GET_NAME(sym_ptr);
         len = GET_LENGTH(sym_ptr);
         if (i+len >= buf_size){
-		  printf("hreg = %lx local_top = %lx buf_size = %x \n", heap_top, local_top, buf_size);
-		    write_term(lst0); printf("\n");
+            printf("hreg = %lx local_top = %lx buf_size = %x \n", heap_top, local_top, buf_size);
+            write_term(lst0); printf("\n");
             quit("buf overfolow in picat_str_to_c_str");
         }
         for (j=0; j<len; j++){
@@ -4084,6 +4090,6 @@ int b_SET_STRING_TO_PARSE_c(BPLONG Str){
 }
 
 void print_cnf_header(int nvars, int ncls){
-  fseek(curr_out, 0, SEEK_SET);
-  fprintf(curr_out,"p cnf %d %d", nvars, ncls);
+    fseek(curr_out, 0, SEEK_SET);
+    fprintf(curr_out,"p cnf %d %d", nvars, ncls);
 }

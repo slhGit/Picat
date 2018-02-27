@@ -16,6 +16,24 @@
     <Filter Include="python">
       <UniqueIdentifier>{c7ddbe75-f693-45de-b794-f5fde71b0ca4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="glucose">
+      <UniqueIdentifier>{800933c1-5b06-41f1-9c53-fb83bf736e02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glucose\core">
+      <UniqueIdentifier>{7ed91ac0-aa6e-4775-aa4e-35f1d89e171f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glucose\mtl">
+      <UniqueIdentifier>{4ae7c650-4c9a-4ab4-a961-71a5bbcc8f23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glucose\parallel">
+      <UniqueIdentifier>{62e5ac28-bd90-4e9b-b022-8c3c3e9e546e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glucose\simp">
+      <UniqueIdentifier>{fd240752-5d3f-4f25-8980-1caf5eeb6d9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glucose\utils">
+      <UniqueIdentifier>{90e53650-2dd2-4aab-952c-a9de7b36ce6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="arith.c">
@@ -171,6 +189,9 @@
     <ClCompile Include="python_to_picat.c">
       <Filter>python</Filter>
     </ClCompile>
+    <ClCompile Include="glucose\glucose.cpp">
+      <Filter>glucose</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bapi.h">
@@ -262,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="python_interface_utility.h">
       <Filter>python</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\glucose.h">
+      <Filter>glucose</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

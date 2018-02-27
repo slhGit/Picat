@@ -1,6 +1,6 @@
 /********************************************************************
  *   File   : builtins.c
- *   Author : Neng-Fa ZHOU Copyright (C) 1994-2017
+ *   Author : Neng-Fa ZHOU Copyright (C) 1994-2018
  *   Purpose: Inline built-ins
 
  * This Source Code Form is subject to the terms of the Mozilla Public

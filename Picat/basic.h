@@ -1,6 +1,6 @@
 /********************************************************************
  *   File   : basic.h
- *   Author : Neng-Fa ZHOU Copyright (C) 1994-2017
+ *   Author : Neng-Fa ZHOU Copyright (C) 1994-2018
 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -53,7 +53,7 @@ extern int exec_trace[];
 
 /* maximum and minimum integers that are represented in one word */
 #ifdef M64BITS
-#define BP_MAXINT_1W 72057594037927935
+#define BP_MAXINT_1W 72057594037927935LL
 #define BP_MININT_1W -BP_MAXINT_1W
 #else
 #define BP_MAXINT_1W 268435455   
@@ -75,14 +75,14 @@ extern int exec_trace[];
 typedef char                CHAR;     /*  8 bits */
 typedef unsigned char       BYTE;     /*  8 bits */
 typedef unsigned short int  UW16;     /* 16 bits */
-#if defined(WIN32) && defined(M64BITS)
+#ifdef M64BITS
 typedef long long int            BPLONG;   /* 64 bits for Win x64*/
 typedef long long int            TERM;     /* 64 bits for Win x64*/
 typedef unsigned long long int   BPULONG;  /* 64 bits for Win x64*/
 #else
 typedef long int            BPLONG;   /* 32 or 64 bits */
 typedef long int            TERM;     /* 32 or 64 bits */
-typedef unsigned long long int   BPULONG;  /* 32 or 64 bits */
+typedef unsigned long int   BPULONG;  /* 32 or 64 bits */
 #endif
 typedef unsigned int        UW32;     /* 32 bits */
 

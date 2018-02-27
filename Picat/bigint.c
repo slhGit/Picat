@@ -1418,9 +1418,9 @@ void bp_print_bigint(BPLONG op){
     BP_MAKE_UBIG_FROM_DLST(xDLst,xsize,x);
     printf("[");
     for (i=xsize-1;i>0;i--){
-        printf("%ld,",x[i]);
+	  printf("%lld,",x[i]);
     }
-    printf("%ld]",x[0]);
+    printf("%lld]",x[0]);
 }
 
 /*

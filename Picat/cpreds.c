@@ -1,6 +1,6 @@
 /********************************************************************
  *   File   : cpreds.c
- *   Author : Neng-Fa ZHOU Copyright (C) 1994-2017
+ *   Author : Neng-Fa ZHOU Copyright (C) 1994-2018
  *   Purpose: Non-inline built-ins in C
 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -264,11 +264,10 @@ int picat_is_compound(t)
 }
 
 int picat_is_array(t)
-	BPLONG t;
+    BPLONG t;
 {
-	return b_IS_ARRAY_c(t);
+    return b_IS_ARRAY_c(t);
 }
-
 
 int bp_is_unifiable(t1,t2)
     BPLONG t1,t2;
@@ -1071,37 +1070,11 @@ int c_MININT_f(){
 
 int c_IS_SMALL_INT_c(){
     BPLONG v = ARG(1,1);
-	DEREF(v);
-	return (ISINT(v)) ? BP_TRUE : BP_FALSE;
+    DEREF(v);
+    return (ISINT(v)) ? BP_TRUE : BP_FALSE;
 }
 
 void Cboot() {
-	extern int python_init();
-	insert_cpred("python_init", 0, python_init);
-
-	extern int python_exit();
-	insert_cpred("python_exit", 0, python_exit);
-
-	extern int python_run_interpreter();
-	insert_cpred("python_run_interpreter", 0, python_run_interpreter);
-
-	extern int python_run_file();
-	insert_cpred("python_run_file", 1, python_run_file);
-
-	extern int python_get_value();
-	insert_cpred("python_get_value", 2, python_get_value);
-
-	extern int python_set_value();
-	insert_cpred("python_set_value", 2, python_set_value);
-
-	extern int python_import();
-	insert_cpred("python_import", 1, python_import);
-
-	/*NOT YET IMPLEMENTED
-	extern int python_call_function();
-	insert_cpred("python_call_function", 4, python_call_function);
-	*/
-
     insert_cpred("c_format_set_dest",1,c_format_set_dest);
     insert_cpred("c_format_get_line_pos",1,c_format_get_line_pos);
     insert_cpred("c_format_retrieve_codes",2,c_format_retrieve_codes);
@@ -1225,11 +1198,11 @@ void Cboot() {
     Cboot_cplex();
 #endif
 
-	/*
-#ifdef GLPK
-    Cboot_glpk();
-#endif
-	*/
+    /*
+      #ifdef GLPK
+      Cboot_glpk();
+      #endif
+    */
     insert_cpred("c_sat_start_dump",1,c_sat_start_dump);
     insert_cpred("c_sat_stop_dump",0,c_sat_stop_dump);
     insert_cpred("c_sat_start_count",1,c_sat_start_count);
@@ -1238,21 +1211,39 @@ void Cboot() {
 
     insert_cpred("c_REDUCE_DOMAINS_IC_EQ",2,c_REDUCE_DOMAINS_IC_EQ);
     insert_cpred("c_REDUCE_DOMAINS_IC_GE",2,c_REDUCE_DOMAINS_IC_GE);
-	//	insert_cpred("c_REDUCE_DOMAIN_AC_ADD",3,c_REDUCE_DOMAIN_AC_ADD);
+    //  insert_cpred("c_REDUCE_DOMAIN_AC_ADD",3,c_REDUCE_DOMAIN_AC_ADD);
     insert_cpred("c_TA_TOP_f",1,c_TA_TOP_f);
-#ifdef SAT
     Cboot_sat();
+#ifdef SAT
     insert_cpred("c_call_espresso",5,c_call_espresso);
-    insert_cpred("c_call_espresso_element",5,c_call_espresso_element);
-    insert_cpred("c_call_espresso_table",7,c_call_espresso_table);
     insert_cpred("c_call_espresso_pb",6,c_call_espresso_pb);
 #endif
 
 #ifdef PRISM
     bp4p_register_preds();
 #endif
-	
-    //  Cboot_TP();                                                                                                             
+
+    //  Cboot_TP(); 
+	extern int python_init();
+	insert_cpred("python_init", 0, python_init);
+
+	extern int python_exit();
+	insert_cpred("python_exit", 0, python_exit);
+
+	extern int python_run_interpreter();
+	insert_cpred("python_run_interpreter", 0, python_run_interpreter);
+
+	extern int python_run_file();
+	insert_cpred("python_run_file", 1, python_run_file);
+
+	extern int python_get_value();
+	insert_cpred("python_get_value", 2, python_get_value);
+
+	extern int python_set_value();
+	insert_cpred("python_set_value", 2, python_set_value);
+
+	extern int python_import();
+	insert_cpred("python_import", 1, python_import);
 }
   
 /* by S. Branch */  

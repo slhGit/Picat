@@ -1,6 +1,6 @@
 /********************************************************************
  *   File   : sat_bp.c
- *   Author : Neng-Fa ZHOU Copyright (C) 1994-2017
+ *   Author : Neng-Fa ZHOU Copyright (C) 1994-2018
  *   Purpose: SAT interface for B-Prolog and Picat
 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -11,6 +11,15 @@
 #include "bprolog.h"
 
 #ifdef SAT
+#ifdef GLU
+#include "glucose\glucose.h"
+
+#define SAT_SATISFIABLE res == 1
+#define SAT_GET_BINDING(varNum) ((glu_get_binding(varNum) == 1) ? BP_ONE : BP_ZERO)
+#define PSAT_GET_BINDING(varNum) ((pglu_get_binding(varNum) == 1) ? BP_ONE : BP_ZERO)
+
+
+#else
 #include "lingeling/lglib.h"
 static LGL * bp_lgl = NULL;
 
@@ -20,6 +29,7 @@ extern int plgl_start (LGL **ptr_lgl);
 #define SAT_SATISFIABLE res == 10
 #define SAT_GET_BINDING(varNum) ((lglderef(bp_lgl, varNum) > 0) ? BP_ONE : BP_ZERO)
 #endif
+#endif
 
 static int sat_dump_flag = 0;
 static int sat_dump_or_count_flag = 0;
@@ -28,14 +38,35 @@ int sat_nvars;
 int sat_nvars_limit;  /* used by plglib, the size of the dynamic arrays */
 static int num_threads = 0;
 
+
+#ifdef SAT
+#ifdef GLU
+#define SAT_INIT glu_init()
+#define SAT_ADD(i) glu_add_lit(i)
+#define SAT_START glu_start_solver()
+
+#define PSAT_INIT(n) pglu_init()
+#define PSAT_START pglu_start_solver()
+
+#else
+#define SAT_INIT if (bp_lgl != NULL) lglrelease(bp_lgl); bp_lgl = lglinit()
+#define SAT_ADD(i) lgladd(bp_lgl,i)
+#define SAT_START lglsat(bp_lgl)
+
+#define PSAT_INIT(n) plgl_init()
+#define PSAT_START plgl_start(bp_lgl)
+
+#endif
+#endif
+
 int b_SAT_GET_INC_VAR_NUM_f(BPLONG Num){
     extern void plgl_resize_dyn_arrays();
 
     ASSIGN_f_atom(Num,MAKEINT(sat_nvars));
     sat_nvars++;
-	if (num_threads > 0 && sat_nvars > sat_nvars_limit){
-	  plgl_resize_dyn_arrays();
-	}
+    if (num_threads > 0 && sat_nvars > sat_nvars_limit){
+        plgl_resize_dyn_arrays();
+    }
     return BP_TRUE;
 }
 
@@ -45,13 +76,13 @@ int c_sat_start_count(){
     DEREF_NONVAR(num);
     sat_nvars = sat_nvars_limit = (int)INTVAL(num);
   
-	sat_dump_or_count_flag = 1;
+    sat_dump_or_count_flag = 1;
     num_cls = 0;
     return BP_TRUE;
 }
 
 int c_sat_stop_count(){
-	sat_dump_or_count_flag = 0;
+    sat_dump_or_count_flag = 0;
     unify(ARG(1,1), MAKEINT(num_cls));
     num_cls = 0;
     return BP_TRUE;
@@ -63,93 +94,96 @@ int c_sat_start_dump(){
     sat_nvars = sat_nvars_limit = (int)INTVAL(num);
   
     sat_dump_flag = 1;
-	sat_dump_or_count_flag = 1;
+    sat_dump_or_count_flag = 1;
     num_cls = 0;
     return BP_TRUE;
 }
 
 int c_sat_stop_dump(){
     sat_dump_flag = 0;
-	sat_dump_or_count_flag = 0;
-	print_cnf_header(sat_nvars-1,num_cls);
+    sat_dump_or_count_flag = 0;
+    print_cnf_header(sat_nvars-1,num_cls);
     return BP_TRUE;
 }
 
 #ifdef SAT
 /* cl is a list of literals */
 int b_SAT_ADD_CL_c(BPLONG cl){
-	BPLONG_PTR ptr, lit_ptr; 
+    BPLONG_PTR ptr, lit_ptr; 
 
+#ifdef GLU
+#define PSAT_ADD(i) pglu_add_lit(i)
+
+#else
 	extern void plgl_add_lit(int);
 	extern void plgl_add_lit0();
 
-	lit_ptr = local_top; /* reuse Picat't local stack , asumming that the gap is big enough for holding the literals */
+#define PSAT_ADD(i) if (i == 0) plgl_add_lit0; else plgl_add_lit(i)
+#endif
+
+    lit_ptr = local_top; /* reuse Picat't local stack , asumming that the gap is big enough for holding the literals */
     DEREF_NONVAR(cl);
 
     //  printf(" => add_cl "); write_term(cl); printf("\n");
         
     /* skip this clause if it contains 't' */
     while (ISLIST(cl)){
-  	    BPLONG lit;
-	    BPLONG_PTR lst_ptr;
+        BPLONG lit;
+        BPLONG_PTR lst_ptr;
         lst_ptr = (BPLONG_PTR)UNTAGGED_ADDR(cl);
         lit = FOLLOW(lst_ptr); DEREF_NONVAR(lit); 
         if (lit == t_atom){
             return BP_TRUE;
         }
-		if (lit != f_atom){
-		  *lit_ptr-- = lit;
-		}
-		
+        if (lit != f_atom){
+            *lit_ptr-- = lit;
+        }
+                
         cl = FOLLOW(lst_ptr+1); DEREF_NONVAR(cl);
     }
 
-	if (sat_dump_or_count_flag == 1){
-	  num_cls++;
-	  if (sat_dump_flag == 1) {
-		for (ptr = local_top; ptr != lit_ptr; ptr--){
-		  write_term(*ptr); 
-		  write_space();
-		}
-		write_term(BP_ZERO);
-		b_NL();
-	  }
-	} else {
-	  if (num_threads > 0){
-		for (ptr = local_top; ptr != lit_ptr; ptr--){
-		  plgl_add_lit(INTVAL(*ptr));
-		}
-		plgl_add_lit0();		
-	  } else {
-		for (ptr = local_top; ptr != lit_ptr; ptr--){
-		  lgladd(bp_lgl,INTVAL(*ptr));
-		}
-		lgladd(bp_lgl,0);		
-	  }		
+    if (sat_dump_or_count_flag == 1){
+        num_cls++;
+        if (sat_dump_flag == 1) {
+            for (ptr = local_top; ptr != lit_ptr; ptr--){
+                write_term(*ptr); 
+                write_space();
+            }
+            write_term(BP_ZERO);
+            b_NL();
+        }
+    } else {
+        if (num_threads > 0){
+            for (ptr = local_top; ptr != lit_ptr; ptr--){
+                PSAT_ADD(INTVAL(*ptr));
+            }
+            PSAT_ADD(0);            
+        } 
+		else {
+            for (ptr = local_top; ptr != lit_ptr; ptr--){
+                SAT_ADD(INTVAL(*ptr));
+            }
+            SAT_ADD(0);           
+        }               
     }
-	
+        
     return BP_TRUE;
 }
 
 int c_sat_init(){
-  BPLONG NThreads, NVars;
+    BPLONG NThreads, NVars;
 
-  NThreads = ARG(1,2);  DEREF_NONVAR(NThreads);
-  num_threads = (int)INTVAL(NThreads);
-  NVars = ARG(2,2);  DEREF_NONVAR(NVars);  /* NOTE!! this is just an initial number, more bool variables could be generated by the compiler. */
-  sat_nvars =  sat_nvars_limit = (int)INTVAL(NVars);
+    NThreads = ARG(1,2);  DEREF_NONVAR(NThreads);
+    num_threads = (int)INTVAL(NThreads);
+    NVars = ARG(2,2);  DEREF_NONVAR(NVars);  /* NOTE!! this is just an initial number, more bool variables could be generated by the compiler. */
+    sat_nvars =  sat_nvars_limit = (int)INTVAL(NVars);
   
-  if (num_threads > 0){  /* use plingeling */
-	plgl_init(num_threads);
-  } else {
-	if (bp_lgl == NULL){
-	  bp_lgl = lglinit();
-	} else {
-	  lglrelease(bp_lgl);
-	  bp_lgl = lglinit();
-	}
-  }
-  return BP_TRUE;
+    if (num_threads > 0){  /* use plingeling */ /* or multisolver for glucose */
+		PSAT_INIT(num_threads);
+    } else {
+		SAT_INIT;
+    }
+    return BP_TRUE;
 }
 
 int c_sat_start(){
@@ -162,12 +196,12 @@ int c_sat_start(){
     //  printf("=>sat_start "); write_term(lst); printf("\n");
         
     if (num_threads > 0){
-	  res = plgl_start(&bp_lgl);
-	} else {
-	  res = lglsat(bp_lgl);
+        //res = plgl_start(&bp_lgl);
+		res = PSAT_START;
+    } else {
+		res = SAT_START;
 	}
     //  printf("<= solver\n");
-        
     if (SAT_SATISFIABLE){
         BPLONG_PTR ptr;
         BPLONG var,varNum;
@@ -189,11 +223,6 @@ int c_sat_start(){
     } 
     return BP_FALSE;
 }
-
-void Cboot_sat(){
-    insert_cpred("c_sat_init",2,c_sat_init);
-    insert_cpred("c_sat_start",1,c_sat_start);
-}
 #else
 int c_sat_init(){
     BPLONG er  = ADDTAG(BP_NEW_SYM("sat_not_supported",0),ATM);
@@ -207,12 +236,15 @@ int c_sat_start(){
     printf("SAT not supported for MVC. Please use the cygwin version.\n");
     return BP_FALSE;
 }
+
+void plgl_resize_dyn_arrays(){
+}
+#endif
+
 void Cboot_sat(){
     insert_cpred("c_sat_init",2,c_sat_init);
     insert_cpred("c_sat_start",1,c_sat_start);
 }
-
-#endif
 
 /* 
    If BV is a variable, then return the number attribute attached to BV.
@@ -258,11 +290,12 @@ lab_start:
   in X's domain have the same bit value B in the position, then set Xi = B.
 */
 int c_sat_propagate_dom_bits(){
+	printf("\t\tc_sat_propagate_dom_bits\n");
     BPLONG X, LogBitVect;
     SYM_REC_PTR sym_ptr;
     BPLONG_PTR dv_ptr, vect_ptr;
     int i, elm, last, n;
-	int mark_vect[64];   /* the number of bits can't exceed 64 */
+    int mark_vect[64];   /* the number of bits can't exceed 64 */
 
     X = ARG(1,2);
     LogBitVect = ARG(2,2);
@@ -275,11 +308,11 @@ int c_sat_propagate_dom_bits(){
     sym_ptr = (SYM_REC_PTR)FOLLOW(vect_ptr);
     n = GET_ARITY(sym_ptr);
 
-	//	printf("=> c_sat_propagate_dom_bits (%d)", n); write_term(X); printf(" "); write_term(LogBitVect); printf("\n");
+    //  printf("=> c_sat_propagate_dom_bits (%d)", n); write_term(X); printf(" "); write_term(LogBitVect); printf("\n");
 
     vect_ptr++;                  /* the vector changes from 1-based to 0-based */
     for (i = 0; i < n; i++){
-	  mark_vect[i] = 0;
+        mark_vect[i] = 0;
     }
   
     elm = DV_first(dv_ptr);
@@ -306,7 +339,7 @@ int c_sat_propagate_dom_bits(){
             if (!unify(*(vect_ptr+i), BP_ZERO)) return BP_FALSE;
         }
     }
-	//	printf("<= c_sat_propagate_dom_bits (%d)", n); write_term(X); printf(" "); write_term(LogBitVect); printf("\n");
+    //  printf("<= c_sat_propagate_dom_bits (%d)", n); write_term(X); printf(" "); write_term(LogBitVect); printf("\n");
     return BP_TRUE;
 }
 

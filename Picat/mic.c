@@ -1,6 +1,6 @@
 /********************************************************************
  *   File   : mic.c
- *   Author : Neng-Fa ZHOU Copyright (C) 1994-2017
+ *   Author : Neng-Fa ZHOU Copyright (C) 1994-2018
  *   Purpose: miscellaneous functions
  *            Includes MurmurHash by Austin Appleby
 
@@ -36,6 +36,12 @@
 #include "term.h"
 #include "frame.h"
 #include "event.h"
+
+#if defined(WIN32) && defined(M64BITS)
+#define sys_getpid() _getpid()
+#else
+#define sys_getpid() getpid()
+#endif
 
 #define BP_COMPARE_VALS(val1,val2)    (((BPLONG)val1 == (BPLONG)val2) ? 0 : (((BPLONG)val1 > (BPLONG)val2) ? 1 : -1))
 
@@ -851,29 +857,19 @@ int b_LOAD_cfc(op1,op2,op3)
 }
 
 BPLONG compute_total_parea_size(){
-	printf("START: compute_total_parea_size\n");
     BPLONG total_parea_size;
 
     total_parea_size = 0;
-	printf("compute: parea_low_addr\n");									\
-	printf("%i", parea_low_addr);
-	printf("\n");
     top = parea_low_addr;
     do {
-		printf("compute: top\n");									\
-		printf("%i", top);
-		printf("\n");
         total_parea_size  += sizeof(BPLONG)*FOLLOW(top+1); /* next,size,actual_parea */
         top = (BPLONG_PTR)FOLLOW(top);
     } while (top != NULL);
-
-	printf("END: compute_total_parea_size\n");
     return total_parea_size;
 }
 
 int c_STATISTICS()
 {
-	printf("START c_STATISTICS\n");
     BPLONG total_parea_size;
 
     fprintf(stderr,"\n");
@@ -928,7 +924,6 @@ int c_STATISTICS()
     fprintf(stderr,"  Expansions:   Stack+Heap(%d), Program(%d), Trail(%d), Table(%d)\n\n",(int)num_stack_expansions, (int)num_parea_expansions, (int)num_trail_expansions, (int)table_area_num_expansions());
 
     //  fprintf(stderr,"FD backtracks:     %5d\n\n",  (int)n_backtracks);
-	printf("END c_STATISTICS\n");
     return BP_TRUE;
 }
 
@@ -1194,7 +1189,7 @@ BPLONG hashtable_lookup_chain(chain,key)
     }
     return 0;
 }
-    
+
 BPLONG make_struct1(f,op1)
     char *f;
     BPLONG op1;
@@ -1440,8 +1435,6 @@ int membchk2(x,list)
 void quit(s)
     CHAR_PTR s;
 {
-	printf("START: quit\n");						\
-
 #ifdef BPSOLVER
     //  fprintf(stdout,"%% UNKNOWN\n");
     fprintf(stderr,"%% "); fprintf(stderr,"%s\n",s);
@@ -1450,8 +1443,6 @@ void quit(s)
     c_STATISTICS();                \
     fprintf(stderr,s);
     exit(0);
-	printf("END: quit\n");						\
-
 #endif
 }
 
@@ -1688,8 +1679,6 @@ void myquit(overflow_type,src)
     BPLONG overflow_type;
     char *src;
 {
-	printf("START: myquit\n");						\
-
 #ifdef BPSOLVER
     // fprintf(stdout,"%% UNKNOWN\n");
     fprintf(stderr,"%% stack overflow in "); fprintf(stderr,"%s\n",src);
@@ -1697,35 +1686,31 @@ void myquit(overflow_type,src)
 #else
     switch (overflow_type) {
     case STACK_OVERFLOW:
-		printf("\tmyquit stack_overflow\n");
         c_STATISTICS();
-        fprintf(stderr,"\nStack overflow in \"%s\" after %ld garbage collections and %ld stack expansions.\n",src,no_gcs,num_stack_expansions);
+        fprintf(stderr,"\nStack overflow in \"%s\" after %lld garbage collections and %lld stack expansions.\n",src,no_gcs,num_stack_expansions);
 #ifndef PICAT
         fprintf(stderr,"Please start B-Prolog with more stack space as\n");
         fprintf(stderr,"   bp -s xxx\n");
-        fprintf(stderr,"where xxx > %ld.\n",(int)stack_size);
+        fprintf(stderr,"where xxx > %lld.\n",(int)stack_size);
 #endif
         exit(1);
 
     case TRAIL_OVERFLOW:
-		printf("\tmyquit trail_overflow\n");
         c_STATISTICS();
-        fprintf(stderr,"\nTRAIL stack overflow in \"%s\" after %ld garbage collections and %ld trail expansions.\n",src,no_gcs,num_trail_expansions);
+        fprintf(stderr,"\nTRAIL stack overflow in \"%s\" after %lld garbage collections and %lld trail expansions.\n",src,no_gcs,num_trail_expansions);
 #ifndef PICAT
         fprintf(stderr,"Please start B-Prolog with more trail stack space as\n");
         fprintf(stderr,"   bp -b xxx\n");
-        fprintf(stderr,"where xxx > %ld.\n",trail_size);
+        fprintf(stderr,"where xxx > %lld.\n",trail_size);
 #endif
         exit(1);
 
     case PAREA_OVERFLOW:
-		printf("\tmyquit parea_overflow\n");
         c_STATISTICS();
-        fprintf(stderr,"\nProgram area overflow in \"%s\" after %ld expansions.\n",src,num_parea_expansions);
+        fprintf(stderr,"\nProgram area overflow in \"%s\" after %lld expansions.\n",src,num_parea_expansions);
         exit(1);
 
     case OUT_OF_MEMORY:
-		printf("\tmyquit out_of_memory\n");
         c_STATISTICS();
         fprintf(stderr,"\nOut of memory in \"%s\"\n",src);
         exit(1);
@@ -1733,8 +1718,6 @@ void myquit(overflow_type,src)
     default:
         exit(1);
     }
-	printf("END: myquit\n");						\
-
 #endif
 }
 
@@ -2364,7 +2347,8 @@ void qsort_int_array(BPLONG_PTR arr, BPLONG len) {
     while (i >= 0) {
         L = beg[i]; R = end[i]-1;
         if (L < R) {
-            piv = arr[L];
+            swap = L + (R-L)/2;
+            piv = arr[swap]; arr[swap] = arr[L]; arr[L] = piv;
             while (L < R) {
                 while (L < R && arr[R] > piv) R--;
                 arr[L++] = arr[R];
@@ -2392,7 +2376,8 @@ void qsort_term_array(BPLONG_PTR arr, BPLONG len) {
     while (i >= 0) {
         L = beg[i]; R = end[i]-1;
         if (L < R) {
-            piv = arr[L];
+            swap = L + (R-L)/2;
+            piv = arr[swap]; arr[swap] = arr[L]; arr[L] = piv;
             while (L < R) {
                 while (L < R && bp_compare(arr[R],piv) > 0) R--;
                 arr[L++] = arr[R];
@@ -2596,13 +2581,13 @@ int b_IS_STRING_c(BPLONG term){
 }
 
 int b_IS_MAP_c(BPLONG term){
-	SWITCH_OP_STRUCT(term,lab1,
-		{return BP_FALSE;}, 
-		{
-			SYM_REC_PTR sym = GET_STR_SYM_REC(term);
-			return (sym == hashtable_psc || sym == ghashtable_psc || sym == thashtable_psc) ? BP_TRUE : BP_FALSE;
-		}, 
-		{return BP_FALSE;});
+    SWITCH_OP_STRUCT(term,lab1,
+                     {return BP_FALSE;}, 
+                     {
+                         SYM_REC_PTR sym = GET_STR_SYM_REC(term);
+                         return (sym == hashtable_psc || sym == ghashtable_psc || sym == thashtable_psc) ? BP_TRUE : BP_FALSE;
+                     }, 
+                     {return BP_FALSE;});
     return BP_FALSE;
 }
 
@@ -2728,7 +2713,7 @@ int b_NEW_STRUCT_ccf(BPLONG name, BPLONG arity, BPLONG term){
 
 int c_getpid(){
     BPLONG op = ARG(1,1);
-    return unify(op,MAKEINT(_getpid()));
+    return unify(op,MAKEINT(sys_getpid()));
 }
 
 void Cboot_mic()

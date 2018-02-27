@@ -1,6 +1,6 @@
 /********************************************************************
  *   File   : domain.c
- *   Author : Neng-Fa ZHOU Copyright (C) 1994-2017
+ *   Author : Neng-Fa ZHOU Copyright (C) 1994-2018
  *   Purpose: Primitives on finite domains
 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -1928,7 +1928,7 @@ void print_domain(dv_ptr)
     last = DV_last(dv_ptr);
   
     if (IS_IT_DOMAIN(dv_ptr)){
-        fprintf(curr_out,"::[%ld..%ld]",first,last);
+        fprintf(curr_out,"::[%lld..%lld]",first,last);
     } else {
         low = first;
         i = first+1;
@@ -1937,15 +1937,15 @@ void print_domain(dv_ptr)
             while(i<last && dm_true(dv_ptr,i)) i++;
             if (i==last) break;
             high = i-1;
-            if (low==high) fprintf(curr_out,"%ld,",low);
-            else fprintf(curr_out,"%ld..%ld,",low,high);
+            if (low==high) fprintf(curr_out,"%lld,",low);
+            else fprintf(curr_out,"%lld..%lld,",low,high);
             i++;
             while (!dm_true(dv_ptr,i) && i<last) i++;
             low = i;
         }
         high = last;
-        if (low==high) fprintf(curr_out,"%ld]",low);
-        else fprintf(curr_out,"%ld..%ld]",low,high);
+        if (low==high) fprintf(curr_out,"%lld]",low);
+        else fprintf(curr_out,"%lld..%lld]",low,high);
     }
 }
 
@@ -2922,7 +2922,7 @@ x_is_int:
         if (a != 0 && a != 1 && a != -1 && IS_SUSP_VAR(Y) && IS_SUSP_VAR(Z)){
             dv_ptr_y = (BPLONG_PTR)UNTAGGED_TOPON_ADDR(Y);
             dv_ptr_z = (BPLONG_PTR)UNTAGGED_TOPON_ADDR(Z);
-			minZ = DV_first(dv_ptr_z); maxZ = DV_last(dv_ptr_z);
+            minZ = DV_first(dv_ptr_z); maxZ = DV_last(dv_ptr_z);
             if (minZ >= -500 && maxZ <= 500){                        // IS_SMALL_DOMAIN(dv_ptr_z)){
                 for (;;){
                     BPLONG elm = minZ/a;

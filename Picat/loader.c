@@ -1,6 +1,6 @@
 /********************************************************************
  *   File   : loader.c
- *   Author : Updated by Neng-Fa ZHOU 1994-2017
+ *   Author : Updated by Neng-Fa ZHOU 1994-2018
 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -297,13 +297,13 @@ int loader(file,file_type,load_damon)
      
         err_msg = load_text();
         if (err_msg != 0) {
-            printf("error %ld loading file %s: bad text segment\n", err_msg, file);
+            printf("error %lld loading file %s: bad text segment\n", err_msg, file);
             return 1;  /* eventually upper level routines will determine */
         }
 
         err_msg = load_hashtab();
         if (err_msg != 0) {
-            printf("error %ld in (index) loading file %s: bad index segment\n", err_msg, file);
+            printf("error %lld in (index) loading file %s: bad index segment\n", err_msg, file);
             return 1;  /*eventually upper level routines will determine */
         }
 
@@ -513,7 +513,7 @@ int load_text()
         *inst_addr++ = current_opcode;
 #endif
         /*
-          printf("load %s  count=%ld text_bytes=%ld\n",inst_name[current_opcode],count,text_bytes);
+          printf("load %s  count=%lld text_bytes=%lld\n",inst_name[current_opcode],count,text_bytes);
         */
 
 #include "load_inst.h" 
