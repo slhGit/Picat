@@ -1224,6 +1224,7 @@ void Cboot() {
 #endif
 
     //  Cboot_TP(); 
+#ifdef PYTHON
 	extern int python_init();
 	insert_cpred("python_init", 0, python_init);
 
@@ -1244,6 +1245,7 @@ void Cboot() {
 
 	extern int python_import();
 	insert_cpred("python_import", 1, python_import);
+#endif
 }
   
 /* by S. Branch */  

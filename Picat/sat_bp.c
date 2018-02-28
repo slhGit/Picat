@@ -11,12 +11,12 @@
 #include "bprolog.h"
 
 #ifdef SAT
-#ifdef GLU
-#include "glucose\glucose.h"
+#ifdef GLUCOSE
+#include "glucose_interface.h"
 
+static int is_pglu = 0;
 #define SAT_SATISFIABLE res == 1
-#define SAT_GET_BINDING(varNum) ((glu_get_binding(varNum) == 1) ? BP_ONE : BP_ZERO)
-#define PSAT_GET_BINDING(varNum) ((pglu_get_binding(varNum) == 1) ? BP_ONE : BP_ZERO)
+#define SAT_GET_BINDING(varNum) (((is_pglu ? pglu_get_binding(varNum) : glu_get_binding(varNum)) == 1) ? BP_ONE : BP_ZERO)
 
 
 #else
@@ -40,12 +40,12 @@ static int num_threads = 0;
 
 
 #ifdef SAT
-#ifdef GLU
-#define SAT_INIT glu_init()
+#ifdef GLUCOSE
+#define SAT_INIT is_pglu = 0; glu_init()
 #define SAT_ADD(i) glu_add_lit(i)
 #define SAT_START glu_start_solver()
 
-#define PSAT_INIT(n) pglu_init()
+#define PSAT_INIT(n) is_pglu = 1; pglu_init()
 #define PSAT_START pglu_start_solver()
 
 #else
@@ -53,8 +53,8 @@ static int num_threads = 0;
 #define SAT_ADD(i) lgladd(bp_lgl,i)
 #define SAT_START lglsat(bp_lgl)
 
-#define PSAT_INIT(n) plgl_init()
-#define PSAT_START plgl_start(bp_lgl)
+#define PSAT_INIT(n) plgl_init(n)
+#define PSAT_START plgl_start(&bp_lgl)
 
 #endif
 #endif
@@ -111,14 +111,14 @@ int c_sat_stop_dump(){
 int b_SAT_ADD_CL_c(BPLONG cl){
     BPLONG_PTR ptr, lit_ptr; 
 
-#ifdef GLU
+#ifdef GLUCOSE
 #define PSAT_ADD(i) pglu_add_lit(i)
 
 #else
 	extern void plgl_add_lit(int);
 	extern void plgl_add_lit0();
 
-#define PSAT_ADD(i) if (i == 0) plgl_add_lit0; else plgl_add_lit(i)
+#define PSAT_ADD(i) if (i == 0) plgl_add_lit0(); else plgl_add_lit(i)
 #endif
 
     lit_ptr = local_top; /* reuse Picat't local stack , asumming that the gap is big enough for holding the literals */
@@ -290,7 +290,6 @@ lab_start:
   in X's domain have the same bit value B in the position, then set Xi = B.
 */
 int c_sat_propagate_dom_bits(){
-	printf("\t\tc_sat_propagate_dom_bits\n");
     BPLONG X, LogBitVect;
     SYM_REC_PTR sym_ptr;
     BPLONG_PTR dv_ptr, vect_ptr;

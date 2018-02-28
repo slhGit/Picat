@@ -496,6 +496,7 @@ lbool ParallelSolver::solve_(bool do_simp, bool turn_off_simp) {
 
         // Extend & copy model:
         model.growTo(nVars());
+		printf("\tin parallelsolver, nvar: %d\n", nVars());
         for (int i = 0; i < nVars(); i++) model[i] = value(i);
     } else if (status == l_False && conflict.size() == 0)
         ok = false;

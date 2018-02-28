@@ -1,5 +1,5 @@
-CC     = gcc -DGC -DGCC -DPICAT -DSAT -DGLU -DM64BITS 
-CPP    = g++ -DGC -DGCC -DPICAT -DSAT -DGLU -DM64BITS
+CC     = gcc -DGC -DGCC -DPICAT -DSAT -DGLUCOSE -DM64BITS 
+CPP    = g++ -DGC -DGCC -DPICAT -DSAT -DGLUCOSE -DM64BITS
 
 #CC     = gcc -DGC -pg  -DSAT -DNO_SEMI_OPT -DGLPK -DPICAT
 #CC     = gcc -DGCC -shared
@@ -18,13 +18,13 @@ LGLFLAG = -Wall -DNLGLOG -DNLGLSTATS -DNDEBUG -DNLGLPICOSAT
 LFLAGS = -lm -lpthread
 
 OBJ = dis.o init.o init_sym.o loader.o inst_inf.o main.o toam.o unify.o \
-	file.o domain.o cfd.o float1.o arith.o token.o global.o \
-	builtins.o mic.o numbervars.o cpreds.o univ.o assert.o findall.o clause.o \
+    file.o domain.o cfd.o float1.o arith.o token.o global.o \
+    builtins.o mic.o numbervars.o cpreds.o univ.o assert.o findall.o clause.o \
     delay.o clpfd.o clpfd_libs.o event.o toamprofile.o \
     kapi.o getline.o table.o gcstack.o gcheap.o gcqueue.o debug.o \
-    expand.o bigint.o sapi.o sat_bp.o espresso_bp.o lglbnr.o lglib.o plglib.o
-
-
+    expand.o bigint.o sapi.o sat_bp.o espresso_bp.o lglbnr.o lglib.o plglib.o \
+    Solver.o Options.o System.o SimpSolver.o SharedCompanion.o SolverCompanion.o \
+    SolverConfiguration.o ParallelSolver.o MultiSolvers.o ClausesBuffer.o Glucose_Interface.o 
 
 ESP = espresso/
 
@@ -39,11 +39,8 @@ ESPRESSO_OBJ = $(ESP)black_white.o $(ESP)canonical.o $(ESP)cofactor.o $(ESP)cols
 
 GLU = glucose/
 
-GLUCOSE_OBJ = 	$(GLU)Solver.o $(GLU)Options.o $(GLU)System.o $(GLU)SimpSolver.o $(GLU)SharedCompanion.o $(GLU)SolverCompanion.o \
-				$(GLU)SolverConfiguration.o $(GLU)ParallelSolver.o $(GLU)MultiSolvers.o $(GLU)ClausesBuffer.o  $(GLU)Glucose.o
-
 picat.exe : $(OBJ)
-	cd espresso && make && cd ../glucose && make && cd .. && $(CPP) -o picat.exe $(OBJ) $(ESPRESSO_OBJ) $(GLUCOSE_OBJ) $(LFLAGS)
+	cd espresso && make && cd .. && $(CPP) -o picat.exe $(OBJ) $(ESPRESSO_OBJ) $(LFLAGS)
 clean :
 	rm -f *.o picat.exe
 dis.o   : dis.c term.h inst.h basic.h 
@@ -123,13 +120,37 @@ espresso_bp.o : espresso_bp.c term.h basic.h bapi.h frame.h
 sapi.o : sapi.c sapi.h term.h basic.h bapi.h frame.h
 	$(CC) $(CFLAGS) sapi.c 
 sat_bp.o : sat_bp.c term.h basic.h bapi.h frame.h
-	$(CC) $(CFLAGS) -Iglucose sat_bp.c
+	$(CC) $(CFLAGS) sat_bp.c
 lglbnr.o : lingeling/lglbnr.c 
 	$(CC) $(CFLAGS) $(LGLFLAG) -Ilingeling lingeling/lglbnr.c
 lglib.o : lingeling/lglib.c 
 	$(CC) $(CFLAGS)  $(LGLFLAG) -Ilingeling lingeling/lglib.c
 plglib.o : lingeling/plglib.c 
 	$(CC) $(CFLAGS)  $(LGLFLAG) -Ilingeling lingeling/plglib.c
+
+Solver.o : glucose/core/Solver.cc 
+	$(CPP) $(CFLAGS) -Iglucose glucose/core/Solver.cc 
+Options.o : glucose/utils/Options.cc 
+	$(CPP) $(CFLAGS) -Iglucose glucose/utils/Options.cc 
+System.o : glucose/utils/System.cc 
+	$(CPP) $(CFLAGS) -Iglucose glucose/utils/System.cc 
+SimpSolver.o : glucose/simp/SimpSolver.cc 
+	$(CPP) $(CFLAGS) -Iglucose glucose/simp/SimpSolver.cc 
+SharedCompanion.o : glucose/parallel/SharedCompanion.cc 
+	$(CPP) $(CFLAGS) -Iglucose glucose/parallel/SharedCompanion.cc 
+SolverCompanion.o : glucose/parallel/SolverCompanion.cc 
+	$(CPP) $(CFLAGS) -Iglucose glucose/parallel/SolverCompanion.cc 
+SolverConfiguration.o : glucose/parallel/SolverConfiguration.cc 
+	$(CPP) $(CFLAGS) -Iglucose glucose/parallel/SolverConfiguration.cc 
+ParallelSolver.o : glucose/parallel/ParallelSolver.cc
+	$(CPP) $(CFLAGS) -Iglucose glucose/parallel/ParallelSolver.cc 
+MultiSolvers.o : glucose/parallel/MultiSolvers.cc 
+	$(CPP) $(CFLAGS) -Iglucose glucose/parallel/MultiSolvers.cc 
+ClausesBuffer.o : glucose/parallel/ClausesBuffer.cc 
+	$(CPP) $(CFLAGS) -Iglucose glucose/parallel/ClausesBuffer.cc 
+Glucose_Interface.o : Glucose_Interface.cpp
+	$(CPP) $(CFLAGS) -Iglucose Glucose_Interface.cpp
+
 
 
 

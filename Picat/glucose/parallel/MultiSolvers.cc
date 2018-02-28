@@ -137,6 +137,7 @@ void MultiSolvers::generateAllSolvers() {
     assert(solvers[0] != NULL);
     assert(allClonesAreBuilt == 0);
 
+	printf("NUMBER OF SOLVERS: %d\n", nbsolvers);
     for(int i = 1; i < nbsolvers; i++) {
         ParallelSolver *s = (ParallelSolver *) solvers[0]->clone();
         solvers.push(s);
@@ -678,7 +679,7 @@ lbool MultiSolvers::solve() {
 
     assert(sharedcomp != NULL);
     result = sharedcomp->jobStatus;
-    if(result == l_True) {
+	if (result == l_True) {
         sharedcomp->jobFinishedBy->extendModel();
         int n = sharedcomp->jobFinishedBy->nVars();
         model.growTo(n);

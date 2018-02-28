@@ -189,7 +189,43 @@
     <ClCompile Include="python_to_picat.c">
       <Filter>python</Filter>
     </ClCompile>
-    <ClCompile Include="glucose\glucose.cpp">
+    <ClCompile Include="glucose\core\Solver.cc">
+      <Filter>glucose\core</Filter>
+    </ClCompile>
+    <ClCompile Include="glucose\parallel\SolverConfiguration.cc">
+      <Filter>glucose\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="glucose\parallel\ClausesBuffer.cc">
+      <Filter>glucose\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="glucose\parallel\Main.cc">
+      <Filter>glucose\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="glucose\parallel\MultiSolvers.cc">
+      <Filter>glucose\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="glucose\parallel\ParallelSolver.cc">
+      <Filter>glucose\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="glucose\parallel\SharedCompanion.cc">
+      <Filter>glucose\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="glucose\parallel\SolverCompanion.cc">
+      <Filter>glucose\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="glucose\simp\Main.cc">
+      <Filter>glucose\simp</Filter>
+    </ClCompile>
+    <ClCompile Include="glucose\simp\SimpSolver.cc">
+      <Filter>glucose\simp</Filter>
+    </ClCompile>
+    <ClCompile Include="glucose\utils\Options.cc">
+      <Filter>glucose\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="glucose\utils\System.cc">
+      <Filter>glucose\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="glucose_interface.cpp">
       <Filter>glucose</Filter>
     </ClCompile>
   </ItemGroup>
@@ -284,7 +320,91 @@
     <ClInclude Include="python_interface_utility.h">
       <Filter>python</Filter>
     </ClInclude>
-    <ClInclude Include="glucose\glucose.h">
+    <ClInclude Include="glucose\core\BoundedQueue.h">
+      <Filter>glucose\core</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\core\Constants.h">
+      <Filter>glucose\core</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\core\Dimacs.h">
+      <Filter>glucose\core</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\core\Solver.h">
+      <Filter>glucose\core</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\core\SolverStats.h">
+      <Filter>glucose\core</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\core\SolverTypes.h">
+      <Filter>glucose\core</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\mtl\Alg.h">
+      <Filter>glucose\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\mtl\Alloc.h">
+      <Filter>glucose\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\mtl\Clone.h">
+      <Filter>glucose\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\mtl\Heap.h">
+      <Filter>glucose\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\mtl\IntTypes.h">
+      <Filter>glucose\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\mtl\Map.h">
+      <Filter>glucose\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\mtl\Queue.h">
+      <Filter>glucose\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\mtl\Sort.h">
+      <Filter>glucose\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\mtl\Vec.h">
+      <Filter>glucose\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\mtl\VecThreads.h">
+      <Filter>glucose\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\mtl\XAlloc.h">
+      <Filter>glucose\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\parallel\ClausesBuffer.h">
+      <Filter>glucose\parallel</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\parallel\MultiSolvers.h">
+      <Filter>glucose\parallel</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\parallel\ParallelSolver.h">
+      <Filter>glucose\parallel</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\parallel\SharedCompanion.h">
+      <Filter>glucose\parallel</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\parallel\SolverCompanion.h">
+      <Filter>glucose\parallel</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\parallel\SolverConfiguration.h">
+      <Filter>glucose\parallel</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\simp\libio.h">
+      <Filter>glucose\simp</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\simp\SimpSolver.h">
+      <Filter>glucose\simp</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\utils\Options.h">
+      <Filter>glucose\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\utils\ParseUtils.h">
+      <Filter>glucose\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose\utils\System.h">
+      <Filter>glucose\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="glucose_interface.h">
       <Filter>glucose</Filter>
     </ClInclude>
   </ItemGroup>
