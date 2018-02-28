@@ -39,6 +39,8 @@ int sat_nvars_limit;  /* used by plglib, the size of the dynamic arrays */
 static int num_threads = 0;
 
 
+
+
 #ifdef SAT
 #ifdef GLUCOSE
 #define SAT_INIT is_pglu = 0; glu_init()
