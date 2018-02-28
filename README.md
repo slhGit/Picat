@@ -50,4 +50,7 @@ bp.python_set_value(X,Y)		X is a picat value, Y must be a string. Will convert t
                                 
 //WARNING!!!  As of now, there is very little error handling in the Python interface, so there are chances of crashing.
                                 
-                                
+GLUCOSE SAT SOLVER
+For use with Linux or Cygwin builds.
+
+Recently added support for the Glucose Sat Solver. The visual studio project will not compile this, but it can be compiled with Cygwin and the Makefile provided. Makefile defs must include -DSAT and -DGLUCOSE. If only -DSAT is used, the Lingeling Sat solver will be used instead. 
