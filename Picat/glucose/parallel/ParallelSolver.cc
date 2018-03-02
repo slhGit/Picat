@@ -481,6 +481,7 @@ lbool ParallelSolver::solve_(bool do_simp, bool turn_off_simp) {
         for (int i = 0; i < extra_frozen.size(); i++)
             setFrozen(extra_frozen[i], false);
 */
+
     
     bool firstToFinish = false;
     if (status != l_Undef)

@@ -193,6 +193,7 @@ int c_sat_start(){
     lst = ARG(1,1);
     DEREF_NONVAR(lst); 
 
+
     //  printf("=>sat_start "); write_term(lst); printf("\n");
         
     if (num_threads > 0){

@@ -20,6 +20,7 @@ static MultiSolvers* pglu_s;
 
 static vec<Lit> lits;
 
+
 static float realTimeStart;
 static double initial_time;
 

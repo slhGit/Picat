@@ -302,6 +302,7 @@ void MultiSolvers::printFinalStats() {
     printf("c |---------------------------------------- FINAL STATS --------------------------------------------------|\n");
     printf("c\n");
 
+
     printf("c |---------------|-----------------");
     for(int i = 0; i < solvers.size(); i++)
         printf("|------------");
