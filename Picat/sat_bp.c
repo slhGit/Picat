@@ -39,8 +39,6 @@ int sat_nvars_limit;  /* used by plglib, the size of the dynamic arrays */
 static int num_threads = 0;
 
 
-
-
 #ifdef SAT
 #ifdef GLUCOSE
 #define SAT_INIT is_pglu = 0; glu_init()
@@ -198,7 +196,6 @@ int c_sat_start(){
     //  printf("=>sat_start "); write_term(lst); printf("\n");
         
     if (num_threads > 0){
-        //res = plgl_start(&bp_lgl);
 		res = PSAT_START;
     } else {
 		res = SAT_START;

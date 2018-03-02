@@ -137,7 +137,6 @@ void MultiSolvers::generateAllSolvers() {
     assert(solvers[0] != NULL);
     assert(allClonesAreBuilt == 0);
 
-	printf("NUMBER OF SOLVERS: %d\n", nbsolvers);
     for(int i = 1; i < nbsolvers; i++) {
         ParallelSolver *s = (ParallelSolver *) solvers[0]->clone();
         solvers.push(s);
