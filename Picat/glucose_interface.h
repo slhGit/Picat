@@ -5,8 +5,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-	static int glu_res;
-
 	void glu_init();
 	void glu_add_lit(int lit0);
 	int glu_start_solver();

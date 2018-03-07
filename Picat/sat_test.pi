@@ -1,15 +1,31 @@
 import sat.
 
-main ?=> top,fail.
-main => true.
-
-top => 
-    Vars=[S,E,N,D,M,O,R,Y],  % generate variables
-    Vars :: 0..9,
-    all_different(Vars),     % generate constraints
-    S #!= 0,
-    M #!= 0,
-    1000*S+100*E+10*N+D+1000*M+100*O+10*R+E 
-         #= 10000*M+1000*O+100*N+10*E+Y,
-    solve([threads],Vars),
-    writeln(Vars).
+main =>
+	% define the problem instance
+	problem(Matrix),
+	NRows = Matrix.length,
+	NCols = Matrix[1].length,
+	% decision variables: where are the mines?
+	Mines = new_array(NRows,NCols),
+	Mines :: 0..1,
+	foreach (I in 1..NRows, J in 1..NCols)
+% only check those cells that have hints
+if ground(Matrix[I,J]) then
+% The number of neighboring mines must equal Matrix[I,J].
+Matrix[I,J] #= sum([Mines[I+A,J+B] :
+A in -1..1, B in -1..1,
+I+A > 0, J+B > 0,
+I+A =< NRows, J+B =< NCols]),
+% If there is a hint in a cell, then it cannot be a mine.
+Mines[I,J] #= 0
+end
+end,
+solve([threads],Mines),
+println(Mines).
+problem(P) =>
+P = {{_,_,2,_,3,_},
+{2,_,_,_,_,_},
+{_,_,2,4,_,3},
+{1,_,3,4,_,_},
+{_,_,_,_,_,3},
+{_,3,_,3,_,_}}.

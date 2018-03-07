@@ -14,7 +14,7 @@
 #ifdef GLUCOSE
 #include "glucose_interface.h"
 
-static int is_pglu = 0;
+static int is_pglu = 0; //used to check if Glucose Multisolver being used.
 #define SAT_SATISFIABLE res == 1
 #define SAT_GET_BINDING(varNum) (((is_pglu ? pglu_get_binding(varNum) : glu_get_binding(varNum)) == 1) ? BP_ONE : BP_ZERO)
 
@@ -46,6 +46,7 @@ static int num_threads = 0;
 #define SAT_START glu_start_solver()
 
 #define PSAT_INIT(n) is_pglu = 1; pglu_init()
+#define PSAT_ADD(i) pglu_add_lit(i)
 #define PSAT_START pglu_start_solver()
 
 #else
@@ -53,7 +54,11 @@ static int num_threads = 0;
 #define SAT_ADD(i) lgladd(bp_lgl,i)
 #define SAT_START lglsat(bp_lgl)
 
+extern void plgl_add_lit(int);
+extern void plgl_add_lit0();
+
 #define PSAT_INIT(n) plgl_init(n)
+#define PSAT_ADD(i) if (i == 0) plgl_add_lit0(); else plgl_add_lit(i)
 #define PSAT_START plgl_start(&bp_lgl)
 
 #endif
@@ -110,16 +115,6 @@ int c_sat_stop_dump(){
 /* cl is a list of literals */
 int b_SAT_ADD_CL_c(BPLONG cl){
     BPLONG_PTR ptr, lit_ptr; 
-
-#ifdef GLUCOSE
-#define PSAT_ADD(i) pglu_add_lit(i)
-
-#else
-	extern void plgl_add_lit(int);
-	extern void plgl_add_lit0();
-
-#define PSAT_ADD(i) if (i == 0) plgl_add_lit0(); else plgl_add_lit(i)
-#endif
 
     lit_ptr = local_top; /* reuse Picat't local stack , asumming that the gap is big enough for holding the literals */
     DEREF_NONVAR(cl);

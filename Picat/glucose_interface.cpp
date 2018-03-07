@@ -53,10 +53,7 @@ extern "C" {
 
 	int glu_start_solver() {
 		glu_s->parsing = 0;
-		glu_res = glu_s->solve();
-		
-		return glu_res;
-
+		return glu_s->solve();
 	}
 
 	int glu_get_binding(int varNum) {
@@ -91,9 +88,7 @@ extern "C" {
 	}
 
 	int pglu_start_solver() {
-		glu_res = pglu_s->solve() == l_True ? 1 : 0;
-		return glu_res;
-
+		return pglu_s->solve() == l_True ? 1 : 0;
 	}
 
 	int pglu_get_binding(int varNum) {
