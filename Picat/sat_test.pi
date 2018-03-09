@@ -20,7 +20,7 @@ I+A =< NRows, J+B =< NCols]),
 Mines[I,J] #= 0
 end
 end,
-solve([threads],Mines),
+solve(Mines),
 println(Mines).
 problem(P) =>
 P = {{_,_,2,_,3,_},

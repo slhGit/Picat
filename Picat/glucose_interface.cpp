@@ -52,6 +52,8 @@ extern "C" {
 
 
 	int glu_start_solver() {
+		printf("\n\n\nUSING SEQUENTIAL SOLVER\n\n\n");
+
 		glu_s->parsing = 0;
 		return glu_s->solve();
 	}
@@ -88,6 +90,7 @@ extern "C" {
 	}
 
 	int pglu_start_solver() {
+		printf("\n\n\nUSING PARALLEL SOLVER\n\n\n");
 		return pglu_s->solve() == l_True ? 1 : 0;
 	}
 

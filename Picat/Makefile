@@ -14,7 +14,6 @@ CFLAGS = -c -O3 -fno-strict-aliasing -Dunix -DLINUX -DPOSIX -DCYGWIN #Linux,#HP
 #CFLAGS = -c  -O4 -DDARWIN                 #MacOS X, Darwin
 
 LGLFLAG = -Wall -DNLGLOG -DNLGLSTATS -DNDEBUG -DNLGLPICOSAT
-
 LFLAGS = -lm -lpthread
 
 OBJ = dis.o init.o init_sym.o loader.o inst_inf.o main.o toam.o unify.o \

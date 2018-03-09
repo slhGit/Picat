@@ -62,7 +62,7 @@ extern const char *_parallel;
 extern const char *_cunstable;
 // Options at the parallel solver level
 static IntOption opt_nbsolversmultithreads(_parallel, "nthreads", "Number of core threads for syrup (0 for automatic)", 0);
-static IntOption opt_maxnbsolvers(_parallel, "maxnbthreads", "Maximum number of core threads to ask for (when nbthreads=0)", 4);
+static IntOption opt_maxnbsolvers(_parallel, "maxnbthreads", "Maximum number of core threads to ask for (when nbthreads=0)", 8);
 static IntOption opt_maxmemory(_parallel, "maxmemory", "Maximum memory to use (in Mb, 0 for no software limit)", 20000);
 static IntOption opt_statsInterval(_parallel, "statsinterval", "Seconds (real time) between two stats reports", 5);
 //
@@ -586,10 +586,12 @@ void MultiSolvers::adjustParameters() {
 
 void MultiSolvers::adjustNumberOfCores() {
     float mem = memUsed();
+	mem = 1; //needed to force multithreading in windows
     if(nbthreads == 0) { // Automatic configuration
         if(verb >= 1)
             printf("c |  Automatic Adjustement of the number of solvers. MaxMemory=%5d, MaxCores=%3d.                       |\n", maxmemory, maxnbsolvers);
         unsigned int tmpnbsolvers = maxmemory * 4 / 10 / mem;
+
         if(tmpnbsolvers > maxnbsolvers) tmpnbsolvers = maxnbsolvers;
         if(tmpnbsolvers < 1) tmpnbsolvers = 1;
         if(verb >= 1)
