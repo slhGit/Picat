@@ -147,7 +147,7 @@ MultiSolvers.o : glucose/parallel/MultiSolvers.cc
 	$(CPP) $(CFLAGS) -Iglucose glucose/parallel/MultiSolvers.cc 
 ClausesBuffer.o : glucose/parallel/ClausesBuffer.cc 
 	$(CPP) $(CFLAGS) -Iglucose glucose/parallel/ClausesBuffer.cc 
-Glucose_Interface.o : Glucose_Interface.cpp
+Glucose_Interface.o : glucose_interface.cpp
 	$(CPP) $(CFLAGS) -Iglucose Glucose_Interface.cpp
 
 

@@ -1,7 +1,7 @@
 #include "glucose_interface.h"
 
-#include "glucose\core\Solver.h"
-#include "glucose\parallel\MultiSolvers.h"
+#include "glucose/core/Solver.h"
+#include "glucose/parallel/MultiSolvers.h"
 
 
 #include "glucose/utils/System.h"
@@ -52,8 +52,6 @@ extern "C" {
 
 
 	int glu_start_solver() {
-		printf("\n\n\nUSING SEQUENTIAL SOLVER\n\n\n");
-
 		glu_s->parsing = 0;
 		return glu_s->solve();
 	}
@@ -61,10 +59,6 @@ extern "C" {
 	int glu_get_binding(int varNum) {
 		return glu_s->model[varNum - 1] == l_True ? 1 : 0;
 	}
-
-
-
-
 
 	void pglu_init() {
 		if (pglu_s) {
@@ -90,7 +84,6 @@ extern "C" {
 	}
 
 	int pglu_start_solver() {
-		printf("\n\n\nUSING PARALLEL SOLVER\n\n\n");
 		return pglu_s->solve() == l_True ? 1 : 0;
 	}
 
