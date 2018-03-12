@@ -45,7 +45,7 @@ static int num_threads = 0;
 #define SAT_ADD(i) glu_add_lit(i)
 #define SAT_START glu_start_solver()
 
-#define PSAT_INIT(n) is_pglu = 1; pglu_init()
+#define PSAT_INIT(n) is_pglu = 1; pglu_init(n)
 #define PSAT_ADD(i) pglu_add_lit(i)
 #define PSAT_START pglu_start_solver()
 

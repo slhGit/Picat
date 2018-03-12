@@ -1649,7 +1649,8 @@ lbool Solver::search(int nof_conflicts) {
                 decisions++;
                 next = pickBranchLit();
                 if(next == lit_Undef) {
-                    printf("c last restart ## conflicts  :  %d %d \n", conflictC, decisionLevel());
+					if (verbosity >= 1)
+						printf("c last restart ## conflicts  :  %d %d \n", conflictC, decisionLevel());
                     // Model found:
                     return l_True;
                 }

@@ -37,7 +37,7 @@ extern "C" {
 		
 	}
 
-	void glu_add_lit(int lit0) {		
+	void glu_add_lit(int lit0) {	
 		if (lit0 == 0) {
 			glu_s->addClause(lits);
 			lits.clear();
@@ -57,17 +57,20 @@ extern "C" {
 	}
 
 	int glu_get_binding(int varNum) {
+		if (varNum > pglu_s->model.size()) {
+			return 0;
+		}
 		return glu_s->model[varNum - 1] == l_True ? 1 : 0;
 	}
 
-	void pglu_init() {
+	void pglu_init(int num_threads) {
 		if (pglu_s) {
 			delete pglu_s;
 		}
 
 		pglu_s = new MultiSolvers();
-
-		pglu_s->setVerbosity(0);
+		pglu_s->forceThreads(num_threads);
+		pglu_s->setVerbosity(-1);
 	}
 
 	void pglu_add_lit(int lit0) {
@@ -88,6 +91,9 @@ extern "C" {
 	}
 
 	int pglu_get_binding(int varNum) {
+		if (varNum > pglu_s->model.size()) {
+			return 0;
+		}
 		int ret = (pglu_s->model[varNum - 1] == l_True) ? 1 : 0;
 		return ret;
 	}

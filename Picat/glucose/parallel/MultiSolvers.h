@@ -106,6 +106,7 @@ public:
 
   bool use_simplification;
 
+  void forceThreads(int num) { nbsolvers = nbthreads = maxnbsolvers = num; }
   
  protected:
 	friend class ParallelSolver;
