@@ -648,7 +648,8 @@ lbool MultiSolvers::solve() {
         if(pthread_cond_timedwait(&cfinished, &mfinished, &timeout) != ETIMEDOUT)
             done = true;
         else
-            printStats();
+			if (verb >= 1)
+				printStats();
 
         float mem = memUsed();
         if(verb >= 1) printf("c Total Memory so far : %.2fMb\n", mem);

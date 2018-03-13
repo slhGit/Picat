@@ -7,7 +7,6 @@
 import util, sat.
 
 main =>
-    println("START\n"),
     T = read_line().to_int(),
     foreach (TC in 1..T)
         [J,P,S,K] = [to_int(Token) : Token in read_line().split()],

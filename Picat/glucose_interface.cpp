@@ -57,7 +57,7 @@ extern "C" {
 	}
 
 	int glu_get_binding(int varNum) {
-		if (varNum > pglu_s->model.size()) {
+		if (varNum > glu_s->model.size()) {
 			return 0;
 		}
 		return glu_s->model[varNum - 1] == l_True ? 1 : 0;
@@ -69,7 +69,9 @@ extern "C" {
 		}
 
 		pglu_s = new MultiSolvers();
-		pglu_s->forceThreads(num_threads);
+//#if not defined(__linux__) and not defined(__FreeBSD__) and not defined(__APPLE__)
+//		pglu_s->forceThreads(num_threads);
+//#endif
 		pglu_s->setVerbosity(-1);
 	}
 
