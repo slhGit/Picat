@@ -1,0 +1,620 @@
+diff -p -u emu0/basic.h emu/basic.h
+--- emu0/basic.h	2018-02-01 14:33:41.000000000 +0100
++++ emu/basic.h	2018-03-13 13:52:01.154139961 +0100
+@@ -79,10 +79,14 @@ typedef unsigned short int  UW16;     /*
+ typedef long long int            BPLONG;   /* 64 bits for Win x64*/
+ typedef long long int            TERM;     /* 64 bits for Win x64*/
+ typedef unsigned long long int   BPULONG;  /* 64 bits for Win x64*/
++#define BPLONG_FMT_STR "%lld"
++#define BPULONG_FMT_STR "%llx"
+ #else
+ typedef long int            BPLONG;   /* 32 or 64 bits */
+ typedef long int            TERM;     /* 32 or 64 bits */
+ typedef unsigned long int   BPULONG;  /* 32 or 64 bits */
++#define BPLONG_FMT_STR "%ld"
++#define BPULONG_FMT_STR "%lx"
+ #endif
+ typedef unsigned int        UW32;     /* 32 bits */
+ 
+diff -p -u emu0/bigint.c emu/bigint.c
+--- emu0/bigint.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/bigint.c	2018-03-13 11:06:40.263491931 +0100
+@@ -1418,9 +1418,9 @@ void bp_print_bigint(BPLONG op){
+     BP_MAKE_UBIG_FROM_DLST(xDLst,xsize,x);
+     printf("[");
+     for (i=xsize-1;i>0;i--){
+-	  printf("%lld,",x[i]);
++	  printf(BPLONG_FMT_STR ",",x[i]);
+     }
+-    printf("%lld]",x[0]);
++    printf(BPLONG_FMT_STR "]",x[0]);
+ }
+ 
+ /*
+diff -p -u emu0/clpfd.c emu/clpfd.c
+--- emu0/clpfd.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/clpfd.c	2018-03-13 11:07:13.023791264 +0100
+@@ -945,9 +945,9 @@ BPLONG_PTR dv_ptr_x, dv_ptr_y;
+     
+ void print_event_queue(){
+     int i;
+-    printf("trigger_no=%d\n",trigger_no);
++    printf("trigger_no=" BPLONG_FMT_STR "\n",trigger_no);
+     for (i = 1; i<=trigger_no;i++){
+-        printf("FLAG(%ld) queue(%x)\n",event_flag[i],triggeredCs[i]);
++        printf("FLAG(%d) queue(" BPULONG_FMT_STR ")\n",event_flag[i],triggeredCs[i]);
+     }
+     if (trigger_no>=1) printf("\n");
+ }
+diff -p -u emu0/clpfd_libs.c emu/clpfd_libs.c
+--- emu0/clpfd_libs.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/clpfd_libs.c	2018-03-13 10:05:37.910028692 +0100
+@@ -792,7 +792,7 @@ void print_linear_constr(n)
+ {
+     BPLONG i;
+     BPLONG c = FOLLOW(arreg+2*n+1);
+-    printf("n=%d\n",n);
++    printf("n=" BPLONG_FMT_STR "\n",n);
+     /*
+       for (i=n;i>0;i--){
+       printf("%x ", FOLLOW(arreg+n+i));
+diff -p -u emu0/cpreds.c emu/cpreds.c
+--- emu0/cpreds.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/cpreds.c	2018-03-13 10:03:06.080641414 +0100
+@@ -898,7 +898,7 @@ void aux_term_2_string_term(term)
+     BPLONG_PTR top;
+ 
+     SWITCH_OP(term,term_2_string_l,
+-              {sprintf(buf,"_%x",(BPULONG)term);
++              {sprintf(buf,"_" BPULONG_FMT_STR ,(BPULONG)term);
+                   append_str_to_solution_bag(buf,strlen(buf),0);},
+               {if (ISINT(term)){
+                       sprintf(buf,"%d",(int)INTVAL(term));
+@@ -913,7 +913,7 @@ void aux_term_2_string_term(term)
+                       sprintf(buf,"%lf",floatval(term));
+                       append_str_to_solution_bag(buf,strlen(buf),0);
+                   } else if (IS_SUSP_VAR(term)){
+-                      sprintf(buf,"_%x",(BPULONG)term);
++                      sprintf(buf,"_" BPULONG_FMT_STR,(BPULONG)term);
+                       append_str_to_solution_bag(buf,strlen(buf),1);
+                   } else {
+                       sym_ptr = GET_STR_SYM_REC(term);
+@@ -927,7 +927,7 @@ void aux_term_2_string_term(term)
+                       }
+                       append_str_to_solution_bag(")",1,0);
+                   }},
+-              {sprintf(buf,"_%x",(BPULONG)term);
++              {sprintf(buf,"_" BPULONG_FMT_STR,(BPULONG)term);
+                   append_str_to_solution_bag(buf,strlen(buf),0);});
+ }
+ 
+diff -p -u emu0/dis.c emu/dis.c
+--- emu0/dis.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/dis.c	2018-03-13 11:28:46.187607013 +0100
+@@ -40,7 +40,7 @@ void dis_data()
+     for (i = 0; i < BUCKET_CHAIN; ++i) {
+         psc_ptr = hash_table[i];
+         while (psc_ptr!=NULL) {
+-            fprintf(filedes, "%lx: ", (BPLONG)psc_ptr);
++            fprintf(filedes,BPULONG_FMT_STR  ": ", (BPLONG)psc_ptr);
+             curr_out = filedes;
+             bp_write_pname(GET_NAME(psc_ptr));
+             fprintf(filedes, "/%d,\t", GET_ARITY(psc_ptr));
+@@ -110,11 +110,11 @@ void print_inst(filedes)
+   
+     if (opcode == tabsize) {
+         i=*cpreg++;
+-        fprintf(filedes, "\t %lx\n",i); 
++        fprintf(filedes, "\t " BPULONG_FMT_STR "\n",i); 
+ 
+         while (i>0) {
+             if (num_line) fprintf(filedes, "%lx\t",(unsigned long int) cpreg);
+-            fprintf(filedes, "\t %lx\n",*cpreg++); 
++            fprintf(filedes, "\t " BPULONG_FMT_STR "\n",*cpreg++); 
+             i--;
+         }
+     } else {
+@@ -126,7 +126,7 @@ void dis_addr(filedes,operand)
+     FILE *filedes;
+     BPLONG operand;
+ {
+-    fprintf(filedes, "' %lx'",(operand)); 
++    fprintf(filedes, "' " BPULONG_FMT_STR "'",(operand)); 
+ }
+ 
+ void dis_y(filedes,operand)
+diff -p -u emu0/domain.c emu/domain.c
+--- emu0/domain.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/domain.c	2018-03-13 09:57:16.693449033 +0100
+@@ -1928,7 +1928,7 @@ void print_domain(dv_ptr)
+     last = DV_last(dv_ptr);
+   
+     if (IS_IT_DOMAIN(dv_ptr)){
+-        fprintf(curr_out,"::[%lld..%lld]",first,last);
++        fprintf(curr_out,"::[" BPLONG_FMT_STR " .." BPLONG_FMT_STR "]",first,last);
+     } else {
+         low = first;
+         i = first+1;
+@@ -1937,15 +1937,15 @@ void print_domain(dv_ptr)
+             while(i<last && dm_true(dv_ptr,i)) i++;
+             if (i==last) break;
+             high = i-1;
+-            if (low==high) fprintf(curr_out,"%lld,",low);
+-            else fprintf(curr_out,"%lld..%lld,",low,high);
++            if (low==high) fprintf(curr_out,BPLONG_FMT_STR ",",low);
++            else fprintf(curr_out,BPLONG_FMT_STR ".." BPLONG_FMT_STR ",",low,high);
+             i++;
+             while (!dm_true(dv_ptr,i) && i<last) i++;
+             low = i;
+         }
+         high = last;
+-        if (low==high) fprintf(curr_out,"%lld]",low);
+-        else fprintf(curr_out,"%lld..%lld]",low,high);
++        if (low==high) fprintf(curr_out,BPLONG_FMT_STR "]",low);
++        else fprintf(curr_out,BPLONG_FMT_STR ".." BPLONG_FMT_STR "]",low,high);
+     }
+ }
+ 
+Common subdirectories: emu0/espresso and emu/espresso
+diff -p -u emu0/file.c emu/file.c
+--- emu0/file.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/file.c	2018-03-13 11:32:10.605474797 +0100
+@@ -722,11 +722,11 @@ int bp_write_var_update_pos(op)
+ {
+     BPLONG len;
+ 
+-    sprintf(bp_buf,"_%lx",op-(BPULONG)stack_low_addr);
++    sprintf(bp_buf,"_" BPULONG_FMT_STR,op-(BPULONG)stack_low_addr);
+     len = strlen(bp_buf);
+     line_position += len;
+     if (format_output_dest==0){
+-        fprintf(curr_out, "_%lx", op-(BPULONG)stack_low_addr);
++        fprintf(curr_out, "_" BPULONG_FMT_STR, op-(BPULONG)stack_low_addr);
+     } else {
+         CHECK_CHARS_POOL_OVERFLOW(len);
+         strcpy((chars_pool+chars_pool_index),bp_buf);
+@@ -791,11 +791,11 @@ int bp_write_suspvar_update_pos(op)
+     BPLONG_PTR dv_ptr;
+ 
+     dv_ptr = (BPLONG_PTR)UNTAGGED_TOPON_ADDR(op);
+-    sprintf(bp_buf,"_0%lx",(BPULONG)dv_ptr-(BPULONG)stack_low_addr);
++    sprintf(bp_buf,"_0" BPULONG_FMT_STR,(BPULONG)dv_ptr-(BPULONG)stack_low_addr);
+     len = strlen(bp_buf);
+     line_position += len;
+     if (format_output_dest==0){
+-        fprintf(curr_out, "_0%lx", (BPULONG)dv_ptr-(BPULONG)stack_low_addr);
++        fprintf(curr_out, "_0" BPULONG_FMT_STR, (BPULONG)dv_ptr-(BPULONG)stack_low_addr);
+     } else {
+         CHECK_CHARS_POOL_OVERFLOW(len);
+         strcpy((chars_pool+chars_pool_index),bp_buf);
+@@ -815,11 +815,11 @@ int bp_write_int_update_pos(op)
+ {
+     BPLONG len;
+ 
+-    sprintf(bp_buf,"%lld",op);
++    sprintf(bp_buf,BPLONG_FMT_STR,op);
+     len = strlen(bp_buf);
+     line_position += len;
+     if (format_output_dest==0){
+-	  fprintf(curr_out, "%lld", op);
++	  fprintf(curr_out, BPLONG_FMT_STR, op);
+     } else {
+         CHECK_CHARS_POOL_OVERFLOW(len);
+         strcpy((chars_pool+chars_pool_index),bp_buf);
+@@ -986,14 +986,14 @@ int b_WRITENAME_c(op)
+         }
+     */
+     SWITCH_OP(op,writename_1,
+-              {fprintf(curr_out, "_%lx", op-(BPULONG)stack_low_addr);},
++              {fprintf(curr_out, "_" BPULONG_FMT_STR, op-(BPULONG)stack_low_addr);},
+               {
+                   if (ISATOM(op)){
+                       sym_ptr = GET_ATM_SYM_REC(op);
+                       bp_write_pname(GET_NAME(sym_ptr));
+                   } else {
+                       op = INTVAL(op);
+-                      fprintf(curr_out, "%lld", op);
++                      fprintf(curr_out, BPLONG_FMT_STR, op);
+                   }
+               },
+               {fprintf(curr_out, ".");},
+@@ -1009,7 +1009,7 @@ int b_WRITENAME_c(op)
+               },
+               {
+                   dv_ptr = (BPLONG_PTR)UNTAGGED_TOPON_ADDR(op);
+-                  fprintf(curr_out, "_0%lx", (BPULONG)dv_ptr-(BPULONG)stack_low_addr);
++                  fprintf(curr_out, "_0" BPULONG_FMT_STR, (BPULONG)dv_ptr-(BPULONG)stack_low_addr);
+                   if (!IS_UN_DOMAIN(dv_ptr))
+                       print_domain(dv_ptr);});
+   
+@@ -1103,14 +1103,14 @@ int b_WRITE_QUICK_c(op)
+         return BP_ERROR;
+     }
+     SWITCH_OP(op,write_quick_1,
+-              {fprintf(curr_out, "_%lx", op-(BPULONG)stack_low_addr);},
++              {fprintf(curr_out, "_" BPULONG_FMT_STR, op-(BPULONG)stack_low_addr);},
+               {
+                   if (ISATOM(op)){
+                       sym_ptr = GET_ATM_SYM_REC(op);
+                       bp_write_pname(GET_NAME(sym_ptr));
+                   } else {
+                       op = INTVAL(op);
+-                      fprintf(curr_out, "%lld", op);
++                      fprintf(curr_out, BPLONG_FMT_STR, op);
+                   }
+               },
+               {return BP_FALSE;},
+@@ -1125,7 +1125,7 @@ int b_WRITE_QUICK_c(op)
+               },
+               {
+                   dv_ptr = (BPLONG_PTR)UNTAGGED_TOPON_ADDR(op);
+-                  fprintf(curr_out, "_0%lx", (BPULONG)dv_ptr-(BPULONG)stack_low_addr);
++                  fprintf(curr_out, "_0" BPULONG_FMT_STR, (BPULONG)dv_ptr-(BPULONG)stack_low_addr);
+                   if (!IS_UN_DOMAIN(dv_ptr))
+                       print_domain(dv_ptr);});
+ 
+@@ -1167,14 +1167,14 @@ int b_WRITEQNAME_c(op)
+     BPLONG_PTR dv_ptr;
+   
+     SWITCH_OP(op,writeqname_1,
+-              {fprintf(curr_out, "_%lx", op-(BPULONG)stack_low_addr);},
++              {fprintf(curr_out, "_" BPULONG_FMT_STR, op-(BPULONG)stack_low_addr);},
+               {
+                   if (ISATOM(op)){
+                       sym_ptr = GET_ATM_SYM_REC(op);
+                       bp_write_qname(GET_NAME(sym_ptr), GET_LENGTH(sym_ptr));
+                   } else {
+                       op = INTVAL(op);
+-                      fprintf(curr_out, "%lld", op);
++                      fprintf(curr_out, BPLONG_FMT_STR, op);
+                   }
+               },
+               {fprintf(curr_out, ".");},
+@@ -1189,7 +1189,7 @@ int b_WRITEQNAME_c(op)
+                   }
+               },
+               {dv_ptr = (BPLONG_PTR)UNTAGGED_TOPON_ADDR(op);
+-                  fprintf(curr_out, "_0%lx", (BPULONG)dv_ptr-(BPULONG)stack_low_addr);});
++                  fprintf(curr_out, "_0" BPULONG_FMT_STR , (BPULONG)dv_ptr-(BPULONG)stack_low_addr);});
+     return BP_TRUE;
+ }
+ 
+@@ -1229,14 +1229,14 @@ int b_WRITEQ_QUICK_c(op)
+     BPLONG_PTR dv_ptr;
+ 
+     SWITCH_OP(op,writeqquick_1,
+-              {fprintf(curr_out, "_%lx", op-(BPULONG)stack_low_addr);},
++              {fprintf(curr_out, "_" BPULONG_FMT_STR, op-(BPULONG)stack_low_addr);},
+               {
+                   if (ISATOM(op)){
+                       sym_ptr = GET_ATM_SYM_REC(op);
+                       bp_write_qname(GET_NAME(sym_ptr),GET_LENGTH(sym_ptr));
+                   } else {
+                       op = INTVAL(op);
+-                      fprintf(curr_out, "%lld", op);
++                      fprintf(curr_out, BPLONG_FMT_STR, op);
+                   }
+               },
+               {return BP_FALSE;},
+@@ -1248,7 +1248,7 @@ int b_WRITEQ_QUICK_c(op)
+                   } else  return BP_FALSE;
+               },
+               {dv_ptr = (BPLONG_PTR)UNTAGGED_TOPON_ADDR(op);
+-                  fprintf(curr_out, "_0%lx", (BPULONG)dv_ptr-(BPULONG)stack_low_addr);});
++                  fprintf(curr_out, "_0" BPULONG_FMT_STR, (BPULONG)dv_ptr-(BPULONG)stack_low_addr);});
+     return BP_TRUE;
+ }
+ 
+@@ -1926,7 +1926,11 @@ int get_socket_fd(int index){
+     printf("get_socket_fd not supported for non-Linux platforms\n");
+     return 0;
+ #else
+-    return(file_table[index].fdes->_fileno);                                                                    
++#ifdef ANDROID
++    return(file_table[index].fdes->_file);
++#else
++    return(file_table[index].fdes->_fileno);
++#endif
+ #endif
+ #endif
+ #endif
+@@ -2528,15 +2532,15 @@ int write_term(op)
+     BPLONG_PTR top;
+ 
+     SWITCH_OP(op,write_term_1,
+-              {fprintf(curr_out,"_%lx",op-(BPULONG)stack_low_addr);},
++              {fprintf(curr_out,"_" BPULONG_FMT_STR,op-(BPULONG)stack_low_addr);},
+ 
+               {if (ISATOM(op)){
+                       sym_ptr = GET_ATM_SYM_REC(op);
+                       bp_write_pname(GET_NAME(sym_ptr));
+                   }
+-				else fprintf(curr_out,"%lld",INTVAL(op));},
++				else fprintf(curr_out,BPLONG_FMT_STR,INTVAL(op));},
+ 
+-              {if (IsNumberedVar(op)){fprintf(curr_out,"$V(%lx)",INTVAL(op));} else { fprintf(curr_out,"["); write_list(op);}},
++              {if (IsNumberedVar(op)){fprintf(curr_out,"$V(" BPULONG_FMT_STR ")",INTVAL(op));} else { fprintf(curr_out,"["); write_list(op);}},
+ 
+               {if (IS_FLOAT_PSC(op)){
+                       bp_write_double(op);
+@@ -2563,7 +2567,7 @@ int write_term(op)
+                       }}},
+ 
+               {dv_ptr = (BPLONG_PTR)UNTAGGED_TOPON_ADDR(op);
+-                  fprintf(curr_out, "_0%lx", (BPULONG)dv_ptr-(BPULONG)stack_low_addr);
++                  fprintf(curr_out, "_0" BPULONG_FMT_STR, (BPULONG)dv_ptr-(BPULONG)stack_low_addr);
+                   if (!IS_UN_DOMAIN(dv_ptr))
+                       print_domain(dv_ptr);});
+     return BP_TRUE;
+@@ -2587,17 +2591,17 @@ int write_image(op)
+     DEREF(op);
+     switch (TAG(op)) {
+     case REF :
+-        fprintf(curr_out,"var      %lx\n",op);
++        fprintf(curr_out,"var      " BPULONG_FMT_STR "\n",op);
+         break;
+     case LST :
+-        fprintf(curr_out,"list     %lx\n",UNTAGGED_ADDR(op));
++        fprintf(curr_out,"list     " BPULONG_FMT_STR "\n",UNTAGGED_ADDR(op));
+         UNTAG_ADDR(op);
+         op1 = *(BPLONG_PTR)op;
+         DEREF(op1);
+-        fprintf(curr_out,"car      %lx\n",op1);
++        fprintf(curr_out,"car      " BPULONG_FMT_STR "\n",op1);
+         op1 = *((BPLONG_PTR)op+1);
+         DEREF(op1);
+-        fprintf(curr_out,"cdr      %lx\n",op1);
++        fprintf(curr_out,"cdr      " BPULONG_FMT_STR "\n",op1);
+         op1 = *(BPLONG_PTR)op;
+         DEREF(op1);
+         write_image(op1);
+@@ -2607,19 +2611,19 @@ int write_image(op)
+         break;
+     case ATM :
+         if (ISATOM(op))
+-            fprintf(curr_out,"atom     %lx\n",UNTAGGED_ADDR(op));
++            fprintf(curr_out,"atom     " BPULONG_FMT_STR "\n",UNTAGGED_ADDR(op));
+         else 
+-		  fprintf(curr_out,"int      %lld\n",INTVAL(op));
++		  fprintf(curr_out,"int      " BPLONG_FMT_STR "\n",INTVAL(op));
+         break;
+     case STR:
+-        fprintf(curr_out,"str      %lx\n",UNTAGGED_ADDR(op));
++        fprintf(curr_out,"str      " BPULONG_FMT_STR "\n",UNTAGGED_ADDR(op));
+         sym_ptr = GET_STR_SYM_REC(op);
+         UNTAG_ADDR(op);
+         arity = GET_ARITY(sym_ptr);
+         for (i=1;i<=arity;i++) {
+             op1 = *((BPLONG_PTR)op+i);
+             DEREF(op1);
+-            fprintf(curr_out,"%lld-arg    %lx\n",i,op1);
++            fprintf(curr_out,BPLONG_FMT_STR "-arg    " BPULONG_FMT_STR "\n",i,op1);
+         }
+         for (i=1;i<=arity;i++) {
+             op1 = *((BPLONG_PTR)op+i);
+@@ -2998,7 +3002,7 @@ int c_FORMAT_PRINT_INTEGER(){
+         arg = (BPLONG)floatval(arg);
+     }
+     format[0] = '%';
+-    sprintf(&format[1],"%lld%c",number,(int) control);
++    sprintf(&format[1],"%d%c",(int)number,(int) control);
+     sprintf(bp_buf,format,arg);
+     len = strlen(bp_buf);
+     line_position += len;
+@@ -3031,7 +3035,7 @@ int c_FORMAT_PRINT_FLOAT(){
+     }
+     format[0] = '%';
+     format[1] = '.';
+-    sprintf(&format[2],"%lld%c",number,(int) control);
++    sprintf(&format[2],"%d%c",(int)number,(int) control);
+     sprintf(bp_buf,format,val);
+     len = strlen(bp_buf);
+     line_position += len;
+@@ -3050,7 +3054,7 @@ char *format_comma_separated_int(BPLONG
+     char loc_buf[100];
+     int i,j,c;
+   
+-    sprintf(loc_buf,"%lld",amt);
++    sprintf(loc_buf,BPLONG_FMT_STR,amt);
+     i = strlen(loc_buf)-1;
+     j = MAX_STR_LEN-1;
+     c = 0;
+@@ -3124,16 +3128,16 @@ int b_ATOM_CONCAT_ccf(BPLONG a1, BPLONG
+ int print_term_to_buf(BPLONG term){
+     DEREF(term);
+     if (ISREF(term)){
+-        sprintf(bp_buf,"_%lx", (BPULONG)term-(BPULONG)stack_low_addr); 
++        sprintf(bp_buf,"_" BPULONG_FMT_STR, (BPULONG)term-(BPULONG)stack_low_addr); 
+     } else if (ISINT(term)){
+-        sprintf(bp_buf,"%lld", INTVAL(term));
++        sprintf(bp_buf,BPLONG_FMT_STR, INTVAL(term));
+     } else if (ISATOM(term)){
+         SYM_REC_PTR sym_ptr;
+         sym_ptr = (SYM_REC_PTR)GET_ATM_SYM_REC(term);
+         sprintf(bp_buf,"%s", GET_NAME(sym_ptr));
+     } else if (TAG(term)==STR){
+         if (IS_SUSP_VAR(term)){
+-            sprintf(bp_buf,"_0%lx", (BPULONG)UNTAGGED_TOPON_ADDR(term)-(BPULONG)stack_low_addr); 
++            sprintf(bp_buf,"_0" BPULONG_FMT_STR, (BPULONG)UNTAGGED_TOPON_ADDR(term)-(BPULONG)stack_low_addr); 
+         } else if (ISFLOAT(term)){
+             sprintf(bp_buf,"%.15lf", floatval(term));
+             bp_trim_trailing_zeros(bp_buf);
+@@ -3210,7 +3214,7 @@ void picat_str_to_c_str(BPLONG lst, char
+         s = GET_NAME(sym_ptr);
+         len = GET_LENGTH(sym_ptr);
+         if (i+len >= buf_size){
+-            printf("hreg = %lx local_top = %lx buf_size = %x \n", heap_top, local_top, buf_size);
++            printf("hreg = " BPULONG_FMT_STR " local_top = " BPULONG_FMT_STR " buf_size = " BPULONG_FMT_STR " \n", heap_top, local_top, buf_size);
+             write_term(lst0); printf("\n");
+             quit("buf overfolow in picat_str_to_c_str");
+         }
+diff -p -u emu0/init.c emu/init.c
+--- emu0/init.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/init.c	2018-03-13 10:38:10.859872963 +0100
+@@ -99,7 +99,7 @@ void init_toam(argc, argv)
+                 break;
+ 
+             case 's': i++;
+-                sscanf(argv[i], "%ld", &stack_size);
++                sscanf(argv[i], BPLONG_FMT_STR, &stack_size);
+                 if (stack_size<1000000) stack_size=1000000; 
+                 break;
+                                 
+Common subdirectories: emu0/lingeling and emu/lingeling
+diff -p -u emu0/loader.c emu/loader.c
+--- emu0/loader.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/loader.c	2018-03-13 12:13:14.471987357 +0100
+@@ -20,8 +20,11 @@
+ 
+ #define MAXSYMS BUCKET_CHAIN
+ 
++void inline IGUR(int i) {}  /* Ignore GCC Unused Result */
++void IGUR(int i);  /* see https://stackoverflow.com/a/16245669/490291 */
++
+ #define READ_DATA(x,y)  (y - fread(x, sizeof(*x), y, fp))
+-#define READ_DATA_ONLY(x,y)  fread(x, sizeof(*x), y, fp)
++#define READ_DATA_ONLY(x,y) IGUR( fread(x, sizeof(*x), y, fp))
+ #define RELOC_ADDR(offset) ((BPLONG_PTR)curr_fence + offset)
+ #define BUILTIN 1
+ 
+@@ -297,13 +300,13 @@ int loader(file,file_type,load_damon)
+      
+         err_msg = load_text();
+         if (err_msg != 0) {
+-            printf("error %lld loading file %s: bad text segment\n", err_msg, file);
++            printf("error " BPLONG_FMT_STR " loading file %s: bad text segment\n", err_msg, file);
+             return 1;  /* eventually upper level routines will determine */
+         }
+ 
+         err_msg = load_hashtab();
+         if (err_msg != 0) {
+-            printf("error %lld in (index) loading file %s: bad index segment\n", err_msg, file);
++            printf("error " BPLONG_FMT_STR " in (index) loading file %s: bad index segment\n", err_msg, file);
+             return 1;  /*eventually upper level routines will determine */
+         }
+ 
+diff -p -u emu0/mic.c emu/mic.c
+--- emu0/mic.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/mic.c	2018-03-13 10:52:12.131559734 +0100
+@@ -1373,16 +1373,16 @@ int c_SHOW_NONDET_FRAME() {
+     op1 = ARG(1,1);
+     op1 = INTVAL(op1);
+     tempreg = (BPLONG_PTR)*arreg;
+-    printf("AR=   = %lx\n",tempreg);
+-    printf("(AR)  = %lx\n", *tempreg); 
+-    printf("CPS   = %lx\n", *(tempreg-1)); 
+-    printf("TOP   = %lx\n", *(tempreg-2)); 
+-    printf("B     = %lx\n", *(tempreg-3)); 
+-    printf("CPF   = %lx\n", *(tempreg-4)); 
+-    printf("H     = %lx\n", *(tempreg-5)); 
+-    printf("T     = %lx\n", *(tempreg-6)); 
++    printf("AR=   = " BPULONG_FMT_STR "\n",tempreg);
++    printf("(AR)  = " BPULONG_FMT_STR "\n", *tempreg); 
++    printf("CPS   = " BPULONG_FMT_STR "\n", *(tempreg-1)); 
++    printf("TOP   = " BPULONG_FMT_STR "\n", *(tempreg-2)); 
++    printf("B     = " BPULONG_FMT_STR "\n", *(tempreg-3)); 
++    printf("CPF   = " BPULONG_FMT_STR "\n", *(tempreg-4)); 
++    printf("H     = " BPULONG_FMT_STR "\n", *(tempreg-5)); 
++    printf("T     = " BPULONG_FMT_STR "\n", *(tempreg-6)); 
+     for (i=1;i<= op1 ;i++) {
+-        printf("%lx",*(tempreg-6-i));
++        printf(BPULONG_FMT_STR,*(tempreg-6-i));
+         if (*(tempreg-6-i) == (BPLONG)(tempreg-6-i))
+             printf(" ***\n");
+         else
+@@ -1687,7 +1687,7 @@ void myquit(overflow_type,src)
+     switch (overflow_type) {
+     case STACK_OVERFLOW:
+         c_STATISTICS();
+-        fprintf(stderr,"\nStack overflow in \"%s\" after %lld garbage collections and %lld stack expansions.\n",src,no_gcs,num_stack_expansions);
++        fprintf(stderr,"\nStack overflow in \"%s\" after " BPLONG_FMT_STR " garbage collections and " BPLONG_FMT_STR " stack expansions.\n",src,no_gcs,num_stack_expansions);
+ #ifndef PICAT
+         fprintf(stderr,"Please start B-Prolog with more stack space as\n");
+         fprintf(stderr,"   bp -s xxx\n");
+@@ -1697,7 +1697,7 @@ void myquit(overflow_type,src)
+ 
+     case TRAIL_OVERFLOW:
+         c_STATISTICS();
+-        fprintf(stderr,"\nTRAIL stack overflow in \"%s\" after %lld garbage collections and %lld trail expansions.\n",src,no_gcs,num_trail_expansions);
++        fprintf(stderr,"\nTRAIL stack overflow in \"%s\" after " BPLONG_FMT_STR " garbage collections and " BPLONG_FMT_STR " trail expansions.\n",src,no_gcs,num_trail_expansions);
+ #ifndef PICAT
+         fprintf(stderr,"Please start B-Prolog with more trail stack space as\n");
+         fprintf(stderr,"   bp -b xxx\n");
+@@ -1707,7 +1707,7 @@ void myquit(overflow_type,src)
+ 
+     case PAREA_OVERFLOW:
+         c_STATISTICS();
+-        fprintf(stderr,"\nProgram area overflow in \"%s\" after %lld expansions.\n",src,num_parea_expansions);
++        fprintf(stderr,"\nProgram area overflow in \"%s\" after " BPLONG_FMT_STR " expansions.\n",src,num_parea_expansions);
+         exit(1);
+ 
+     case OUT_OF_MEMORY:
+diff -p -u emu0/sapi.c emu/sapi.c
+--- emu0/sapi.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/sapi.c	2018-03-13 11:35:22.703230011 +0100
+@@ -366,7 +366,7 @@ int SP_get_number_chars(SP_term_ref t, c
+     char *ptr;
+     DEREF(t);
+     if (ISINT(t)){
+-        sprintf(buf,"%d",INTVAL(t));
++        sprintf(buf,BPLONG_FMT_STR,INTVAL(t));
+     } else if (ISFLOAT(t)){
+         sprintf(buf,"%lf",floatval(t));
+     } else {
+@@ -587,7 +587,7 @@ int SP_query(SP_pred_ref predicate, ...)
+     char *name;
+ 
+     arity = GET_ARITY(predicate);
+-    printf("arity=%d\n",arity);
++    printf("arity=" BPLONG_FMT_STR "\n",arity);
+   
+     if (arity==0){
+         query = ADDTAG((BPLONG)predicate,ATM);
+diff -p -u emu0/table.c emu/table.c
+--- emu0/table.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/table.c	2018-03-13 10:54:32.808845115 +0100
+@@ -1905,13 +1905,13 @@ int table_statistics(){
+         subgoal_count += count;
+         /*    if (count != 0) fprintf(curr_out,"socket#%d(chainsize%d)\n",i,count); */
+     }
+-    fprintf(curr_out,"number_of_subgoals=%lld\t\t\n",subgoal_count);
+-    fprintf(curr_out,"max_number_of_answers=%lld\t\t\n",max_ans_count);
+-    fprintf(curr_out,"number_of_zero_answer_subgoals=%lld\t\t\n",zero_ans_count);
++    fprintf(curr_out,"number_of_subgoals=" BPLONG_FMT_STR "\t\t\n",subgoal_count);
++    fprintf(curr_out,"max_number_of_answers=" BPLONG_FMT_STR "\t\t\n",max_ans_count);
++    fprintf(curr_out,"number_of_zero_answer_subgoals=" BPLONG_FMT_STR "\t\t\n",zero_ans_count);
+     fprintf(curr_out,"average_number_of_answers=%.2f\t\t\n",(float)total_ans_count/subgoal_count);
+-    fprintf(curr_out,"max_iterations=%lld\t\t\n",max_its_count);
++    fprintf(curr_out,"max_iterations=" BPLONG_FMT_STR "\t\t\n",max_its_count);
+     fprintf(curr_out,"average_iterations=%.2f\t\t\n",(float)total_its_count/(float)subgoal_count);
+-    fprintf(curr_out,"number_of_scc_nodes=%lld\n",scc_nodes_count);
++    fprintf(curr_out,"number_of_scc_nodes=" BPLONG_FMT_STR "\n",scc_nodes_count);
+     return 1;
+ }
+ 
+@@ -1983,10 +1983,10 @@ void reset_temp_complete_subgoal_entries
+         subgoal_entry = (BPLONG_PTR)FOLLOW(subgoalTable+i);
+         while (subgoal_entry != NULL) {
+             if (GT_TOP_AR(subgoal_entry) == SUBGOAL_TEMP_COMPLETE){
+-                printf("TEMP_COMPLETE %x\n",subgoal_entry);
++                printf("TEMP_COMPLETE " BPULONG_FMT_STR "\n",subgoal_entry);
+                 ptr = (BPLONG_PTR)GT_SCC_ROOT(subgoal_entry);
+-                printf("SCC_ROOT = %x\n", ptr);
+-                printf("SCC_ROOT = %x\n", GT_TOP_AR(ptr));
++                printf("SCC_ROOT = " BPULONG_FMT_STR "\n", ptr);
++                printf("SCC_ROOT = " BPULONG_FMT_STR "\n", GT_TOP_AR(ptr));
+             }
+             //                GT_TOP_AR(subgoal_entry) = (BPLONG)NULL;
+             subgoal_entry = (BPLONG_PTR)GT_NEXT(subgoal_entry);
+diff -p -u emu0/token.c emu/token.c
+--- emu0/token.c	2018-02-01 14:33:41.000000000 +0100
++++ emu/token.c	2018-03-13 09:58:12.213956329 +0100
+@@ -2022,7 +2022,7 @@ int b_NEXT_TOKEN_ff(op1,op2)
+         ASSIGN_f_atom(op1,MAKEINT(BADEND));
+         break;
+     default:
+-        Fprintf(stderr, "Internal error %d %s\n", i, AtomStr);
++        Fprintf(stderr, "Internal error " BPLONG_FMT_STR " %s\n", i, AtomStr);
+     }
+     //  write_term(op1); write_term(op2); printf("\n");
+     return BP_TRUE;
