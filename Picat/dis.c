@@ -40,7 +40,7 @@ void dis_data()
     for (i = 0; i < BUCKET_CHAIN; ++i) {
         psc_ptr = hash_table[i];
         while (psc_ptr!=NULL) {
-            fprintf(filedes,BPULONG_FMT_STR  ": ", (BPLONG)psc_ptr);
+            fprintf(filedes, "%lx: ", (BPLONG)psc_ptr);
             curr_out = filedes;
             bp_write_pname(GET_NAME(psc_ptr));
             fprintf(filedes, "/%d,\t", GET_ARITY(psc_ptr));
@@ -110,11 +110,11 @@ void print_inst(filedes)
   
     if (opcode == tabsize) {
         i=*cpreg++;
-        fprintf(filedes, "\t " BPULONG_FMT_STR "\n",i); 
+        fprintf(filedes, "\t %lx\n",i); 
 
         while (i>0) {
             if (num_line) fprintf(filedes, "%lx\t",(unsigned long int) cpreg);
-            fprintf(filedes, "\t " BPULONG_FMT_STR "\n",*cpreg++); 
+            fprintf(filedes, "\t %lx\n",*cpreg++); 
             i--;
         }
     } else {
@@ -126,7 +126,7 @@ void dis_addr(filedes,operand)
     FILE *filedes;
     BPLONG operand;
 {
-    fprintf(filedes, "' " BPULONG_FMT_STR "'",(operand)); 
+    fprintf(filedes, "' %lx'",(operand)); 
 }
 
 void dis_y(filedes,operand)

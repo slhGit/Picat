@@ -23,13 +23,13 @@ static int dg_undo_mode = 0;
 /* ---------------------------------------------  */
 /*  |repeat | skip | leap | creep | spy | debug | */
 /* ---------------------------------------------  */
-#define DG_FLAG_DEBUG 0x1L
-#define DG_FLAG_SPY 0x2L
-#define DG_FLAG_SPY_DEBUG 0x3L
-#define DG_FLAG_C 0x4L
-#define DG_FLAG_L 0x8L
-#define DG_FLAG_S 0x10L
-#define DG_FLAG_R 0x20L
+#define DG_FLAG_DEBUG 0x1LL
+#define DG_FLAG_SPY 0x2LL
+#define DG_FLAG_SPY_DEBUG 0x3LL
+#define DG_FLAG_C 0x4LL
+#define DG_FLAG_L 0x8LL
+#define DG_FLAG_S 0x10LL
+#define DG_FLAG_R 0x20LL
 
 int c_init_dg_flag()
 {

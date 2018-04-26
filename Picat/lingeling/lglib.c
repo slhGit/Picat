@@ -6637,7 +6637,7 @@ static int lglprbana (LGL * lgl, int probe) {
 static int lglideref (LGL * lgl, int elit) {
   int ilit, res, repr;
   Ext * ext;
-  if (abs(elit) > lgl->maxext) {  return -1; }
+  if (abs (elit) > lgl->maxext) return -1;
   repr = lglerepr (lgl, elit);
   ext = lglelit2ext (lgl, repr);
   assert (!ext->equiv);

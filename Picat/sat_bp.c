@@ -45,7 +45,7 @@ static int num_threads = 0;
 #define SAT_ADD(i) glu_add_lit(i)
 #define SAT_START glu_start_solver()
 
-#define PSAT_INIT(n) is_pglu = 1; pglu_init(n)
+#define PSAT_INIT(n) is_pglu = 1; pglu_init()
 #define PSAT_ADD(i) pglu_add_lit(i)
 #define PSAT_START pglu_start_solver()
 
@@ -65,13 +65,16 @@ extern void plgl_add_lit0();
 #endif
 
 int b_SAT_GET_INC_VAR_NUM_f(BPLONG Num){
+#ifndef GLUCOSE
     extern void plgl_resize_dyn_arrays();
-
+#endif
     ASSIGN_f_atom(Num,MAKEINT(sat_nvars));
     sat_nvars++;
+#ifndef GLUCOSE
     if (num_threads > 0 && sat_nvars > sat_nvars_limit){
         plgl_resize_dyn_arrays();
     }
+#endif	
     return BP_TRUE;
 }
 
@@ -210,7 +213,7 @@ int c_sat_start(){
                 varNum = fast_get_attr(sv_ptr,et_NUMBER);
                 DEREF(varNum);
                 varNum = INTVAL(varNum);
-                unify(var,SAT_GET_BINDING(varNum));
+				unify(var,SAT_GET_BINDING(varNum));
             }
             lst = FOLLOW(ptr+1); DEREF(lst);
         }

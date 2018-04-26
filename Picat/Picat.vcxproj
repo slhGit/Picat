@@ -173,7 +173,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\libs;C:\cygwin64\home\me\Picat\Picat\curl\build\Win64\VC15\LIB Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcurl.lib;%(AdditionalDependencies);ws2_32.lib;wldap32.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);ws2_32.lib;wldap32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">

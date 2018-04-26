@@ -629,6 +629,7 @@ extern int check_var_in_d(BPLONG x,BPLONG List);
 extern void exclude_inner_interval_bv(BPLONG_PTR dv_ptr,BPLONG from,BPLONG to);						
 extern int domain_exclude_interval_aux(BPLONG_PTR dv_ptr,BPLONG from,BPLONG to);					
 extern int domain_exclude_interval_noint(BPLONG_PTR dv_ptr,BPLONG from,BPLONG to);					
+extern int c_CLPFD_ADD_AC_ccc();
 extern int b_CLPFD_MULTIPLY_INT_ccc(BPLONG X,BPLONG Y,BPLONG Z);							
 extern BPLONG con05_hashtable_get(BPLONG table,BPLONG key);								
 extern int c_cpcon_decrement_counters(void);										
@@ -1049,6 +1050,7 @@ extern int c_TIME_ffffff(void);
 extern int c_GETENV_cf(void);	
 extern int b_COMPARE_fcc(BPLONG op1,BPLONG op2,BPLONG op3);								
 extern int bp_compare(BPLONG val1, BPLONG val2);							
+extern int bp_compare_array_array(BPLONG_PTR ptr1, BPLONG_PTR ptr2, BPLONG size1, BPLONG size2);
 extern int compare_float_unknown(BPLONG val1,BPLONG val2);								
 extern int comalpha(SYM_REC_PTR psc_ptr1,SYM_REC_PTR  psc_ptr2);							
 extern int c_INCREMENTARG(void);
@@ -1381,6 +1383,41 @@ extern int c_sat_propagate_dom_bits();
 extern int c_call_espresso();
 extern int c_call_espresso_pb();
   
+//
+//	kapi.c prototypes
+//
+extern double PvalueOfReal(BPLONG term);
+extern BPLONG PvalueOfAddr(BPLONG term);
+extern char* PnumberToStr(BPLONG term);
+extern UW32 ParityOfCompound(BPLONG term);
+extern BPLONG PargOfCompound(BPLONG term, BPLONG n);
+extern char *PascOfFunc(BPLONG term);
+extern char *PascOfAtom(BPLONG term);
+extern char *PnameToAsc(BPLONG term);
+extern int Punify(BPLONG term1, BPLONG term2);
+extern int PuInt(BPLONG term, BPLONG i);
+extern int PuAtom(BPLONG term, char * str);
+extern void PuStr(BPLONG term, char *str);
+extern int PuAddr(BPLONG term, void *a);
+extern int PuReal(BPLONG term, double d);
+extern BPLONG PnewVar();
+extern BPLONG Patom(char *str);
+extern BPLONG create_FUNCTOR(char *name, BPLONG arity);
+extern BPLONG Pfunctorn(BPLONG name, BPLONG arity);
+extern BPLONG get_CAR(BPLONG term);
+extern BPLONG PlistCar(BPLONG term);
+extern BPLONG get_CDR(BPLONG term);
+extern BPLONG PlistCdr(BPLONG term);
+extern BPLONG PlistLength(BPLONG term);
+extern BPLONG Plistn(BPLONG length);
+extern int PcallF(BPLONG term);
+extern int PcallX(BPLONG command);
+extern int PexecP(char *cmd);
+extern int Pexecute(char *cmd);
+extern int PinitP(int argc, char **argv);
+extern void jni_interface();
+extern void plc_sup();
+
 //
 // others
 //

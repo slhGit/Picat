@@ -56,13 +56,13 @@
 #define TEMP_FRAME_TAG    0x3L
 
 #ifdef M64BITS
-#define CATCHER_FRAME_TAG        0x8000000000000003L
-#define NONDET_FRAME_TAG         0x8000000000000002L
-#define TABLE_FRAME_TAG          0x8000000000000001L
+#define CATCHER_FRAME_TAG        0x8000000000000003ULL
+#define NONDET_FRAME_TAG         0x8000000000000002ULL
+#define TABLE_FRAME_TAG          0x8000000000000001ULL
 #else
-#define CATCHER_FRAME_TAG        0x80000003L
-#define NONDET_FRAME_TAG         0x80000002L
-#define TABLE_FRAME_TAG          0x80000001L
+#define CATCHER_FRAME_TAG        0x80000003UL
+#define NONDET_FRAME_TAG         0x80000002UL
+#define TABLE_FRAME_TAG          0x80000001UL
 #endif
 
 /* A catcher frame is a nondet frame that needs special treatment by the cut.

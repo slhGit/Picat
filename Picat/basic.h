@@ -508,7 +508,7 @@ extern BPLONG addr_top_bit;
 #define BP_MALLOC(ptr,size){							\
 	ptr = (BPLONG_PTR)(malloc(size*sizeof(BPLONG)));	\
 	if (ptr!=NULL){										\
-	  if (addr_top_bit == -1L){							\
+	  if (addr_top_bit == -1LL){						\
 		addr_top_bit = ((BPLONG)ptr & TOP_BIT);			\
 	  } else {											\
 		if (addr_top_bit!=((BPLONG)ptr & TOP_BIT)){		\

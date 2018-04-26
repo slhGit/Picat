@@ -20,7 +20,7 @@ int redefine_warning = 0;
 int confirm_copy_right = 1;
 
 #ifdef LINUX
-BPLONG addr_top_bit = -1L; /* will be changed to 1000... or 0 later */
+BPLONG addr_top_bit = -1LL; /* will be changed to 1000... or 0 later */
 #endif
 
 int     use_tabling = 0;

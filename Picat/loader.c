@@ -515,9 +515,6 @@ int load_text()
 #else
         *inst_addr++ = current_opcode;
 #endif
-        /*
-          printf("load %s  count=%lld text_bytes=%lld\n",inst_name[current_opcode],count,text_bytes);
-        */
 
 #include "load_inst.h" 
         count++;

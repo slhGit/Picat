@@ -11,7 +11,7 @@ extern "C" {
 	int glu_get_binding(int varNum);
 
 
-	void pglu_init(int num_threads);
+	void pglu_init();
 	void pglu_add_lit(int lit0);
 	int pglu_start_solver();
 	int pglu_get_binding(int varNum);

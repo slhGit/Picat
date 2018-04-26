@@ -898,8 +898,7 @@ void aux_term_2_string_term(term)
     BPLONG_PTR top;
 
     SWITCH_OP(term,term_2_string_l,
-			  {sprintf(buf, "_" BPULONG_FMT_STR, (BPULONG)term);
-
+              {sprintf(buf,"_%x",(BPULONG)term);
                   append_str_to_solution_bag(buf,strlen(buf),0);},
               {if (ISINT(term)){
                       sprintf(buf,"%d",(int)INTVAL(term));
@@ -914,8 +913,7 @@ void aux_term_2_string_term(term)
                       sprintf(buf,"%lf",floatval(term));
                       append_str_to_solution_bag(buf,strlen(buf),0);
                   } else if (IS_SUSP_VAR(term)){
-					  sprintf(buf, "_" BPULONG_FMT_STR, (BPULONG)term);
-
+                      sprintf(buf,"_%x",(BPULONG)term);
                       append_str_to_solution_bag(buf,strlen(buf),1);
                   } else {
                       sym_ptr = GET_STR_SYM_REC(term);
@@ -929,7 +927,7 @@ void aux_term_2_string_term(term)
                       }
                       append_str_to_solution_bag(")",1,0);
                   }},
-			  {sprintf(buf, "_" BPULONG_FMT_STR, (BPULONG)term);
+              {sprintf(buf,"_%x",(BPULONG)term);
                   append_str_to_solution_bag(buf,strlen(buf),0);});
 }
 
@@ -1225,29 +1223,7 @@ void Cboot() {
     bp4p_register_preds();
 #endif
 
-    //  Cboot_TP(); 
-#ifdef PYTHON
-	extern int python_init();
-	insert_cpred("python_init", 0, python_init);
-
-	extern int python_exit();
-	insert_cpred("python_exit", 0, python_exit);
-
-	extern int python_run_interpreter();
-	insert_cpred("python_run_interpreter", 0, python_run_interpreter);
-
-	extern int python_run_file();
-	insert_cpred("python_run_file", 1, python_run_file);
-
-	extern int python_get_value();
-	insert_cpred("python_get_value", 2, python_get_value);
-
-	extern int python_set_value();
-	insert_cpred("python_set_value", 2, python_set_value);
-
-	extern int python_import();
-	insert_cpred("python_import", 1, python_import);
-#endif
+    //  Cboot_TP();   
 
 #ifdef MONGOOSE
 	mongoose_cpreds();

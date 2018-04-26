@@ -89,7 +89,7 @@ void init_toam(argc, argv)
                     print_picat_usage();
                     exit(0);
                 } else if (*(str+2) == 'v' || strcmp(str+2,"version")==0){
-                    printf("Picat version 2.3\n");
+                    printf("Picat version 2.4\n");
                     exit(0);
                 }
                                 
@@ -99,7 +99,7 @@ void init_toam(argc, argv)
                 break;
 
             case 's': i++;
-                sscanf(argv[i], BPLONG_FMT_STR, &stack_size);
+                sscanf(argv[i], "%ld", &stack_size);
                 if (stack_size<1000000) stack_size=1000000; 
                 break;
                                 
