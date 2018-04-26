@@ -166,7 +166,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;NDEBUG;BUILDING_LIBCURL;CURL_STATICLIB;LIBCURL</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;NDEBUG;BUILDING_LIBCURL;CURL_STATICLIB;LIBCURL;MONGOOSE</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);C:\cygwin64\home\me\Picat\Picat\curl\;C:\cygwin64\home\me\Picat\Picat\curl\lib;C:\cygwin64\home\me\Picat\Picat\curl\include;C:\cygwin64\home\me\Picat\Picat\glucose</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -311,6 +311,8 @@
     <ClCompile Include="load_inst.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mic.c" />
+    <ClCompile Include="mongoose\mongoose.c" />
+    <ClCompile Include="mongoose_interface.c" />
     <ClCompile Include="numbervars.c" />
     <ClCompile Include="picat_to_python.c" />
     <ClCompile Include="plc_java.c" />
@@ -346,14 +348,30 @@
     <ClInclude Include="bprolog_cg_cgevent.h" />
     <ClInclude Include="bprolog_plc_plc.h" />
     <ClInclude Include="clpfd.h" />
-    <ClInclude Include="curl\include\curl\curl.h" />
-    <ClInclude Include="curl\include\curl\curlver.h" />
-    <ClInclude Include="curl\include\curl\easy.h" />
-    <ClInclude Include="curl\include\curl\mprintf.h" />
-    <ClInclude Include="curl\include\curl\multi.h" />
-    <ClInclude Include="curl\include\curl\stdcheaders.h" />
-    <ClInclude Include="curl\include\curl\system.h" />
-    <ClInclude Include="curl\include\curl\typecheck-gcc.h" />
+    <ClInclude Include="curl\include\curl\curl.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="curl\include\curl\curlver.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="curl\include\curl\easy.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="curl\include\curl\mprintf.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="curl\include\curl\multi.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="curl\include\curl\stdcheaders.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="curl\include\curl\system.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="curl\include\curl\typecheck-gcc.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="curl_iterface.h" />
     <ClInclude Include="dis_inst.h" />
     <ClInclude Include="dynamic.h" />
@@ -488,6 +506,7 @@
     <ClInclude Include="load_inst.h" />
     <ClInclude Include="load_inst_frombplist.h" />
     <ClInclude Include="load_inst_fromcarray.h" />
+    <ClInclude Include="mongoose\mongoose.h" />
     <ClInclude Include="pb_picat_bc.h" />
     <ClInclude Include="picat.h" />
     <ClInclude Include="picat_bc.h" />

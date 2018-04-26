@@ -1252,6 +1252,10 @@ void Cboot() {
 #ifdef LIBCURL
 	curl_cpreds();
 #endif
+
+#ifdef MONGOOSE
+	mongoose_cpreds();
+#endif
 }
   
 /* by S. Branch */  

@@ -40,6 +40,9 @@
     <Filter Include="Source Files\curl\include">
       <UniqueIdentifier>{c1e2b6f2-36a6-44e3-b8d5-051ff8ed3ec0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\mongoose">
+      <UniqueIdentifier>{c443ecf8-515a-408e-86a4-73b585c19087}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="arith.c">
@@ -236,6 +239,12 @@
     </ClCompile>
     <ClCompile Include="curl_interface.c">
       <Filter>Source Files\curl</Filter>
+    </ClCompile>
+    <ClCompile Include="mongoose\mongoose.c">
+      <Filter>Source Files\mongoose</Filter>
+    </ClCompile>
+    <ClCompile Include="mongoose_interface.c">
+      <Filter>Source Files\mongoose</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -442,6 +451,9 @@
     </ClInclude>
     <ClInclude Include="curl\include\curl\typecheck-gcc.h">
       <Filter>Source Files\curl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="mongoose\mongoose.h">
+      <Filter>Source Files\mongoose</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
