@@ -1,6 +1,11 @@
 #include "mongoose/mongoose.h"
 #include "picat.h"
 
+
+
+//
+// BASIC SERVER
+//
 static const char *s_http_port = "8000";
 
 static void serve_handler(struct mg_connection *c, int ev, void *p) {
@@ -31,7 +36,9 @@ mongoose_test(void) {
 }
 
 
-
+//
+// BASIC CLIENT
+//
 static const char *s_url = "http://people.sc.fsu.edu/~jburkardt/data/csv/deniro.csv";
 static int s_exit_flag = 0;
 
