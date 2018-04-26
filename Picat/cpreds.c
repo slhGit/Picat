@@ -1249,10 +1249,6 @@ void Cboot() {
 	insert_cpred("python_import", 1, python_import);
 #endif
 
-#ifdef LIBCURL
-	curl_cpreds();
-#endif
-
 #ifdef MONGOOSE
 	mongoose_cpreds();
 #endif

@@ -1,11 +1,3 @@
-import python.
-
 main =>
-	py_init(),
-	
-	py_run_file("testpy"),
-	py_get_value(Y,"y"),
-
-	println(Y),
-	
-	py_exit().
+	bp.load_http(X,"http://download.tensorflow.org/data/iris_training.csv"),
+	println(X).
