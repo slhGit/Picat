@@ -1,29 +1,7 @@
 #include "picat.h"
 #include "Python.h"
-
+#include "picat_utilities.h"
 #include "python_interface_utility.h"
-
-//Translate Picat String To C-string
-char* PicatStringToChar(TERM t) {
-	int mult = 1;
-	char* str = calloc(512, sizeof(char));
-
-	TERM tList = t;
-	TERM x = picat_get_car(tList);
-	int i = 0;
-	while (x != picat_build_integer(0)) {
-		i++;
-		if (i > 512 * mult) {
-			mult++;
-			realloc(str, 512 * mult);
-		}
-		strcat(str, picat_get_atom_name(x));
-		tList = picat_get_cdr(tList);
-		x = picat_get_car(tList);
-	}
-
-	return str;
-}
 
 //Translate Picat list to Python list.
 PyObject* PicatListToPythonList(TERM t) {
@@ -83,11 +61,10 @@ PyObject* PicatToPython(TERM t) {
 		return PyUnicode_FromString(picat_get_atom_name(t));
 	}
 	else if (picat_is_nil(t)) {
-		dprint("is nil\n");
 		return PyList_New(0);
 	}
 	else if (picat_is_string(t)) {
-		return PyUnicode_FromString(PicatStringToChar(t));
+		return PyUnicode_FromString(picat_string_to_cstring(t));
 	}
 	else if (picat_is_list(t)) {
 		return PicatListToPythonList(t);

@@ -2311,8 +2311,7 @@ void mg_mgr_init(struct mg_mgr *m, void *user_data) {
   mg_mgr_init_opt(m, user_data, opts);
 }
 
-void mg_mgr_init_opt(struct mg_mgr *m, void *user_data,
-                     struct mg_mgr_init_opts opts) {
+void mg_mgr_init_opt(struct mg_mgr *m, void *user_data, struct mg_mgr_init_opts opts) {
   memset(m, 0, sizeof(*m));
 #if MG_ENABLE_BROADCAST
   m->ctl[0] = m->ctl[1] = INVALID_SOCKET;
@@ -3887,6 +3886,14 @@ time_t mg_socket_if_poll(struct mg_iface *iface, int timeout_ms) {
 
   return (time_t) now;
 }
+
+
+
+
+
+
+
+
 
 #if MG_ENABLE_BROADCAST
 MG_INTERNAL void mg_socketpair_close(sock_t *sock) {

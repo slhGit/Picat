@@ -1,3 +1,4 @@
+import http.
+
 main =>
-	bp.load_http(X,"http://download.tensorflow.org/data/iris_training.csv"),
-	println(X).
+	http_server(8000,".").

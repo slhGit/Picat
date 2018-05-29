@@ -1,18 +1,9 @@
 #include "picat.h"
+#include "picat_utilities.h"
+
 #include "Python.h"
 
 #include "python_interface_utility.h"
-
-//Create and empty Picat Map with C Buckets.
-TERM NewPicatMap(int C) {
-	dprint("new map\n");
-	TERM t = picat_build_structure("$hshtb", 2);
-
-	picat_unify(picat_get_arg(1, t), picat_build_integer(0));
-	picat_unify(picat_get_arg(2, t), picat_build_structure("hashtable", C));
-
-	return t;
-}
 
 //Convert a Python list to a Picat list.
 TERM PythonListToPicatList(PyObject* v) {
@@ -78,7 +69,7 @@ TERM PythonDictToPicatMap(PyObject* v) {
 
 	dprint("%d\n", C);
 
-	TERM t = NewPicatMap(C);
+	TERM t = new_picat_map(C);
 
 	//Get dictionaray keys from python dictionary
 	PyObject* keys = PyDict_Keys(v);
@@ -91,27 +82,7 @@ TERM PythonDictToPicatMap(PyObject* v) {
 		TERM key = PythonToPicat(pykey);
 		TERM value = PythonToPicat(pyval);
 
-		//Get hash value
-		TERM HashVal = MAKEINT(bp_hashval(key));
-		int Index = picat_get_integer(HashVal) % C + 1;
-
-		//Create pair to add to map
-		TERM Pair = picat_build_structure("=", 2);
-		picat_unify(picat_get_arg(1, Pair), key);
-		picat_unify(picat_get_arg(2, Pair), value);
-
-		//Place pair in a list and that list into the hashtable
-		TERM Bucket = picat_build_list();
-
-		picat_unify(picat_get_car(Bucket), Pair);
-
-		TERM Hashtable = picat_get_arg(2, t);
-		picat_unify(picat_get_arg(Index, Hashtable), Bucket);
-
-		//Update count of map
-		TERM Count = picat_get_arg(1, t);
-		TERM newCount = picat_build_integer(picat_get_integer(Count) + 1);
-		picat_unify(Count, newCount);
+		add_to_picat_map(t, key, value);
 	}
 	return t;
 }

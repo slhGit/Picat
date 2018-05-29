@@ -34,7 +34,10 @@
     <Filter Include="Source Files\python">
       <UniqueIdentifier>{c7ddbe75-f693-45de-b794-f5fde71b0ca4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\mongoose">
+    <Filter Include="Source Files\http">
+      <UniqueIdentifier>{69b29f04-acec-41cb-b0c2-acf53f4ddf59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\http\mongoose">
       <UniqueIdentifier>{c443ecf8-515a-408e-86a4-73b585c19087}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -232,10 +235,13 @@
       <Filter>Source Files\glucose</Filter>
     </ClCompile>
     <ClCompile Include="mongoose\mongoose.c">
-      <Filter>Source Files\mongoose</Filter>
+      <Filter>Source Files\http\mongoose</Filter>
     </ClCompile>
-    <ClCompile Include="mongoose_interface.c">
-      <Filter>Source Files\mongoose</Filter>
+    <ClCompile Include="picat_utilites.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="http_interface.c">
+      <Filter>Source Files\http</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -417,15 +423,15 @@
       <Filter>Source Files\glucose</Filter>
     </ClInclude>
     <ClInclude Include="mongoose\mongoose.h">
-      <Filter>Source Files\mongoose</Filter>
+      <Filter>Source Files\http\mongoose</Filter>
+    </ClInclude>
+    <ClInclude Include="picat_utilities.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="python.pi">
-      <Filter>Source Files\python</Filter>
     </None>
   </ItemGroup>
 </Project>

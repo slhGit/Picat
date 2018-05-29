@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "Python.h"
 #include "picat.h"
+#include "picat_utilities.h"
 #include "python_interface_utility.h"
 
 #define DEBUG 0
@@ -36,7 +37,7 @@ int _python_import(char* mod) {
 python_import() {
 	TERM arg = picat_get_call_arg(1, 1);
 	if (picat_is_string(arg)) {
-		char* name = PicatStringToChar(arg);
+		char* name = picat_string_to_cstring(arg);
 		int success = _python_import(name);
 
 		return success ? PICAT_TRUE : PICAT_FALSE;
@@ -160,7 +161,7 @@ python_run_file() {
 
 	if (picat_is_string(arg)) {
 		dprint("is string\n");
-		char* f = PicatStringToChar(arg);
+		char* f = picat_string_to_cstring(arg);
 
 		if (main_module) {
 			dprint("is init\n");
@@ -208,7 +209,7 @@ python_get_value() {
 		value = picat_get_call_arg(2, 2);
 		if (picat_is_string(value)) {
 
-			PyObject* py_val = PyDict_GetItemString(main_dict, PicatStringToChar(value));
+			PyObject* py_val = PyDict_GetItemString(main_dict, picat_string_to_cstring(value));
 
 			if (py_val) {
 				dprint("got value\n");
@@ -273,4 +274,14 @@ python_exit() {
 	//PyMem_RawFree("picat");
 
 	return PICAT_TRUE;
+}
+
+
+python_cpreds() {
+	insert_cpred("python_init", 0, python_init);
+	insert_cpred("python_run_interpreter", 0, python_run_interpreter);
+	insert_cpred("python_run_file", 1, python_run_file);
+	insert_cpred("python_get_value", 2, python_get_value);
+	insert_cpred("python_set_value", 2, python_set_value);
+	insert_cpred("python_exit", 0, python_exit);
 }

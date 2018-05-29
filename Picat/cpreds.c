@@ -1225,8 +1225,12 @@ void Cboot() {
 
     //  Cboot_TP();   
 
-#ifdef MONGOOSE
-	mongoose_cpreds();
+#ifdef HTTP
+	http_cpreds();
+#endif
+
+#ifdef PYTHON
+	python_cpreds();
 #endif
 }
   
