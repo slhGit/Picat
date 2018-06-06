@@ -1,4 +1,22 @@
 import http.
 
 main =>
-	http_server(8000,".").
+	http_server(8000,"."),
+
+	while(1 == 1)
+		http_server_poll(X),
+		foreach (Y in X)
+			if Y.get("event") == 100 then
+				http_serve(Y)
+				%http_serve_file(Y,"simple_apath_16_00625_1_2048.png","image/png","")
+				%http_send_redirect(Y,301,"http://picat-lang.org"),
+				%http_print(Y,"hello!"),
+			end,
+		end,
+	end.
+
+
+
+
+
+

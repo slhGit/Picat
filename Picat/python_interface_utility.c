@@ -155,6 +155,7 @@ python_run_interpreter() {
 
 	return PICAT_TRUE;
 }
+
 python_run_file() {
 	dprint("run file\n");
 	TERM arg = picat_get_call_arg(1, 1);

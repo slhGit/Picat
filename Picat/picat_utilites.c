@@ -100,3 +100,40 @@ void add_to_picat_map(TERM m, TERM key, TERM value) {
 	TERM Count = picat_get_arg(1, m);
 	Count = picat_build_integer(picat_get_integer(Count) + 1);
 }
+
+TERM picat_map_get(TERM map, TERM key) {
+	int C = picat_get_struct_arity(picat_get_arg(2, map));
+
+	//Get hash value
+	TERM HashVal = MAKEINT(bp_hashval(key));
+	int Index = picat_get_integer(HashVal) % C + 1;
+
+	TERM Hashtable = picat_get_arg(2, map);
+	TERM Bucket = picat_get_arg(Index, Hashtable);
+
+	TERM car = picat_get_car(Bucket);
+	TERM cdr = picat_get_cdr(Bucket);
+
+	while (!picat_is_var(car)) {
+		TERM K = picat_get_arg(1, car);
+
+		char* a = picat_string_to_cstring(K), *b = picat_string_to_cstring(key);
+
+		//printf("key: %s\n", a);
+		//printf("base: %s\n", b);
+
+		if (strcmp(picat_string_to_cstring(K), picat_string_to_cstring(key)) == 0) {
+			//printf("found\n");
+			return picat_get_arg(2, car);
+		}
+
+		TERM temp = cdr;
+		car = picat_get_car(temp);
+		cdr = picat_get_cdr(temp);
+	} 
+
+
+	printf("cant find ");
+	//picat_write_term(key);
+	//printf("\n");
+}
