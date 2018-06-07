@@ -265,11 +265,13 @@ static void server_handler(struct mg_connection *nc, int ev, void *p) {
 	if (ev == 100 || ev == 101 || ev == 102) {
 		struct http_message* hm = (struct http_message*) p;
 
-		requests[requests_index] = *((struct http_message*) p);
-		connections[requests_index] = nc;
-		events[requests_index] = ev;
+		if (requests_index < MAX_REQUESTS) {
+			requests[requests_index] = *((struct http_message*) p);
+			connections[requests_index] = nc;
+			events[requests_index] = ev;
 
-		requests_index++;
+			requests_index++;
+		}
 	}	
 }
 
