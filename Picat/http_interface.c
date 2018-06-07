@@ -259,7 +259,7 @@ int* events;
 
 int requests_index;
 
-#define MAX_REQUESTS 100
+#define MAX_REQUESTS 512
 
 static void server_handler(struct mg_connection *nc, int ev, void *p) {
 	if (ev == 100 || ev == 101 || ev == 102) {
