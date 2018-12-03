@@ -1,7 +1,9 @@
+
+
 #include "glucose_interface.h"
 
+
 #include "glucose/core/Solver.h"
-#include "glucose/parallel/MultiSolvers.h"
 
 
 #include "glucose/utils/System.h"
@@ -10,8 +12,14 @@
 #include "glucose/core/Dimacs.h"
 #include "glucose/simp/SimpSolver.h"
 
+
+
+#include "glucose/parallel/MultiSolvers.h"
+
 #include <vector>
 #include <iostream>
+
+#include <ctime>
 using namespace Glucose;
 
 
@@ -20,9 +28,6 @@ static MultiSolvers* pglu_s;
 
 static vec<Lit> lits;
 
-
-static float realTimeStart;
-static double initial_time;
 
 extern "C" {
 	void glu_init() {
@@ -34,11 +39,17 @@ extern "C" {
 
 		glu_s->parsing = 1;
 		glu_s->verbosity = -1;
+
+		glu_s->use_simplification = true;
+		glu_s->certifiedUNSAT = false;
+		glu_s->vbyte = false;
 		
 	}
 
 	void glu_add_lit(int lit0) {	
+		printf("%d ", lit0);
 		if (lit0 == 0) {
+			printf("\n");
 			glu_s->addClause(lits);
 			lits.clear();
 		}
@@ -52,8 +63,28 @@ extern "C" {
 
 
 	int glu_start_solver() {
+		printf("solve, time: ");
+		
+		std::clock_t    start;
+		start = std::clock();
+
 		glu_s->parsing = 0;
-		return glu_s->solve();
+		glu_s->eliminate(true);
+
+		vec<Lit> dummy;
+		lbool ret = glu_s->solveLimited(dummy);
+
+		printf("%d ms, ", (int)((std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000)));
+
+		if (ret == l_True)
+			printf("SAT\n");
+		else
+			printf("UNSAT\n");
+
+		return ret == l_True ? 1 : 0;
+
+		//glu_s->parsing = 0;
+		//return glu_s->solve();
 	}
 
 	int glu_get_binding(int varNum) {
@@ -69,9 +100,9 @@ extern "C" {
 		}
 
 		pglu_s = new MultiSolvers();
-//#if not defined(__linux__) and not defined(__FreeBSD__) and not defined(__APPLE__)
-//		pglu_s->forceThreads(num_threads);
-//#endif
+#if not defined(__linux__) and not defined(__FreeBSD__) and not defined(__APPLE__)
+		pglu_s->forceThreads(num_threads);
+#endif
 		pglu_s->setVerbosity(-1);
 	}
 
@@ -88,8 +119,32 @@ extern "C" {
 		}
 	}
 
+
+
 	int pglu_start_solver() {
-		return pglu_s->solve() == l_True ? 1 : 0;
+		printf("solve, time: ");
+
+		std::clock_t    start;
+		start = std::clock();
+
+
+		int ret2 = pglu_s->simplify();
+		pglu_s->use_simplification = true;
+		if (ret2)
+			pglu_s->eliminate();
+
+		lbool ret = pglu_s->solve();
+
+		printf("%d ms, ", (int)((std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000)));
+
+		if (ret == l_True)
+			printf("SAT\n");
+		else
+			printf("UNSAT\n");
+
+
+		return ret == l_True ? 1 : 0;
+		//return pglu_s->solve() == l_True ? 1 : 0;
 	}
 
 	int pglu_get_binding(int varNum) {

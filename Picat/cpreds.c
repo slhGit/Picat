@@ -1048,7 +1048,7 @@ int c_END_TRACE(){
   return BP_TRUE;
   }
 */
-#ifdef SAT
+#ifdef SATS
 int c_sat_embedded(){
     return BP_TRUE;
 }
@@ -1214,7 +1214,7 @@ void Cboot() {
     //  insert_cpred("c_REDUCE_DOMAIN_AC_ADD",3,c_REDUCE_DOMAIN_AC_ADD);
     insert_cpred("c_TA_TOP_f",1,c_TA_TOP_f);
     Cboot_sat();
-#ifdef SAT
+#if SATS
     insert_cpred("c_call_espresso",5,c_call_espresso);
     insert_cpred("c_call_espresso_pb",6,c_call_espresso_pb);
 #endif

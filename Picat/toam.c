@@ -1,5 +1,5 @@
 /********************************************************************
- *   File   : toam.c
+ *   File   : tofaum.c
  *   Author : Neng-Fa ZHOU Copyright (C) 1994-2018
  *   Purpose: Emulator of ATOAM
 
@@ -130,6 +130,7 @@ int initialize_bprolog(argc,argv)
 int toam(P,AR,LOCAL_TOP)
     register BPLONG_PTR P,AR,LOCAL_TOP;
 {
+
     register BPLONG op1;
     register BPLONG_PTR top,sreg; 
     register BPLONG  op2,op3;

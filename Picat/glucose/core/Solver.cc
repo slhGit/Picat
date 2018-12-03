@@ -57,11 +57,6 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 using namespace Glucose;
 
-extern "C" gTest() {
-	printf("hellllo world\n");
-
-	return 1;
-}
 
 //=================================================================================================
 // Statistics
@@ -683,20 +678,24 @@ Lit Solver::pickBranchLit() {
     Var next = var_Undef;
 
     // Random decision:
+	bool rand = false;
     if(((randomizeFirstDescent && conflicts == 0) || drand(random_seed) < random_var_freq) && !order_heap.empty()) {
+		rand = true;
         next = order_heap[irand(random_seed, order_heap.size())];
         if(value(next) == l_Undef && decision[next])
             stats[rnd_decisions]++;
     }
 
     // Activity based decision:
-    while(next == var_Undef || value(next) != l_Undef || !decision[next])
-        if(order_heap.empty()) {
-            next = var_Undef;
-            break;
-        } else {
-            next = order_heap.removeMin();
-        }
+	while (next == var_Undef || value(next) != l_Undef || !decision[next]) {
+		if (order_heap.empty()) {
+			next = var_Undef;
+			break;
+		}
+		else {
+			next = order_heap.removeMin();
+		}
+	}
 
     if(randomize_on_restarts && !fixed_randomize_on_restarts && newDescent && (decisionLevel() % 2 == 0)) {
         return mkLit(next, (randomDescentAssignments >> (decisionLevel() % 32)) & 1);
@@ -709,8 +708,9 @@ Lit Solver::pickBranchLit() {
     if(next == var_Undef) return lit_Undef;
 
     if(forceUnsatOnNewDescent && newDescent) {
-        if(forceUNSAT[next] != 0)
-            return mkLit(next, forceUNSAT[next] < 0);
+		if (forceUNSAT[next] != 0) {
+			return mkLit(next, forceUNSAT[next] < 0);
+		}
         return mkLit(next, polarity[next]);
 
     }
@@ -1358,7 +1358,7 @@ bool Solver::simplify() {
 void Solver::adaptSolver() {
     bool adjusted = false;
     bool reinit = false;
-    printf("c\nc Try to adapt solver strategies\nc \n");
+    //printf("c\nc Try to adapt solver strategies\nc \n");
     /*  printf("c Adjusting solver for the SAT Race 2015 (alpha feature)\n");
     printf("c key successive Conflicts       : %" PRIu64"\n",stats[noDecisionConflict]);
     printf("c nb unary clauses learnt        : %" PRIu64"\n",stats[nbUn]);
@@ -1369,7 +1369,7 @@ void Solver::adaptSolver() {
         coLBDBound = 4;
         glureduce = true;
         adjusted = true;
-        printf("c Adjusting for low decision levels.\n");
+        //printf("c Adjusting for low decision levels.\n");
         reinit = true;
         firstReduceDB = 2000;
         nbclausesbeforereduce = firstReduceDB;
@@ -1383,10 +1383,10 @@ void Solver::adaptSolver() {
         var_decay = 0.999;
         max_var_decay = 0.999;
         adjusted = true;
-        printf("c Adjusting for low successive conflicts.\n");
+        //printf("c Adjusting for low successive conflicts.\n");
     }
     if(stats[noDecisionConflict] > 54400) {
-        printf("c Adjusting for high successive conflicts.\n");
+        //printf("c Adjusting for high successive conflicts.\n");
         chanseokStrategy = true;
         glureduce = true;
         coLBDBound = 3;
@@ -1400,12 +1400,12 @@ void Solver::adaptSolver() {
         var_decay = 0.91;
         max_var_decay = 0.91;
         adjusted = true;
-        printf("c Adjusting for a very large number of true glue clauses found.\n");
+        //printf("c Adjusting for a very large number of true glue clauses found.\n");
     }
     if(!adjusted) {
-        printf("c Nothing extreme in this problem, continue with glucose default strategies.\n");
+        //printf("c Nothing extreme in this problem, continue with glucose default strategies.\n");
     }
-    printf("c\n");
+    //printf("c\n");
     if(adjusted) { // Let's reinitialize the glucose restart strategy counters
         lbdQueue.fastclear();
         sumLBD = 0;
@@ -1426,7 +1426,7 @@ void Solver::adaptSolver() {
             }
         }
         learnts.shrink(i - j);
-        printf("c Activating Chanseok Strategy: moved %d clauses to the permanent set.\n", moved);
+        //printf("c Activating Chanseok Strategy: moved %d clauses to the permanent set.\n", moved);
     }
 
     if(reinit) {
@@ -1478,16 +1478,18 @@ lbool Solver::search(int nof_conflicts) {
         if(decisionLevel() == 0) { // We import clauses FIXME: ensure that we will import clauses enventually (restart after some point)
             parallelImportUnaryClauses();
 
-            if(parallelImportClauses())
-                return l_False;
+			if (parallelImportClauses()) {
+				return l_False;
+			}
 
         }
         CRef confl = propagate();
 
         if(confl != CRef_Undef) {
             newDescent = false;
-            if(parallelJobIsFinished())
-                return l_Undef;
+			if (parallelJobIsFinished()) {
+				return l_Undef;
+			}
 
             if(!aDecisionWasMade)
                 stats[noDecisionConflict]++;
@@ -1648,6 +1650,7 @@ lbool Solver::search(int nof_conflicts) {
                 // New variable decision:
                 decisions++;
                 next = pickBranchLit();
+				//printf("%d\n", next.x);
                 if(next == lit_Undef) {
 					if (verbosity >= 1)
 						printf("c last restart ## conflicts  :  %d %d \n", conflictC, decisionLevel());
@@ -1739,7 +1742,6 @@ double Solver::luby(double y, int x) {
 
 lbool Solver::solve_(bool do_simp, bool turn_off_simp) // Parameters are useless in core but useful for SimpSolver....
 {
-
     if(incremental && certifiedUNSAT) {
         printf("Can not use incremental and certified unsat in the same time\n");
         exit(-1);

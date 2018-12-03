@@ -104,8 +104,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python36_64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;;SAT=4;SAT=4</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python36_64\include;%(AdditionalIncludeDirectories);claspLib;claspLib/libpotassco</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -117,8 +117,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;HTTP</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);C:\cygwin64\home\me\Picat\Picat\curl\;C:\cygwin64\home\me\Picat\Picat\curl\lib;C:\cygwin64\home\me\Picat\Picat\curl\include;C:\cygwin64\home\me\Picat\Picat\glucose</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;HTTP;SAT=4;SAT=4</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);C:\cygwin64\home\me\Picat\Picat\curl\;C:\cygwin64\home\me\Picat\Picat\curl\lib;C:\cygwin64\home\me\Picat\Picat\curl\include;C:\cygwin64\home\me\Picat\Picat\glucose;claspLib;claspLib/libpotassco</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -132,8 +132,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;;SAT=4;SAT=4</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);claspLib;claspLib/libpotassco</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -149,8 +149,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;;SAT=4;SAT=4</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);claspLib;claspLib/libpotassco</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -166,8 +166,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;NDEBUG;HTTP;PYTHON</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);C:\cygwin64\home\me\Picat\Picat\curl\;C:\cygwin64\home\me\Picat\Picat\curl\lib;C:\cygwin64\home\me\Picat\Picat\curl\include;C:\cygwin64\home\me\Picat\Picat\glucose</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;NDEBUG;HTTP;PYTHON;SATS=4</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);C:\cygwin64\home\me\Picat\Picat\curl\;C:\cygwin64\home\me\Picat\Picat\curl\lib;C:\cygwin64\home\me\Picat\Picat\curl\include;C:\cygwin64\home\me\Picat\Picat\glucose;claspLib;claspLib/libpotassco</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -184,8 +184,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);C:\cygwin64\home\me\Picat\Picat\curl\;C:\cygwin64\home\me\Picat\Picat\curl\lib;C:\cygwin64\home\me\Picat\Picat\curl\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;SAT=4;SAT=4</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);C:\cygwin64\home\me\Picat\Picat\curl\;C:\cygwin64\home\me\Picat\Picat\curl\lib;C:\cygwin64\home\me\Picat\Picat\curl\include;claspLib;claspLib/libpotassco</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -207,20 +207,55 @@
     </ClCompile>
     <ClCompile Include="builtins.c" />
     <ClCompile Include="cadical_picat.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="cfd.c" />
+    <ClCompile Include="claspLib\libpotassco\src\application.cpp" />
+    <ClCompile Include="claspLib\libpotassco\src\aspif.cpp" />
+    <ClCompile Include="claspLib\libpotassco\src\aspif_text.cpp" />
+    <ClCompile Include="claspLib\libpotassco\src\clingo.cpp" />
+    <ClCompile Include="claspLib\libpotassco\src\convert.cpp" />
+    <ClCompile Include="claspLib\libpotassco\src\match_basic_types.cpp" />
+    <ClCompile Include="claspLib\libpotassco\src\program_options.cpp" />
+    <ClCompile Include="claspLib\libpotassco\src\rule_utils.cpp" />
+    <ClCompile Include="claspLib\libpotassco\src\smodels.cpp" />
+    <ClCompile Include="claspLib\libpotassco\src\string_convert.cpp" />
+    <ClCompile Include="claspLib\libpotassco\src\theory_data.cpp" />
+    <ClCompile Include="claspLib\libpotassco\src\value_store.cpp" />
+    <ClCompile Include="claspLib\src\asp_preprocessor.cpp" />
+    <ClCompile Include="claspLib\src\cb_enumerator.cpp" />
+    <ClCompile Include="claspLib\src\clasp_facade.cpp" />
+    <ClCompile Include="claspLib\src\clasp_options.cpp" />
+    <ClCompile Include="claspLib\src\clasp_output.cpp" />
+    <ClCompile Include="claspLib\src\clause.cpp" />
+    <ClCompile Include="claspLib\src\clingo.cpp" />
+    <ClCompile Include="claspLib\src\constraint.cpp" />
+    <ClCompile Include="claspLib\src\dependency_graph.cpp" />
+    <ClCompile Include="claspLib\src\enumerator.cpp" />
+    <ClCompile Include="claspLib\src\heuristics.cpp" />
+    <ClCompile Include="claspLib\src\logic_program.cpp" />
+    <ClCompile Include="claspLib\src\logic_program_types.cpp" />
+    <ClCompile Include="claspLib\src\lookahead.cpp" />
+    <ClCompile Include="claspLib\src\minimize_constraint.cpp" />
+    <ClCompile Include="claspLib\src\model_enumerators.cpp" />
+    <ClCompile Include="claspLib\src\parallel_solve.cpp" />
+    <ClCompile Include="claspLib\src\parser.cpp" />
+    <ClCompile Include="claspLib\src\program_builder.cpp" />
+    <ClCompile Include="claspLib\src\satelite.cpp" />
+    <ClCompile Include="claspLib\src\shared_context.cpp" />
+    <ClCompile Include="claspLib\src\solver.cpp" />
+    <ClCompile Include="claspLib\src\solver_strategies.cpp" />
+    <ClCompile Include="claspLib\src\solver_types.cpp" />
+    <ClCompile Include="claspLib\src\solve_algorithms.cpp" />
+    <ClCompile Include="claspLib\src\statistics.cpp" />
+    <ClCompile Include="claspLib\src\timer.cpp" />
+    <ClCompile Include="claspLib\src\unfounded_check.cpp" />
+    <ClCompile Include="claspLib\src\weight_constraint.cpp" />
     <ClCompile Include="clause.c" />
     <ClCompile Include="clpfd.c" />
     <ClCompile Include="clpfd_libs.c" />
@@ -237,7 +272,9 @@
     <ClCompile Include="delay.c" />
     <ClCompile Include="dis.c" />
     <ClCompile Include="domain.c" />
-    <ClCompile Include="espresso_bp.c" />
+    <ClCompile Include="espresso_bp.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="event.c" />
     <ClCompile Include="expand.c" />
     <ClCompile Include="file.c" />
@@ -322,6 +359,59 @@
     <ClCompile Include="loader.c" />
     <ClCompile Include="load_inst.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="maple\core\Main.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="maple\core\Solver.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="maple\simp\Main.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="maple\simp\SimpSolver.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="maple\utils\Options.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="maple\utils\System.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="maple_interface.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="mic.c" />
     <ClCompile Include="mongoose\mongoose.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -347,12 +437,18 @@
     <ClCompile Include="qc.c" />
     <ClCompile Include="sapi.c" />
     <ClCompile Include="sat_bp.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">
+      </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="table.c" />
     <ClCompile Include="toam.c" />
@@ -368,6 +464,49 @@
     <ClInclude Include="bprolog.h" />
     <ClInclude Include="bprolog_cg_cgevent.h" />
     <ClInclude Include="bprolog_plc_plc.h" />
+    <ClInclude Include="claspLib\clasp\asp_preprocessor.h" />
+    <ClInclude Include="claspLib\clasp\cb_enumerator.h" />
+    <ClInclude Include="claspLib\clasp\claspfwd.h" />
+    <ClInclude Include="claspLib\clasp\clasp_facade.h" />
+    <ClInclude Include="claspLib\clasp\clause.h" />
+    <ClInclude Include="claspLib\clasp\clingo.h" />
+    <ClInclude Include="claspLib\clasp\config.h" />
+    <ClInclude Include="claspLib\clasp\constraint.h" />
+    <ClInclude Include="claspLib\clasp\dependency_graph.h" />
+    <ClInclude Include="claspLib\clasp\enumerator.h" />
+    <ClInclude Include="claspLib\clasp\heuristics.h" />
+    <ClInclude Include="claspLib\clasp\literal.h" />
+    <ClInclude Include="claspLib\clasp\logic_program.h" />
+    <ClInclude Include="claspLib\clasp\logic_program_types.h" />
+    <ClInclude Include="claspLib\clasp\lookahead.h" />
+    <ClInclude Include="claspLib\clasp\minimize_constraint.h" />
+    <ClInclude Include="claspLib\clasp\model_enumerators.h" />
+    <ClInclude Include="claspLib\clasp\parser.h" />
+    <ClInclude Include="claspLib\clasp\pod_vector.h" />
+    <ClInclude Include="claspLib\clasp\program_builder.h" />
+    <ClInclude Include="claspLib\clasp\satelite.h" />
+    <ClInclude Include="claspLib\clasp\shared_context.h" />
+    <ClInclude Include="claspLib\clasp\solver.h" />
+    <ClInclude Include="claspLib\clasp\solver_strategies.h" />
+    <ClInclude Include="claspLib\clasp\solver_types.h" />
+    <ClInclude Include="claspLib\clasp\solve_algorithms.h" />
+    <ClInclude Include="claspLib\clasp\statistics.h" />
+    <ClInclude Include="claspLib\clasp\unfounded_check.h" />
+    <ClInclude Include="claspLib\clasp\weight_constraint.h" />
+    <ClInclude Include="claspLib\libpotassco\potassco\application.h" />
+    <ClInclude Include="claspLib\libpotassco\potassco\aspif.h" />
+    <ClInclude Include="claspLib\libpotassco\potassco\aspif_text.h" />
+    <ClInclude Include="claspLib\libpotassco\potassco\basic_types.h" />
+    <ClInclude Include="claspLib\libpotassco\potassco\clingo.h" />
+    <ClInclude Include="claspLib\libpotassco\potassco\convert.h" />
+    <ClInclude Include="claspLib\libpotassco\potassco\match_basic_types.h" />
+    <ClInclude Include="claspLib\libpotassco\potassco\platform.h" />
+    <ClInclude Include="claspLib\libpotassco\potassco\rule_utils.h" />
+    <ClInclude Include="claspLib\libpotassco\potassco\smodels.h" />
+    <ClInclude Include="claspLib\libpotassco\potassco\string_convert.h" />
+    <ClInclude Include="claspLib\libpotassco\potassco\theory_data.h" />
+    <ClInclude Include="clasp_interface.cpp" />
+    <ClInclude Include="clasp_interface.h" />
     <ClInclude Include="clpfd.h" />
     <ClInclude Include="dis_inst.h" />
     <ClInclude Include="dynamic.h" />
@@ -530,6 +669,142 @@
     <ClInclude Include="load_inst.h" />
     <ClInclude Include="load_inst_frombplist.h" />
     <ClInclude Include="load_inst_fromcarray.h" />
+    <ClInclude Include="maple\core\Dimacs.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\core\Solver.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\core\SolverTypes.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Alg.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Alloc.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Heap.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\IntTypes.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Map.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Queue.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Sort.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Vec.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\XAlloc.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\simp\SimpSolver.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\utils\Options.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\utils\ParseUtils.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple\utils\System.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="maple_interface.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="mongoose\mongoose.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -546,6 +821,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+    <None Include="Makefile" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

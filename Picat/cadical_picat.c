@@ -10,7 +10,7 @@
 
 #include "bprolog.h"
 
-#ifdef SAT
+#ifdef SATS
 #include "cadical/src/ccadical.h"
 static CCaDiCaL *sat_solver;
 
@@ -62,7 +62,7 @@ int c_sat_stop_count(){
     return BP_TRUE;
 }
 
-#ifdef SAT
+#ifdef SATS
 /* cl is a list of literals */
 int b_SAT_ADD_CL_c(BPLONG cl){
     BPLONG lit;

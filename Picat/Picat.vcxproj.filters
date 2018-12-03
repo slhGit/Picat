@@ -40,6 +40,39 @@
     <Filter Include="Source Files\http\mongoose">
       <UniqueIdentifier>{c443ecf8-515a-408e-86a4-73b585c19087}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\maple">
+      <UniqueIdentifier>{209ea3d0-6799-41d4-b103-7acadf6c450e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\maple\core">
+      <UniqueIdentifier>{deb8639e-fdd2-44e7-9bb3-0daa673b552b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\maple\mtl">
+      <UniqueIdentifier>{29ed4424-9a44-49ed-a023-62f12fc4d5c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\maple\simp">
+      <UniqueIdentifier>{717fb045-570a-4ab9-9555-8a7aa9af6236}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\maple\utils">
+      <UniqueIdentifier>{5d0e06b4-cdf1-492c-bdb6-c8858c7e51eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\claspLib">
+      <UniqueIdentifier>{7aeb6744-a41f-48f2-a467-28bd1ae5cbd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\claspLib\clasp">
+      <UniqueIdentifier>{313e89ce-1725-45f3-bd84-2585bfc1d2fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\claspLib\src">
+      <UniqueIdentifier>{1271c181-a3c6-4f46-89ec-1707f458b7f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\claspLib\libpotassco">
+      <UniqueIdentifier>{9a416eaf-20e6-4b50-a574-aec7d3c2196e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\claspLib\libpotassco\potassco">
+      <UniqueIdentifier>{88d1bd9f-6607-4619-bcea-cb03ecae8f2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\claspLib\libpotassco\src">
+      <UniqueIdentifier>{a0bdc88a-bd96-4bfe-a95b-8d49bd8bdc39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="arith.c">
@@ -243,6 +276,150 @@
     <ClCompile Include="http_interface.c">
       <Filter>Source Files\http</Filter>
     </ClCompile>
+    <ClCompile Include="maple\core\Solver.cc">
+      <Filter>Source Files\maple\core</Filter>
+    </ClCompile>
+    <ClCompile Include="maple\core\Main.cc">
+      <Filter>Source Files\maple\core</Filter>
+    </ClCompile>
+    <ClCompile Include="maple\simp\SimpSolver.cc">
+      <Filter>Source Files\maple\simp</Filter>
+    </ClCompile>
+    <ClCompile Include="maple\simp\Main.cc">
+      <Filter>Source Files\maple\simp</Filter>
+    </ClCompile>
+    <ClCompile Include="maple\utils\Options.cc">
+      <Filter>Source Files\maple\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="maple\utils\System.cc">
+      <Filter>Source Files\maple\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="maple_interface.cpp">
+      <Filter>Source Files\maple</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\libpotassco\src\application.cpp">
+      <Filter>Source Files\claspLib\libpotassco\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\libpotassco\src\aspif.cpp">
+      <Filter>Source Files\claspLib\libpotassco\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\libpotassco\src\aspif_text.cpp">
+      <Filter>Source Files\claspLib\libpotassco\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\libpotassco\src\clingo.cpp">
+      <Filter>Source Files\claspLib\libpotassco\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\libpotassco\src\convert.cpp">
+      <Filter>Source Files\claspLib\libpotassco\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\libpotassco\src\match_basic_types.cpp">
+      <Filter>Source Files\claspLib\libpotassco\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\libpotassco\src\program_options.cpp">
+      <Filter>Source Files\claspLib\libpotassco\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\libpotassco\src\rule_utils.cpp">
+      <Filter>Source Files\claspLib\libpotassco\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\libpotassco\src\smodels.cpp">
+      <Filter>Source Files\claspLib\libpotassco\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\libpotassco\src\string_convert.cpp">
+      <Filter>Source Files\claspLib\libpotassco\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\libpotassco\src\theory_data.cpp">
+      <Filter>Source Files\claspLib\libpotassco\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\libpotassco\src\value_store.cpp">
+      <Filter>Source Files\claspLib\libpotassco\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\asp_preprocessor.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\cb_enumerator.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\clasp_facade.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\clasp_options.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\clasp_output.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\clause.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\clingo.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\constraint.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\dependency_graph.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\enumerator.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\heuristics.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\logic_program.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\logic_program_types.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\lookahead.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\minimize_constraint.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\model_enumerators.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\parallel_solve.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\parser.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\program_builder.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\satelite.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\shared_context.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\solve_algorithms.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\solver.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\solver_strategies.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\solver_types.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\statistics.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\timer.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\unfounded_check.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="claspLib\src\weight_constraint.cpp">
+      <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bapi.h">
@@ -428,10 +605,191 @@
     <ClInclude Include="picat_utilities.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="maple\core\Dimacs.h">
+      <Filter>Source Files\maple\core</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\core\Solver.h">
+      <Filter>Source Files\maple\core</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\core\SolverTypes.h">
+      <Filter>Source Files\maple\core</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Alg.h">
+      <Filter>Source Files\maple\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Alloc.h">
+      <Filter>Source Files\maple\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Heap.h">
+      <Filter>Source Files\maple\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\IntTypes.h">
+      <Filter>Source Files\maple\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Map.h">
+      <Filter>Source Files\maple\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Queue.h">
+      <Filter>Source Files\maple\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Sort.h">
+      <Filter>Source Files\maple\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\Vec.h">
+      <Filter>Source Files\maple\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\mtl\XAlloc.h">
+      <Filter>Source Files\maple\mtl</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\simp\SimpSolver.h">
+      <Filter>Source Files\maple\simp</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\utils\Options.h">
+      <Filter>Source Files\maple\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\utils\ParseUtils.h">
+      <Filter>Source Files\maple\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="maple\utils\System.h">
+      <Filter>Source Files\maple\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="maple_interface.h">
+      <Filter>Source Files\maple</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\asp_preprocessor.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\cb_enumerator.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\clasp_facade.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\claspfwd.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\clause.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\clingo.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\config.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\constraint.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\dependency_graph.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\enumerator.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\heuristics.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\literal.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\logic_program.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\logic_program_types.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\lookahead.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\minimize_constraint.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\model_enumerators.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\parser.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\pod_vector.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\program_builder.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\satelite.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\shared_context.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\solve_algorithms.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\solver.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\solver_strategies.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\solver_types.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\statistics.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\unfounded_check.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\clasp\weight_constraint.h">
+      <Filter>Source Files\claspLib\clasp</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\libpotassco\potassco\theory_data.h">
+      <Filter>Source Files\claspLib\libpotassco\potassco</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\libpotassco\potassco\application.h">
+      <Filter>Source Files\claspLib\libpotassco\potassco</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\libpotassco\potassco\aspif.h">
+      <Filter>Source Files\claspLib\libpotassco\potassco</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\libpotassco\potassco\aspif_text.h">
+      <Filter>Source Files\claspLib\libpotassco\potassco</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\libpotassco\potassco\basic_types.h">
+      <Filter>Source Files\claspLib\libpotassco\potassco</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\libpotassco\potassco\clingo.h">
+      <Filter>Source Files\claspLib\libpotassco\potassco</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\libpotassco\potassco\convert.h">
+      <Filter>Source Files\claspLib\libpotassco\potassco</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\libpotassco\potassco\match_basic_types.h">
+      <Filter>Source Files\claspLib\libpotassco\potassco</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\libpotassco\potassco\platform.h">
+      <Filter>Source Files\claspLib\libpotassco\potassco</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\libpotassco\potassco\rule_utils.h">
+      <Filter>Source Files\claspLib\libpotassco\potassco</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\libpotassco\potassco\smodels.h">
+      <Filter>Source Files\claspLib\libpotassco\potassco</Filter>
+    </ClInclude>
+    <ClInclude Include="claspLib\libpotassco\potassco\string_convert.h">
+      <Filter>Source Files\claspLib\libpotassco\potassco</Filter>
+    </ClInclude>
+    <ClInclude Include="clasp_interface.cpp">
+      <Filter>Source Files\claspLib</Filter>
+    </ClInclude>
+    <ClInclude Include="clasp_interface.h">
+      <Filter>Source Files\claspLib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Makefile" />
   </ItemGroup>
 </Project>

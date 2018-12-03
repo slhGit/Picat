@@ -10,8 +10,17 @@
 
 #include "bprolog.h"
 
-#ifdef SAT
-#ifdef GLUCOSE
+#if SATS == 1 // lingeling
+#include "lingeling/lglib.h"
+static LGL * bp_lgl = NULL;
+
+extern void plgl_init(int nworkers);
+extern int plgl_start(LGL **ptr_lgl);
+
+#define SAT_SATISFIABLE res == 10
+#define SAT_GET_BINDING(varNum) ((lglderef(bp_lgl, varNum) > 0) ? BP_ONE : BP_ZERO)
+
+#elif SATS == 2 // glucose
 #include "glucose_interface.h"
 
 static int is_pglu = 0; //used to check if Glucose Multisolver being used.
@@ -19,17 +28,22 @@ static int is_pglu = 0; //used to check if Glucose Multisolver being used.
 #define SAT_GET_BINDING(varNum) (((is_pglu ? pglu_get_binding(varNum) : glu_get_binding(varNum)) == 1) ? BP_ONE : BP_ZERO)
 
 
-#else
-#include "lingeling/lglib.h"
-static LGL * bp_lgl = NULL;
+#elif SATS == 3 // maple
+#include "maple_interface.h"
 
-extern void plgl_init(int nworkers);
-extern int plgl_start (LGL **ptr_lgl);
+#define SAT_SATISFIABLE res == 1
+#define SAT_GET_BINDING(varNum) (((maple_get_binding(varNum)) == 1) ? BP_ONE : BP_ZERO)
 
-#define SAT_SATISFIABLE res == 10
-#define SAT_GET_BINDING(varNum) ((lglderef(bp_lgl, varNum) > 0) ? BP_ONE : BP_ZERO)
+
+#elif SATS == 4 // clasp
+#include "clasp_interface.h"
+
+#define SAT_SATISFIABLE res == 1
+#define SAT_GET_BINDING(varNum) (((clasp_get_binding(varNum)) == 1) ? BP_ONE : BP_ZERO)
+
+
 #endif
-#endif
+
 
 static int sat_dump_flag = 0;
 static int sat_dump_or_count_flag = 0;
@@ -39,17 +53,7 @@ int sat_nvars_limit;  /* used by plglib, the size of the dynamic arrays */
 static int num_threads = 0;
 
 
-#ifdef SAT
-#ifdef GLUCOSE
-#define SAT_INIT is_pglu = 0; glu_init()
-#define SAT_ADD(i) glu_add_lit(i)
-#define SAT_START glu_start_solver()
-
-#define PSAT_INIT(n) is_pglu = 1; pglu_init()
-#define PSAT_ADD(i) pglu_add_lit(i)
-#define PSAT_START pglu_start_solver()
-
-#else
+#if SATS == 1 // lingeling
 #define SAT_INIT if (bp_lgl != NULL) lglrelease(bp_lgl); bp_lgl = lglinit()
 #define SAT_ADD(i) lgladd(bp_lgl,i)
 #define SAT_START lglsat(bp_lgl)
@@ -61,16 +65,44 @@ extern void plgl_add_lit0();
 #define PSAT_ADD(i) if (i == 0) plgl_add_lit0(); else plgl_add_lit(i)
 #define PSAT_START plgl_start(&bp_lgl)
 
-#endif
+#elif SATS == 2 // glucose
+#define SAT_INIT is_pglu = 0; glu_init()
+#define SAT_ADD(i) glu_add_lit(i)
+#define SAT_START glu_start_solver()
+
+#define PSAT_INIT(n) is_pglu = 1; pglu_init(n)
+#define PSAT_ADD(i) pglu_add_lit(i)
+#define PSAT_START pglu_start_solver()
+
+#elif SATS == 3 // maple
+#define SAT_INIT maple_init()
+#define SAT_ADD(i) maple_add_lit(i)
+#define SAT_START maple_start_solver()
+
+#define PSAT_INIT(n) maple_init()
+#define PSAT_ADD(i) maple_add_lit(i)
+#define PSAT_START maple_start_solver()
+
+#elif SATS == 4 // clasp
+
+#define SAT_INIT clasp_init(sat_nvars, num_cls)
+#define SAT_ADD(i) clasp_add_lit(i)
+#define SAT_START clasp_start_solver()
+
+#define PSAT_INIT(n) clasp_init(sat_nvars, num_cls)
+#define PSAT_ADD(i) clasp_add_lit(i)
+#define PSAT_START clasp_start_solver()
+
 #endif
 
 int b_SAT_GET_INC_VAR_NUM_f(BPLONG Num){
-#ifndef GLUCOSE
+	//printf("b_SAT_GET_INC_VAR_NUM_f\n");
+#if SATS == 1 
     extern void plgl_resize_dyn_arrays();
 #endif
     ASSIGN_f_atom(Num,MAKEINT(sat_nvars));
     sat_nvars++;
-#ifndef GLUCOSE
+#if SATS == 1
     if (num_threads > 0 && sat_nvars > sat_nvars_limit){
         plgl_resize_dyn_arrays();
     }
@@ -80,6 +112,7 @@ int b_SAT_GET_INC_VAR_NUM_f(BPLONG Num){
 
 /* initialize the global variable number, and initialize counters */
 int c_sat_start_count(){
+	//printf("c_sat_start_count\n");
     BPLONG num = ARG(1,1);
     DEREF_NONVAR(num);
     sat_nvars = sat_nvars_limit = (int)INTVAL(num);
@@ -90,6 +123,7 @@ int c_sat_start_count(){
 }
 
 int c_sat_stop_count(){
+	//printf("c_sat_start_count\n");
     sat_dump_or_count_flag = 0;
     unify(ARG(1,1), MAKEINT(num_cls));
     num_cls = 0;
@@ -97,6 +131,7 @@ int c_sat_stop_count(){
 }
 
 int c_sat_start_dump(){
+
     BPLONG num = ARG(1,1);
     DEREF_NONVAR(num);
     sat_nvars = sat_nvars_limit = (int)INTVAL(num);
@@ -108,15 +143,21 @@ int c_sat_start_dump(){
 }
 
 int c_sat_stop_dump(){
+	printf("c_sat_stop_dump\n");
     sat_dump_flag = 0;
     sat_dump_or_count_flag = 0;
     print_cnf_header(sat_nvars-1,num_cls);
     return BP_TRUE;
 }
 
-#ifdef SAT
+#if SATS
 /* cl is a list of literals */
 int b_SAT_ADD_CL_c(BPLONG cl){
+	//int x = 0;
+	//int y;
+
+	//printf("%d\n", (y / x));
+
     BPLONG_PTR ptr, lit_ptr; 
 
     lit_ptr = local_top; /* reuse Picat't local stack , asumming that the gap is big enough for holding the literals */
@@ -185,6 +226,7 @@ int c_sat_init(){
 }
 
 int c_sat_start(){
+	//printf("c_sat_start\n");
     BPLONG lst,res;
     BPLONG_PTR top;
 
@@ -250,6 +292,7 @@ void Cboot_sat(){
    If BV=0, then Num=f; otherwise if BV=1, then Num=t.
 */
 int b_SAT_RETRIEVE_BNUM_cff(BPLONG BV, BPLONG Num, BPLONG MNum){
+	//printf("b_SAT_RETRIEVE_BNUM_cff\n");
 lab_start:
     DEREF_NONVAR(BV);
     //  printf("=> BNUM %x ",BV); write_term(BV); printf("\n");
@@ -288,6 +331,7 @@ lab_start:
   in X's domain have the same bit value B in the position, then set Xi = B.
 */
 int c_sat_propagate_dom_bits(){
+	//printf("c_sat_propagate_dom_bits\n");
     BPLONG X, LogBitVect;
     SYM_REC_PTR sym_ptr;
     BPLONG_PTR dv_ptr, vect_ptr;

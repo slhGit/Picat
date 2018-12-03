@@ -25,6 +25,7 @@ NUMBERED_TERM_AREA_RECORD_PTR faa_record_ptr;
 BPLONG findall_no = 0;
 
 void init_findall_area(){
+	////printf("init_findall_area\n");
     findall_no = 0;
     faa_record_ptr = &faa_record;
     faa_record_ptr->low_addr = NULL;
@@ -40,6 +41,8 @@ int b_FINDALL_COPY_ARGS(){
 
 /* c_findall_pre(SymPtr): return sym_ptr to '$findall_result'/findall_no as an integer */
 int c_findall_pre(){
+	////printf("c_findall_pre\n");
+
     SYM_REC_PTR sym_ptr;
     int success;
 
@@ -50,7 +53,7 @@ int c_findall_pre(){
             return BP_ERROR;
         }
     }
-    //  printf("=> find_all pre\n");
+    //  //printf("=> find_all pre\n");
     switch (findall_no){
     case 0: sym_ptr = findall_result0; break;
     case 1: sym_ptr = findall_result1; break;
@@ -66,10 +69,12 @@ int c_findall_pre(){
 
 /* c_findall_post(SymPtr): deallocate memory but the frist block if findall_no==0 */
 int c_findall_post(){
+	////printf("c_findall_post\n");
+
     BPLONG SymPtr;
     SYM_REC_PTR sym_ptr;
     int i;
-    //  printf("=> find_all post\n");
+    //  //printf("=> find_all post\n");
     SymPtr = ARG(1,1);
 
     DEREF_NONVAR(SymPtr);
@@ -99,6 +104,8 @@ int c_findall_post(){
 
 int b_FINDALL_INSERT_cc(BPLONG SymPtr, BPLONG value)
 {
+	////printf("b_FINDALL_INSERT_cc\n");
+
     SYM_REC_PTR sym_ptr;
 
     DEREF_NONVAR(SymPtr);  
@@ -118,10 +125,12 @@ after_copy:
 }
 
 int c_FINDALL_AREA_SIZE(){
+	////printf("c_FINDALL_AREA_SIZE()\n");
     return unify(ARG(1,1),MAKEINT(numbered_area_size(faa_record_ptr)));
 }
   
 BPLONG numbered_area_size(NUMBERED_TERM_AREA_RECORD_PTR area_record_ptr){
+	////printf("numbered_area_size\n");
     BPLONG size;
     BPLONG_PTR prev_faa_low_addr;
   
@@ -137,18 +146,20 @@ BPLONG numbered_area_size(NUMBERED_TERM_AREA_RECORD_PTR area_record_ptr){
 /* enough heap space has been secured */
 int c_FINDALL_GET()
 {
+	//printf("c_FINDALL_GET\n");
     SYM_REC_PTR sym_ptr;
     BPLONG SymPtr,Answers;
 
     SymPtr = ARG(1,2); 
     DEREF_NONVAR(SymPtr);
     sym_ptr = (SYM_REC_PTR)UNTAGGED_ADDR(SymPtr);
-    //  printf("findall_no=%x\n",findall_no);
+    //  //printf("findall_no=%x\n",findall_no);
     Answers = copy_answers_faa_to_heap((BPLONG)GET_EP(sym_ptr));
     return unify(ARG(2,2),Answers); 
 }
 
 BPLONG copy_answers_faa_to_heap(BPLONG list){
+	//printf("copy_answers_faa_to_heap\n");
     BPLONG_PTR list_ptr;
     BPLONG list_cp = nil_sym;
 
@@ -172,6 +183,7 @@ BPLONG copy_answers_faa_to_heap(BPLONG list){
 
 BPLONG copy_term_heap_to_faa(BPLONG value) 
 {
+	//printf("copy_term_heap_to_faa\n");
     BPLONG_PTR trail_top0;
     BPLONG initial_diff0;
     BPLONG temp;
@@ -188,6 +200,7 @@ BPLONG copy_term_heap_to_faa(BPLONG value)
 }
 
 int check_ground_using_faa(BPLONG term){
+	//printf("check_ground_using_faa\n");
     BPLONG_PTR trail_top0;
     BPLONG initial_diff0;
     BPLONG temp;
@@ -215,6 +228,7 @@ int check_ground_using_faa(BPLONG term){
 
 BPLONG make_cons_in_faa(BPLONG car, BPLONG cdr)
 {
+	//printf("make_cons_in_faa\n");
     BPLONG temp;
     BPLONG_PTR ptr;
 
@@ -234,6 +248,8 @@ BPLONG make_cons_in_faa(BPLONG car, BPLONG cdr)
 */
 BPLONG numberVarCopyToFindallArea(NUMBERED_TERM_AREA_RECORD_PTR faa_record_ptr, BPLONG term)
 {
+	//printf("numberVarCopyToFindallArea\n");
+
     BPLONG_PTR term_ptr, dest_ptr;
     BPLONG_PTR top;
     BPLONG term_cp,term_cp1;
@@ -303,6 +319,7 @@ l_number_var_copy_faa:
 }
 
 BPLONG numberVarCopyListToFindallArea(NUMBERED_TERM_AREA_RECORD_PTR faa_record_ptr,BPLONG term){
+	//printf("numberVarCopyListToFindallArea\n");
     BPLONG_PTR term_ptr,ret_term_ptr,dest_ptr,top;
     BPLONG ret_term,car_cp;
 

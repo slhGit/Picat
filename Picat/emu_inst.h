@@ -435,6 +435,7 @@ switch (*P++){
         SAVE_AR; SAVE_TOP;
         old_arreg_offset = (BPULONG)stack_up_addr-(BPULONG)AR; /* in case stack expansion occurs in the C function */
         op1 = ((*GET_EP(sym_ptr))());
+
         AR = (BPLONG_PTR)((BPULONG)stack_up_addr-(BPULONG)old_arreg_offset);
         RESTORE_TOP;
         if (AR!=arreg){ /* c code created frames */
