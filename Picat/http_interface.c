@@ -1,3 +1,5 @@
+#ifdef HTTP
+
 #include "mongoose/mongoose.h"
 #include "picat.h"
 #include "picat_utilities.h"
@@ -537,3 +539,5 @@ http_cpreds() {
 	insert_cpred("http_print", 2, http_print);
 
 }
+
+#endif //HTTP

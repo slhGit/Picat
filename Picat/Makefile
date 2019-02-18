@@ -1,4 +1,4 @@
-SAT_V = 2 # 1=lingeling 2=glucose 3=maple 4=clasp
+SAT_V = 3 # 1=lingeling 2=glucose 3=maple 4=clasp
 CC     = gcc -DGC -DGCC -DPICAT -DSATS=$(SAT_V) -DM64BITS
 CPP    = g++ -DGC -DGCC -DPICAT -DSATS=$(SAT_V) -DM64BITS
 
@@ -41,7 +41,7 @@ GLU = glucose/
 
 MAPLE = maple/
 
-CLACP = claspLib/
+CLASP = claspLib/
 
 picat.exe : $(OBJ)
 	cd espresso && make && cd .. && $(CPP) -o picat.exe $(OBJ) $(ESPRESSO_OBJ) $(LFLAGS)
@@ -131,6 +131,8 @@ lglib.o : lingeling/lglib.c
 	$(CC) $(CFLAGS)  $(LGLFLAG) -Ilingeling lingeling/lglib.c
 plglib.o : lingeling/plglib.c 
 	$(CC) $(CFLAGS)  $(LGLFLAG) -Ilingeling lingeling/plglib.c
+
+
 application.o : claspLib/libpotassco/src/application.cpp
 	$(CPP) $(CFLAGS) -IclaspLib -IclaspLib/libpotassco claspLib/libpotassco/src/application.cpp
 aspif.o : claspLib/libpotassco/src/aspif.cpp

@@ -1,3 +1,5 @@
+#ifdef PYTHON
+
 #include <string.h>
 #include <stdio.h>
 #include "Python.h"
@@ -286,3 +288,6 @@ python_cpreds() {
 	insert_cpred("python_set_value", 2, python_set_value);
 	insert_cpred("python_exit", 0, python_exit);
 }
+
+
+#endif //PYTHON

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GLUCOSE_INTERFACE_H
+#define GLUCOSE_INTERGACE_H
+
 #include "bprolog.h"
 
 
@@ -19,3 +21,5 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+#endif 

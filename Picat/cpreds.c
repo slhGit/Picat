@@ -1199,6 +1199,7 @@ void Cboot() {
 #endif
 
     /*
+    /*
       #ifdef GLPK
       Cboot_glpk();
       #endif
@@ -1214,9 +1215,11 @@ void Cboot() {
     //  insert_cpred("c_REDUCE_DOMAIN_AC_ADD",3,c_REDUCE_DOMAIN_AC_ADD);
     insert_cpred("c_TA_TOP_f",1,c_TA_TOP_f);
     Cboot_sat();
-#if SATS
+#if SATS 
+#ifndef WIN32
     insert_cpred("c_call_espresso",5,c_call_espresso);
     insert_cpred("c_call_espresso_pb",6,c_call_espresso_pb);
+#endif
 #endif
 
 #ifdef PRISM
@@ -1231,6 +1234,10 @@ void Cboot() {
 
 #ifdef PYTHON
 	python_cpreds();
+#endif
+
+#ifdef FANN
+	fann_cpreds();
 #endif
 }
   

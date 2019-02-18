@@ -73,6 +73,12 @@
     <Filter Include="Source Files\claspLib\libpotassco\src">
       <UniqueIdentifier>{a0bdc88a-bd96-4bfe-a95b-8d49bd8bdc39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\fann">
+      <UniqueIdentifier>{8d8a3e4a-6bd9-4edf-aa50-72b91c33c161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\fann\include">
+      <UniqueIdentifier>{d83d1595-e24c-47e6-9699-111eb6395bc9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="arith.c">
@@ -419,6 +425,36 @@
     </ClCompile>
     <ClCompile Include="claspLib\src\weight_constraint.cpp">
       <Filter>Source Files\claspLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="FANN\src\floatfann.c">
+      <Filter>Source Files\fann</Filter>
+    </ClCompile>
+    <ClCompile Include="FANN\src\doublefann.c">
+      <Filter>Source Files\fann</Filter>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fann.c">
+      <Filter>Source Files\fann</Filter>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fann_cascade.c">
+      <Filter>Source Files\fann</Filter>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fann_error.c">
+      <Filter>Source Files\fann</Filter>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fann_io.c">
+      <Filter>Source Files\fann</Filter>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fann_train.c">
+      <Filter>Source Files\fann</Filter>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fann_train_data.c">
+      <Filter>Source Files\fann</Filter>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fixedfann.c">
+      <Filter>Source Files\fann</Filter>
+    </ClCompile>
+    <ClCompile Include="FANN\fann_interface.cpp">
+      <Filter>Source Files\fann</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -784,6 +820,51 @@
     </ClInclude>
     <ClInclude Include="clasp_interface.h">
       <Filter>Source Files\claspLib</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\floatfann.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\compat_time.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\config.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\doublefann.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_activation.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_cascade.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_cpp.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_data.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_error.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_internal.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_io.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_train.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fixedfann.h">
+      <Filter>Source Files\fann\include</Filter>
+    </ClInclude>
+    <ClInclude Include="FANN\fann_interface.h">
+      <Filter>Source Files\fann</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

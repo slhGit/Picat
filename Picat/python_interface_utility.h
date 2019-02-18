@@ -1,6 +1,8 @@
 #ifndef PYTHON_INTERFACE_UTILITY_H
 #define PYTHON_INTERFACE_UTILITY_H
 
+#ifdef PYTHON
+
 #include "picat.h"
 #include "Python.h"
 
@@ -9,4 +11,5 @@ char* PicatStringToChar(TERM);
 
 TERM PythonToPicat(PyObject*);
 
-#endif
+#endif //PYTHON
+#endif //PYTHON_INTERFACE_UTILITY_H

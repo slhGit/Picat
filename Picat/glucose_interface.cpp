@@ -47,9 +47,7 @@ extern "C" {
 	}
 
 	void glu_add_lit(int lit0) {	
-		printf("%d ", lit0);
 		if (lit0 == 0) {
-			printf("\n");
 			glu_s->addClause(lits);
 			lits.clear();
 		}

@@ -1,7 +1,28 @@
 # Picat
-This is a Visual Studio Project to compile Picat in Win x64. Additionally it has been embedded with the Python Interpreter.
-This must be compiled as Release x64 or it will not compile or run.
+This is a Visual Studio Project to compile Picat in Win x64. 
+Picat can also be compiled with Cygwin, which is necessary for certain modules.
 
+Additional Picat Modules and Preprocessor definitions needed:
+Sat Solver - Picat can be compiled with several sat solvers. - Can only be compiled for Cygwin
+	SATS=1 - lingeling
+	SATS=2 - glucose 
+	SATS=3 - maple
+	SATS=4 - clasp
+
+Python - A relatively simple wrapper around the Python interpreter - Must be compiled in Release - must have proper linking to Python libs
+	PYTHON
+
+Mongoose HTTP Server - create a simple HTTP server with Mongoose 
+	HTTP
+
+FANN - Wrapper around the FANN Artificial Neural Network library - Need both of the following headers
+	FANN_NO_DLL
+	FANN
+
+
+
+
+	
 The basics of Python use:
 
 bp.python_init()		Initializes the Python Interpreter, must be run before any Python can be used.
@@ -49,8 +70,3 @@ bp.python_set_value(X,Y)		X is a picat value, Y must be a string. Will convert t
 								                                
                                 
 //WARNING!!!  As of now, there is very little error handling in the Python interface, so there are chances of crashing.
-                                
-GLUCOSE SAT SOLVER
-For use with Linux or Cygwin builds.
-
-Recently added support for the Glucose Sat Solver. The visual studio project will not compile this, but it can be compiled with Cygwin and the Makefile provided. Makefile defs must include -DSAT and -DGLUCOSE. If only -DSAT is used, the Lingeling Sat solver will be used instead. 

@@ -1,3 +1,5 @@
+#ifdef PYTHON
+
 #include "picat.h"
 #include "picat_utilities.h"
 
@@ -120,3 +122,5 @@ TERM PythonToPicat(PyObject* v) {
 	//SOMETHING WENT WRONG, DID NOT TRANSLATE.
 	return picat_build_nil();
 }
+
+#endif

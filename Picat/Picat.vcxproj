@@ -117,8 +117,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;HTTP;SAT=4;SAT=4</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);C:\cygwin64\home\me\Picat\Picat\curl\;C:\cygwin64\home\me\Picat\Picat\curl\lib;C:\cygwin64\home\me\Picat\Picat\curl\include;C:\cygwin64\home\me\Picat\Picat\glucose;claspLib;claspLib/libpotassco</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;HTTP;SAT=4;FANN_NO_DLL;FAN_NO_DLL</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);C:\cygwin64\home\me\Picat\Picat\curl\;C:\cygwin64\home\me\Picat\Picat\curl\lib;C:\cygwin64\home\me\Picat\Picat\curl\include;C:\cygwin64\home\me\Picat\Picat\glucose;claspLib;claspLib/libpotassco;fann/src;fann/src/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -166,8 +166,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;NDEBUG;HTTP;PYTHON;SATS=4</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);C:\cygwin64\home\me\Picat\Picat\curl\;C:\cygwin64\home\me\Picat\Picat\curl\lib;C:\cygwin64\home\me\Picat\Picat\curl\include;C:\cygwin64\home\me\Picat\Picat\glucose;claspLib;claspLib/libpotassco</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;NDEBUG;NOHTTP;NOPYTHON;FANN_NO_DLL;FANN</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);C:\cygwin64\home\me\Picat\Picat\curl\;C:\cygwin64\home\me\Picat\Picat\curl\lib;C:\cygwin64\home\me\Picat\Picat\curl\include;C:\cygwin64\home\me\Picat\Picat\glucose;claspLib;claspLib/libpotassco;fann/src;fann/src/include;fann</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -184,7 +184,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;SAT=4;SAT=4</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;PICAT;GC;M64BITS;SAT=4;SAT=4;FAN_NO_DLL</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Java\jdk1.8.0_152\include;C:\Program Files %28x86%29\Java\jdk1.8.0_152\include\win32;C:\Program Files %28x86%29\Microsoft Visual Studio\Shared\Python36_64\include;C:\Program Files\Python36\include;%(AdditionalIncludeDirectories);C:\cygwin64\home\me\Picat\Picat\curl\;C:\cygwin64\home\me\Picat\Picat\curl\lib;C:\cygwin64\home\me\Picat\Picat\curl\include;claspLib;claspLib/libpotassco</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -232,7 +232,9 @@
     <ClCompile Include="claspLib\src\clasp_facade.cpp" />
     <ClCompile Include="claspLib\src\clasp_options.cpp" />
     <ClCompile Include="claspLib\src\clasp_output.cpp" />
-    <ClCompile Include="claspLib\src\clause.cpp" />
+    <ClCompile Include="claspLib\src\clause.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)/clasp_object.obj</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="claspLib\src\clingo.cpp" />
     <ClCompile Include="claspLib\src\constraint.cpp" />
     <ClCompile Include="claspLib\src\dependency_graph.cpp" />
@@ -277,6 +279,34 @@
     </ClCompile>
     <ClCompile Include="event.c" />
     <ClCompile Include="expand.c" />
+    <ClCompile Include="FANN\fann_interface.cpp" />
+    <ClCompile Include="FANN\src\doublefann.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fann.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fann_cascade.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fann_error.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fann_io.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fann_train.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fann_train_data.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FANN\src\fixedfann.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FANN\src\floatfann.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="file.c" />
     <ClCompile Include="findall.c" />
     <ClCompile Include="float1.c" />
@@ -445,8 +475,7 @@
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DLL|x64'">
       </ExcludedFromBuild>
     </ClCompile>
@@ -513,6 +542,49 @@
     <ClInclude Include="emu_inst.h" />
     <ClInclude Include="event.h" />
     <ClInclude Include="extern_decl.h" />
+    <ClInclude Include="FANN\src\include\compat_time.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\config.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\doublefann.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_activation.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_cascade.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_cpp.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_data.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_error.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_internal.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_io.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fann_train.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\fixedfann.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\src\include\floatfann.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FANN\fann_interface.h" />
     <ClInclude Include="frame.h" />
     <ClInclude Include="fzn_picat_cp_bc.h" />
     <ClInclude Include="fzn_picat_mip_bc.h" />

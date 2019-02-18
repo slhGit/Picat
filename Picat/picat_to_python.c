@@ -1,3 +1,5 @@
+#ifdef PYTHON
+
 #include "picat.h"
 #include "Python.h"
 #include "picat_utilities.h"
@@ -79,3 +81,6 @@ PyObject* PicatToPython(TERM t) {
 	//SOME KIND OF ERROR SHOULD GO HERE AS NO TRANSLATABLE PICAT VALUE WAS GIVEN.
 	return NULL;
 }
+
+
+#endif //PYTHON
