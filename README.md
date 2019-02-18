@@ -3,21 +3,21 @@ This is a Visual Studio Project to compile Picat in Win x64.
 Picat can also be compiled with Cygwin, which is necessary for certain modules.
 
 Additional Picat Modules and Preprocessor definitions needed:
-Sat Solver - Picat can be compiled with several sat solvers. - Can only be compiled for Cygwin
-	SATS=1 - lingeling
-	SATS=2 - glucose 
-	SATS=3 - maple
-	SATS=4 - clasp
+Sat Solver - Picat can be compiled with several sat solvers. - Can only be compiled for Cygwin	
+- SATS=1 - lingeling
+- SATS=2 - glucose 
+- SATS=3 - maple
+- SATS=4 - clasp
 
 Python - A relatively simple wrapper around the Python interpreter - Must be compiled in Release - must have proper linking to Python libs
-	PYTHON
+- PYTHON
 
 Mongoose HTTP Server - create a simple HTTP server with Mongoose 
-	HTTP
+- HTTP
 
 FANN - Wrapper around the FANN Artificial Neural Network library - Need both of the following headers
-	FANN_NO_DLL
-	FANN
+- FANN_NO_DLL
+- FANN
 
 
 
