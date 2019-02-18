@@ -1,6 +1,6 @@
 SAT_V = 3 # 1=lingeling 2=glucose 3=maple 4=clasp
-CC     = gcc -DGC -DGCC -DPICAT -DSATS=$(SAT_V) -DM64BITS
-CPP    = g++ -DGC -DGCC -DPICAT -DSATS=$(SAT_V) -DM64BITS
+CC     = gcc -DGC -DGCC -DPICAT -DSATS=$(SAT_V) -DM64BITS -DFANN_NO_DLL -DFANN
+CPP    = g++ -DGC -DGCC -DPICAT -DSATS=$(SAT_V) -DM64BITS -DFANN_NO_DLL -DFANN
 
 CFLAGS = -c -O3 -fno-strict-aliasing -Dunix -DLINUX -DPOSIX -DCYGWIN 
 
@@ -24,6 +24,7 @@ OBJ = dis.o init.o init_sym.o loader.o inst_inf.o main.o toam.o unify.o \
 	mSolver.o mOptions.o mSystem.o mSimpSolver.o Maple_Interface.o \
 	gSolver.o gOptions.o gSystem.o gSimpSolver.o \
 	SharedCompanion.o SolverCompanion.o SolverConfiguration.o ParallelSolver.o MultiSolvers.o ClausesBuffer.o Glucose_Interface.o \
+	picat_utilites.o fann.o fann_cascade.o fann_error.o fann_io.o fann_train.o fann_train_data.o fann_interface.o \
 	
 
 ESP = espresso/
@@ -131,8 +132,6 @@ lglib.o : lingeling/lglib.c
 	$(CC) $(CFLAGS)  $(LGLFLAG) -Ilingeling lingeling/lglib.c
 plglib.o : lingeling/plglib.c 
 	$(CC) $(CFLAGS)  $(LGLFLAG) -Ilingeling lingeling/plglib.c
-
-
 application.o : claspLib/libpotassco/src/application.cpp
 	$(CPP) $(CFLAGS) -IclaspLib -IclaspLib/libpotassco claspLib/libpotassco/src/application.cpp
 aspif.o : claspLib/libpotassco/src/aspif.cpp
@@ -249,6 +248,21 @@ ClausesBuffer.o : glucose/parallel/ClausesBuffer.cc
 	$(CPP) $(CFLAGS) -Iglucose glucose/parallel/ClausesBuffer.cc 
 Glucose_Interface.o : glucose_interface.cpp
 	$(CPP) $(CFLAGS) -Iglucose Glucose_Interface.cpp
-
+picat_utilites.o : picat_utilites.c
+	$(CC) $(CFLAGS) picat_utilites.c
+fann.o : fann/src/fann.c
+	$(CC) $(CFLAGS) -Ifann/src/include fann/src/fann.c
+fann_cascade.o : fann/src/fann_cascade.c
+	$(CC) $(CFLAGS) -Ifann/src/include fann/src/fann_cascade.c
+fann_error.o : fann/src/fann_error.c
+	$(CC) $(CFLAGS) -Ifann/src/include fann/src/fann_error.c
+fann_io.o : fann/src/fann_io.c
+	$(CC) $(CFLAGS) -Ifann/src/include fann/src/fann_io.c
+fann_train.o : fann/src/fann_train.c
+	$(CC) $(CFLAGS) -Ifann/src/include fann/src/fann_train.c
+fann_train_data.o : fann/src/fann_train_data.c
+	$(CC) $(CFLAGS) -Ifann/src/include fann/src/fann_train_data.c
+fann_interface.o : fann/fann_interface.cpp
+	$(CPP) $(CFLAGS) -Ifann/src/include fann/fann_interface.cpp
 
 

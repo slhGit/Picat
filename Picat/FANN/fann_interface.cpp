@@ -6,6 +6,7 @@ extern "C" {
 }
 
 #include "floatfann.h"
+#include <cstring>
 
 #include <map>
 
@@ -222,7 +223,8 @@ extern "C" {
 
 	int pi_fann_destroy() {
 		TERM nn = picat_get_call_arg(1, 1);
-		TERM id = picat_get_arg(1, 1);
+		TERM id = picat_get_arg(1, nn);
+
 		fann_destroy(anns[picat_get_integer(id)]);
 		return PICAT_TRUE;
 	}
