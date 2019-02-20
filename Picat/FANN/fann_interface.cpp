@@ -44,6 +44,16 @@ int picat_array_to_fann_array(TERM ta, fann_type *a) {
 	return PICAT_TRUE;
 }
 
+int fann_to_picat_array(fann_type *a, int num, TERM& ta) {
+	TERM tmp = picat_build_structure((char*)"{}", num);
+	for (int j = 1; j <= num; j++) {
+		TERM temp = picat_get_arg(j, tmp);
+
+		picat_unify(temp, picat_build_float(a[j - 1]));
+	}
+
+	return picat_unify(ta, tmp);
+}
 
 fann_activationfunc_enum picat_to_fann_func(TERM f) {
 	char* func = picat_get_atom_name(f);
@@ -118,22 +128,7 @@ extern "C" {
 
 		fann_train_data *data = training_data[picat_get_integer(d_id)];
 	
-
-		TERM in_tmp = picat_build_structure((char*)"{}",data->num_input);
-		for (int j = 1; j <= data->num_input; j++) {
-			TERM temp = picat_get_arg(j, in_tmp);
-
-			picat_unify(temp, picat_build_float(data->input[index][j-1]));
-		}
-
-		TERM out_tmp = picat_build_structure((char*)"{}", data->num_output);
-		for (int j = 1; j <= data->num_output; j++) {
-			TERM temp = picat_get_arg(j, out_tmp);
-
-			picat_unify(temp, picat_build_float(data->output[index][j-1]));
-		}
-
-		return picat_unify(in, in_tmp) * picat_unify(out, out_tmp);
+		return fann_to_picat_array(data->input[index], data->num_input, in) * fann_to_picat_array(data->output[index], data->num_output, out);
 	}
 
 	int pi_fann_create_standard() {
@@ -256,11 +251,15 @@ extern "C" {
 		TERM id = picat_get_arg(1, nn);
 		fann* ann = anns[picat_get_integer(id)];
 
-		fann_type *input = (fann_type *)calloc(fann_get_num_input(ann), sizeof(fann_type));;
+		fann_type *input = (fann_type *)calloc(fann_get_num_input(ann), sizeof(fann_type));
 		picat_array_to_fann_array(in, input);
 
-		fann_type *temp = fann_run(ann, input);
-		return picat_unify(ret, picat_build_float(*temp));
+		int out_num = fann_get_num_output(ann);
+		fann_type *temp = (fann_type *)calloc(out_num, sizeof(fann_type)); 
+		temp = fann_run(ann, input);
+
+
+		return fann_to_picat_array(temp, out_num, ret);
 	}
 
 	int pi_fann_randomize_weights() {
