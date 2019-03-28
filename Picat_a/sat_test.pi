@@ -1,0 +1,39 @@
+% Round 1C 2016
+% https://code.google.com/codejam/contest/4314486/dashboard#s=p2
+% in Picat, by N.F. Zhou, 04/23/2016
+
+% to use: picat fashion_police < input_file > output_file
+
+import util, sat.
+
+main =>
+    T = read_line().to_int(),
+    foreach (TC in 1..T)
+        [J,P,S,K] = [to_int(Token) : Token in read_line().split()],
+        not not do_case(TC,J,P,S,K)                        
+    end.
+
+do_case(TC,J,P,S,K) =>
+    L = {{Ij,Ip,Is} : Ij in 1..J, Ip in 1..P, Is in 1..S},
+    N = J*P*S,
+    Bs = new_array(N),
+    Bs :: 0..1,
+    Total #= sum(Bs),
+    Total #=< J*P*K,   % pigeon-hole principle
+    foreach (R1 in 1..N)
+        L[R1] = {Ij,Ip,Is}, 
+        if S > K then
+            Bs[R1] #=> sum([Bs[R2] : R2 in 1..N, L[R2] = {Ij,Ip,_}]) #=< K
+        end,
+        if P > K then
+            Bs[R1] #=> sum([Bs[R2] : R2 in 1..N, L[R2] = {Ij,_,Is}]) #=< K
+        end,
+        if J > K then
+            Bs[R1] #=> sum([Bs[R2] : R2 in 1..N, L[R2] = {_,Ip,Is}]) #=< K
+        end
+    end,
+    solve($[threads(8),max(Total)],Bs),
+    printf(stderr,"Case #%w: %w\n", TC,Total),
+    foreach (R in 1..N, Bs[R]==1, L[R]={Ij,Ip,Is})
+        printf(stderr,"%w %w %w\n", Ij,Ip,Is)
+    end.

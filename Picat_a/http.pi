@@ -1,0 +1,133 @@
+module http.
+
+ev_http_request = 100.
+ev_http_reply = 101.
+ev_http_chunk = 102.  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% HTTP CLIENT
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+% http_get
+% X - the variable in which http response is written to
+% URL - the url that is being requested
+% HEADERS - additional headers sent
+%
+
+http_get(X,URL) =>
+	bp.http_request(X,URL,[],[]).
+
+http_get(X,URL,HEADERS) =>
+	bp.http_request(X,URL,HEADERS,[]).
+
+
+%
+% http_post   -   all the same as http_get, but can send post requests
+% POST - the post request
+% URL - the url that is being requested
+%
+
+http_post(X,URL,POST) =>
+	bp.http_request(X,URL,[],POST).
+
+http_post(X,URL,POST,HEADERS) =>
+	bp.http_request(X,URL,HEADERS,POST).
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% HTTP SERVER
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+% http_server   -    start the server
+% PORT - the port used by the server
+% DIR - the root directory the server will serve from
+%
+
+http_server(PORT,DIR) =>
+	bp.http_server(PORT,DIR).
+
+%
+% http_server_close    -    close the server and free its memory
+%
+
+http_server_close() =>
+	bp.http_server_close().
+
+
+%
+% http_server_poll    -     poll the server for connections
+% RES - a list of all connections
+% TIMEOUT - how long the server looks for connections in miliseconds
+%
+
+%
+% The RES is a list of all connections, each being a map with three keys:
+% "event" - an integer designating the kind of connection
+%		100 - http request
+%		101 - http reply (not currently used)
+%		102 - http chunk
+% "message" - a map with the http message sent from the client
+% "connection" - this is only used internally
+%
+% The entries to this list are used in the MSG argument to all the following functions
+%
+
+http_server_poll(RES) =>
+	bp.http_server_poll(RES, 1000).
+
+http_server_poll(RES, TIMEOUT) =>
+	bp.http_server_poll(RES, TIMEOUT).
+
+
+%
+% http_serve    -    serve the file as requested
+% MSG - the http event/message/connection request
+%
+
+http_serve(MSG) =>
+	bp.http_serve(MSG).
+
+
+%
+% http_serve_file    -    serve a specific file
+% MSG - the http event/message/connection request
+% PATH - path the file to serve
+% MIME - the http mime type
+% HEADERS - any additional headers
+%
+
+http_serve_file(MSG,PATH,MIME,HEADERS) =>
+	bp.http_serve_file(MSG,PATH,MIME,HEADERS).
+
+
+%
+% http_send_redirect - redirect an incomming connection
+% MSG - the http event/message/connection request
+% STATUS - the http redirect status, an integer either 301 or 302
+% LOC - the URL to be redirected to
+% HEADERS - any additional headers
+%
+
+http_send_redirect(MSG,STATUS,LOC) =>
+	bp.http_send_redirect(MSG,STATUS,LOC,"").
+
+http_send_redirect(MSG,STATUS,LOC,HEADERS) =>
+	bp.http_send_redirect(MSG,STATUS,LOC,HEADERS).
+
+
+%
+% http_print - send simple text as a response
+% MSG - the http event/message/connection request
+% PRINT - the message to print
+% 
+
+http_print(MSG,PRINT) =>
+	bp.http_print(MSG,PRINT).
