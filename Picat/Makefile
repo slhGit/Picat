@@ -1,4 +1,4 @@
-SAT_V = 4# 1=lingeling 2=glucose 3=maple 4=clasp
+SAT_V = 2# 1=lingeling 2=glucose 3=maple 4=clasp
 CC     = gcc -DGC -DGCC -DPICAT -DSATS=$(SAT_V) -DM64BITS -DFANN_NO_DLL -DFANN
 CPP    = g++ -DGC -DGCC -DPICAT -DSATS=$(SAT_V) -DM64BITS -DFANN_NO_DLL -DFANN
 

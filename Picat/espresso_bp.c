@@ -1,5 +1,5 @@
 #include "bprolog.h"
-#ifdef SAT
+#ifdef SATS
 /********************************************************************
  *   File   : espresso_bp.c
  *   Author : Neng-Fa ZHOU Copyright (C) 1994-2019
