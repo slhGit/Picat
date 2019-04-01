@@ -1,0 +1,389 @@
+module ann.
+
+
+%
+% create and train neural net from file
+%
+
+nn_train(AnnDef,DataOrFile) = Ann =>
+	Ann = nn_train(AnnDef,DataOrFile,Options).
+nn_train(AnnDef,training_data(X),Opts) = Ann =>
+	Ann = nn_new(AnnDef),
+	Data = $training_data(X),
+	nn_train_ann(Ann,Data,Opts).
+nn_train(AnnDef,File,Opts) = Ann =>
+	Ann = nn_new(AnnDef),
+	Data = nn_load_training(File),
+	nn_train_ann(Ann,Data,Opts).
+
+
+
+%
+% run the neural network on a given set of input data
+%
+
+nn_predict(Ann,Input) = Res =>
+	Res = nn_predict(Ann,Input,[]).
+nn_predict(Ann,Input,Opts) = Res =>
+	parse_run_options(Ann,ScaleIn,ScaleOut,Opts),
+
+	if (ScaleIn == 1) then 
+		bp.pi_fann_scale_input(Ann, Input, ScaledInput),
+	else 
+		if (ScaleIn == -1) then
+			bp.pi_fann_descale_input(Ann, Input, ScaledInput)
+		else
+			ScaledInput = Input,
+		end,
+	end,
+
+	bp.pi_fann_run(Ann, ScaledInput, ResTemp),
+
+	if (ScaleOut == 1) then
+		bp.pi_fann_scale_output(Ann, ResTemp, Res)
+	else if (ScaleOut == -1) then 
+		bp.pi_fann_descale_output(Ann, ResTemp, Res),
+	else
+		Res = ResTemp,
+	end.
+
+
+
+%
+% save neural network
+%
+
+nn_save(Ann,File) =>
+	bp.pi_fann_save(Ann, File, Ret).
+
+%
+% create neural network from file
+%
+
+nn_load(File) = Ann =>
+	bp.pi_fann_create_from_file(File, Ann).
+
+
+
+
+
+
+
+%
+% convert friendly names to FANN names
+%
+get_fann_name(train_inc) = Ret =>
+	Ret = 'FANN_TRAIN_INCREMENTAL'.
+get_fann_name(train_batch) = Ret =>
+	Ret = 'FANN_TRAIN_BATCH'.
+get_fann_name(train_rprop) = Ret =>
+	Ret = 'FANN_TRAIN_RPROP'.
+get_fann_name(train_qprop) = Ret =>
+	Ret = 'FANN_TRAIN_QUICKPROP'.
+get_fann_name(stop_mse) = Ret =>
+	Ret = 'FANN_STOPFUNC_MSE'.
+get_fann_name(stop_bit) = Ret =>
+	Ret = 'FANN_STOPFUNC_BIT'.
+get_fann_name(linear) = Ret =>
+	Ret = 'FANN_LINEAR'.
+get_fann_name(threshold) = Ret =>
+	Ret = 'FANN_THRESHOLD'.
+get_fann_name(sym_threshold) = Ret =>
+	Ret = 'FANN_THRESHOLD_SYMMETRIC'.
+get_fann_name(sigmoid) = Ret =>
+	Ret = 'FANN_SIGMOID'.
+get_fann_name(step_sigmoid) = Ret =>
+	Ret = 'FANN_SIGMOID_STEPWISE'.
+get_fann_name(sym_sigmoid) = Ret =>
+	Ret = 'FANN_SIGMOID_SYMMETRIC'.
+get_fann_name(gaussian) = Ret =>
+	Ret = 'FANN_GAUSSIAN'.
+get_fann_name(sym_gaussian) = Ret =>
+	Ret = 'FANN_GAUSSIAN_SYMMETRIC'.
+get_fann_name(elliot) = Ret =>
+	Ret = 'FANN_ELLIOT'.
+get_fann_name(sym_elliot) = Ret =>
+	Ret = 'FANN_ELLIOT_SYMMETRIC'.
+get_fann_name(linear_piece) = Ret =>
+	Ret = 'FANN_LINEAR_PIENCE'.
+get_fann_name(sym_linear_piece) = Ret =>
+	Ret = 'FANN_LINEAR_PIECE_SYMMETRIC'.
+get_fann_name(sin) = Ret =>
+	Ret = 'FANN_SIN'.
+get_fann_name(sym_sin) = Ret =>
+	Ret = 'FANN_SIN_SYMMETRIC'.
+get_fann_name(cos) = Ret =>
+	Ret = 'FANN_COS'.
+get_fann_name(sym_cos) = Ret =>
+	Ret = 'FANN_COS_SYMMETRIC'.
+
+
+new_standard(NumInput) = Ann =>
+	Ann = $ann_def([NumInput],[],1,false).
+
+new_sparse(NumInput,ConnectionRate) = Ann =>
+	Ann = $ann_def([NumInput],[],ConnectionRate,false).
+
+new_shortcut(NumInput) = Ann =>
+	Ann = $ann_def([NumInput],[],1,true).
+
+
+%
+% create standard neural network
+%
+
+nn_new(AnnDef) = Ann =>
+	Layers = [],
+	Options = [],
+	foreach(Layer in AnnDef)
+		if (arity(Layer) == 1) then
+			$layer(Num) = Layer,
+		else 
+			$layer(Num,Opts) = Layer,
+		end,		
+		
+		Layers := [Num|Layers],
+		Options := [Opts|Options],
+
+	end,
+
+	Layers := to_array(reverse(Layers)),
+	Options := reverse(Options),
+
+	bp.pi_fann_create_standard(Layers, Ann),
+
+	I = 0,
+	foreach(Opt in Options)
+		parse_layer_options(Ann,Opt,I),
+		I := I + 1,
+	end.
+
+
+
+
+
+%
+% create training data from input and output arrays
+%
+
+nn_new_train(Input,Output) = Data =>
+	num_data = length(input),
+	num_in = length(Input[1]),
+	num_out = length(Output[1]),
+
+	bp.pi_fann_create_train_array(num_data,num_in,input,num_out,output,Data).
+
+%
+% create training data from FANN data file
+%
+
+nn_load_training(File) = Data =>
+	bp.pi_fann_read_train_from_file(File,Data).
+
+
+%
+% gets input and output training data
+%
+
+nn_get_data(Data,I,In,Out) =>
+	bp.pi_get_data_in_out(Data, I, In, Out).
+
+
+
+%
+% train nueral network
+%
+
+nn_train_ann(Ann,Data) =>
+	train(Ann,Data,[]).
+nn_train_ann(Ann,Data,Opts) =>
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Opts),
+	bp.pi_fann_init_weights(Ann, Data),
+	bp.pi_fann_train_on_data(Ann, Data, Max_epochs, Epochs_between_reports, Desired_error).
+
+
+
+
+
+
+
+%
+% destroys a neural network or training data
+%
+
+nn_destroy([]) => true.
+nn_destroy(fann(X)) =>
+	bp.pi_fann_destroy($fann(X)).
+nn_destroy(training_data(X)) =>
+	bp.pi_fann_destroy_train($training(X)).
+nn_destroy([X|Y]) =>
+	nn_destroy(X),
+	nn_destroy(Y).
+
+
+%
+% destory all fann data and networks
+%
+
+nn_destroy_all() =>
+	bp.fann_destroy_all().
+
+%
+% Parse layer options
+%
+% $func : 		Activation function
+% $steep :		Activation steepness
+%
+
+parse_layer_options(_,[],_) => true.
+parse_layer_options(Ann,[$func(X)|Y],I) =>
+	bp.pi_fann_set_activation_function_layer(Ann,get_fann_name(X),I),
+	parse_layer_options(Ann,Y,I).
+parse_layer_options(Ann,[$steep(X)|Y],I) =>
+	bp.pi_fann_set_activation_steepness_layer(Ann,X,I),
+	parse_layer_options(Ann,Y,I).
+parse_layer_options(_,X,_) => var(X).
+
+
+
+%
+% Parse training options
+%
+% $maxep : 			Max Epochs for training
+% $report :			Number or epochs before reporting
+% $derror :			Desired error in training
+% $train_func :		Training algorithm
+% $lrate :			Learning rate
+% $momentum :		Learning momentum
+% $effor_func :		Error function
+% $stop_func :		Stop function
+% $bfl : 			bit fail limit
+% $qp_decay :		Quickprop decay
+% $qp_mu :			Quickprop decay
+% $rp_increase :	Rprop increase factor
+% $rp_decrease :	Rprop decrease factor
+% $rp_deltamin :	Rprop delta min
+% $rp_deltamax :	Rprop delta max
+% $rp_deltazero :	Rprop delta zero
+% $sp_weight :		Sarprop weight decay
+% $sp_thresh :		Sarprop step error threshold factor
+% $sp_shift :		Sarprop step error shift
+% $sp_temp :		Sarprop temperature
+% $scale : 			training data scaling (in_min, in_max, out_min, out_max)
+% $inscale : 		input data scaling (in_min, in_max)
+% $outscale :		output data scaling (out_min, out_max)
+
+parse_training_options(_,_,Max_epochs,Epochs_between_reports,Desired_error,[]) =>
+	if (var(Max_epochs)) then
+		Max_epochs = 5000,
+	end,
+	if (var(Epochs_between_reports)) then
+		Epochs_between_reports = 1000,
+	end,
+	if (var(Desired_error)) then
+		Desired_error = 0.0,
+	end.
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$maxep(X)|Y]) =>
+	Max_epochs = X,
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$report(X)|Y]) =>
+	Epochs_between_reports = X,
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$derror(X)|Y]) =>
+	Desired_error = X,
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$train_func(X)|Y]) =>
+	bp.pi_fann_set_training_algorithm(Ann, get_fann_name(X)),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$lrate(X)|Y]) =>
+	bp.pi_fann_set_learning_rate(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$momentum(X)|Y]) =>
+	bp.pi_fann_set_learning_momentum(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$error_func(X)|Y]) =>
+	bp.pi_fann_set_train_error_function(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$stop_func(X)|Y]) =>
+	bp.pi_fann_set_train_stop_function(Ann, get_fann_name(X)),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$bfl(X)|Y]) =>
+	bp.pi_fann_set_bit_fail_limit(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$qp_decay(X)|Y]) =>
+	bp.pi_fann_set_quickprop_decay(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$qp_mu(X)|Y]) =>
+	bp.pi_fann_set_quickprop_mu(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$rp_increase(X)|Y]) =>
+	bp.pi_fann_set_rprop_increase_factor(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$rp_decrease(X)|Y]) =>
+	bp.pi_fann_set_rprop_decrease_factor(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$rp_deltamin(X)|Y]) =>
+	bp.pi_fann_set_rprop_delta_min(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$rp_deltamax(X)|Y]) =>
+	bp.pi_fann_set_rprop_delta_max(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$rp_deltazero(X)|Y]) =>
+	bp.pi_fann_set_rprop_delta_zero(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$sp_weight(X)|Y]) =>
+	bp.pi_fann_set_sarprop_weight_decay_shift(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$sp_thresh(X)|Y]) =>
+	bp.pi_fann_set_sarprop_step_error_threshold_factor(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$sp_shift(X)|Y]) =>
+	bp.pi_fann_set_sarprop_step_error_shift(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$sp_temp(X)|Y]) =>
+	bp.pi_fann_set_sarprop_temperature(Ann, X),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$scale(Imn,Imx,Omn,Omx)|Y]) =>
+	bp.pi_fann_set_scaling_params(Ann, Data, Imn, Imx, Omn, Omx, Ret),
+	bp.pi_fann_scale_train(Ann, Data),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$inscale(Imn,Imx)|Y]) =>
+	bp.pi_fann_set_input_scaling_params(Ann, Data, Imn, Imx, Ret),
+	bp.pi_fann_scale_train(Ann, Data),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[$outscale(Omn,Omx)|Y]) =>
+	bp.pi_fann_set_output_scaling_params(Ann, Data, Omn, Omx, Ret),
+	bp.pi_fann_scale_train(Ann, Data),
+	parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,Y).
+parse_training_options(Ann,Data,Max_epochs,Epochs_between_reports,Desired_error,[X|Y]) =>
+	printf("%w is not a valid option\n",X).
+
+
+
+
+%
+% Parse run options
+%
+% $scaleIn :	(de)scale the input     -1 descale, 1 scale, 0 nothing
+% $scaleOut :	(de)scale the output    -1 descale, 1 scale, 0 nothing
+% resetMSE :
+
+parse_run_options(_,ScaleIn,ScaleOut,[]) =>
+	if (var(ScaleIn)) then
+		ScaleIn = 0,
+	end,
+	if (var(ScaleOut)) then
+		ScaleOut = 0,
+	end.
+parse_run_options(Ann,ScaleIn,ScaleOut,[$scaleIn(X)|Y]) =>
+	ScaleIn = X,
+	parse_run_options(Ann,ScaleIn,ScaleOut,Y).
+parse_run_options(Ann,ScaleIn,ScaleOut,[$scaleOut(X)|Y]) =>
+	ScaleOut = X,
+	parse_run_options(Ann,ScaleIn,ScaleOut,Y).
+parse_run_options(Ann,ScaleIn,ScaleOut,[resetMSE|Y]) =>
+	bp.pi_fann_reset_MSE(Ann),
+	parse_run_options(Ann,ScaleIn,ScaleOut,Y).
+parse_run_options(Ann,ScaleIn,ScaleOut,[X|Y]) =>
+	printf("%w is not a valid option\n",X),
+	parse_run_options(Ann,ScaleIn,ScaleOut,Y).

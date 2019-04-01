@@ -1,0 +1,135 @@
+%% CREATING A TRAINED NUERAL NETWORK IN ONE STEP.
+	It is possible to create a trained nueral network with one function call.
+
+nn_train(AnnDef,DataOrFile,Opts) = Ann
+	Creates and trains a neural network based on the description AnnDef, and the FANN training data file, FILE, and training options.
+
+	AnnDef is a list of $layer structs.
+
+	layer structs are either in the form layer(Num) or layer(Num,Opts).
+		Num - is the number neurons for the layer.
+		Opts - is a list of options for the layer.
+			The options for NN layers are:
+				
+			func(X) - structure which describes the Activation Function for the layer.
+				Valid functions are:
+
+				linear 
+				threshold
+				sym_threshold	- symetric threshold
+				sigmoid
+				step_sigmoid	- stepped sigmoid
+				sym_sigmoid		- symetric threshold
+				gaussian
+				sym_gaussian	- symetric gaussian
+				elliot 			- an alternative for sigmoid
+				sym_elliot		- symetric elliot
+				linear_piece 
+				sym_linear_piece - symetric linear piece
+				sin
+				sym_gaussian 	- symetric sin
+				cos 			- cosine
+				sym_cos			- symetric cos
+
+			steep(X) - Structure describing the activation steepness for the layer.
+
+	Otption directly relate to FANN parameters. Please refer to FANN documentation for a more detailed description:
+
+	http://libfann.github.io/fann/docs/files/fann_train-h.html#Training_Data_Training
+
+	Opts - A list of options, valid options are:
+		$maxep(X) : 			Max Epochs for training
+		$report(X) :			Number or epochs before reporting
+		$derror(X) :			Desired error in training
+		$train_func(X) :		Training algorithm
+		$lrate(X) :				Learning rate
+		$momentum(X) :			Learning momentum
+		$effor_func(X) :		Error function
+		$stop_func(X) :			Stop function
+		$bfl(X) : 				bit fail limit
+		$qp_decay(X) :			Quickprop decay
+		$qp_mu(X) :				Quickprop decay
+		$rp_increaseX(X) :		Rprop increase factor
+		$rp_decrease(X) :		Rprop decrease factor
+		$rp_deltamin(X) :		Rprop delta min
+		$rp_deltama(X):			Rprop delta max
+		$rp_deltazero(X) :		Rprop delta zero
+		$sp_weight(X) :			Sarprop weight decay
+		$sp_thresh(X) :			Sarprop step error threshold factor
+		$sp_shift(X) :			Sarprop step error shift
+		$sp_temp(X) :			Sarprop temperature
+		$scale(In_min, In_max, Out_min, Out_max) : training data scaling
+		$inscale(in_min, in_max) : 		input data scaling 
+		$outscale(out_min, out_max) :	output data scaling
+
+	This is equivilant to:
+
+		Ann = new_nn(AnnDef),
+		Data = new_train_from_file(File),
+		train(Ann,Data,Opts).
+
+
+
+%% Predicting
+	Given a trained neural network, predict the output of a given input array:
+
+nn_predict(Ann,Input) = Output
+nn_predict(Ann,Input,Opts) = Output
+	The valid options from run are:
+
+
+	$scaleIn(X) :	(de)scale the input     -1 descale, 1 scale, 0 nothing
+	$scaleOut(X) :	(de)scale the output    -1 descale, 1 scale, 0 nothing
+	resetMSE :		resets the current Mean Squared error of the network
+
+
+
+%% SAVING and LOADING
+
+nn_save(Ann,File) -
+	Save the neural network Ann to file, File.
+
+nn_load(File) - 
+	Creates a neural network from a FANN neural network file.
+
+
+
+%% CREATE A NEURAL NETWORK
+	A neural network can either be created from scratch, or from a FANN file.
+
+nn_new(AnnDef) - 
+	Creates and returns a new neural network as described by AnnDef. 
+	
+
+
+
+
+%% TRAINING & TRAINING DATA
+	The neural netwoks are trained on a special training data, data type. There this training data can be made from scratch or from a FANN training data file.
+
+
+nn_new_train(Input,Output) -
+	Creates and returns a new training data.
+	
+	Input - An array of arrays for the input training data.
+	Output - An array of arrays for the expected output training data.
+
+
+new_load_training(File) -
+	Creates and returns a new training data from file, File.
+
+
+nn_get_data(Data,I,In,Out) - 
+	Returns the training data input and output and index I from Data.
+
+
+
+nn_train(Ann,Data)
+nn_train(Ann,Data,Opts)
+	Trains neural network Ann on training data Data, with given training options Opt. if train\2 is used, Opts = []
+
+	
+
+
+
+
