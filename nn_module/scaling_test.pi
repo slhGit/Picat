@@ -1,0 +1,28 @@
+import ann.
+
+main =>
+	println("Creating network"),
+	Ann = nn_load("scaling.net"),
+
+	bp.pi_fann_print_connections(Ann),
+	bp.pi_fann_print_parameters(Ann),
+
+	println("Testing network"),
+	Data = nn_load_data("scaling.data"),
+
+	bp.pi_fann_length_train_data(Data, L),
+	foreach(I in 0..(L - 1))
+		nn_get_data(Data, I, In, Out),
+		Res = nn_predict(Ann,In,[$scaleIn(1),$scaleOut(-1),resetMSE]),
+
+		printf("Result %f original %f error %f%n",Res[1], Out[1], abs(Res[1] - Out[1])),
+
+	end,
+	println("Cleaning up."),
+	nn_destroy([Data,Ann]).
+
+
+
+
+
+	

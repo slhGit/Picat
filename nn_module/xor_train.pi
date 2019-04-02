@@ -1,0 +1,34 @@
+import ann.
+
+
+main =>
+	AnnDef = 	$[layer(2),
+				layer(3,[func(sym_sigmoid), steep(1)]),
+				layer(1,[func(sym_sigmoid), steep(1)])],
+
+	Data = nn_load_data("xor.data"),
+
+	TrainOpts =	$[maxep(1000),
+				report(10),
+				derror(0.0),
+				train_func(train_rprop),
+				stop_func(stop_bit),
+				bfl(0.1)],
+
+
+	Ann = nn_train(AnnDef,Data,TrainOpts),
+
+	foreach(I in 0..3)
+		nn_get_data(Data,I,In,Out),
+		Res = nn_predict(Ann, In),
+
+		printf("XOR test (%f, %f) -> %f, should be %f, difference=%f\n", In[1], In[2], Res[1], Out[1], (Res[1] - Out[1])),
+	end,
+
+
+
+	nn_save(Ann, "xor_float_me.net"),
+	nn_destroy_all(),
+
+
+	println("done").

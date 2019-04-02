@@ -13,7 +13,7 @@ nn_train(AnnDef,training_data(X),Opts) = Ann =>
 	nn_train_ann(Ann,Data,Opts).
 nn_train(AnnDef,File,Opts) = Ann =>
 	Ann = nn_new(AnnDef),
-	Data = nn_load_training(File),
+	Data = nn_load_data(File),
 	nn_train_ann(Ann,Data,Opts).
 
 
@@ -177,7 +177,7 @@ nn_new_train(Input,Output) = Data =>
 % create training data from FANN data file
 %
 
-nn_load_training(File) = Data =>
+nn_load_data(File) = Data =>
 	bp.pi_fann_read_train_from_file(File,Data).
 
 

@@ -1,0 +1,26 @@
+import ann.
+
+main =>
+	AnnDef = $[
+		layer(3),
+		layer(5, [func(sym_sigmoid)]),
+		layer(5, [func(sym_sigmoid)]),
+		layer(1, [func(linear)])
+	],
+
+	TrainOpts = $[
+		train_func(train_rprop),
+		derror(0.0001),
+		maxep(5000),
+		report(1000),
+		scale(-1,1,-1,1)
+	],
+
+
+	Ann = nn_train(AnnDef,"scaling.data",TrainOpts),
+
+	println(Ann),
+	nn_save(Ann, "scaling.net"),
+	nn_destroy_all(),
+
+	println("Done").

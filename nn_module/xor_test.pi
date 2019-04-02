@@ -1,0 +1,23 @@
+import ann.
+
+main =>
+	printf("Creating network.\n"),
+
+	Ann = nn_load("xor_float_me.net"),
+
+	printf("Testing network.\n"),
+
+	Data = nn_load_data("xor.data"),
+
+	foreach(I in 0..3)
+		nn_get_data(Data,I,In,Out),
+		Res = nn_predict(Ann,In,[resetMSE]),
+
+
+		printf("XOR test (%f, %f) -> %f, should be %f, difference=%f\n", In[1], In[2], Res[1], Out[1], (Res[1] - Out[1]))
+
+	end,
+	printf("Cleaning up.\n"),
+	nn_destroy_all(),
+
+	println("done").
